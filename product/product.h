@@ -26,7 +26,8 @@ class Product {
     void setCategory(string category);
     void setCompany(string company);
     void setTotalPurchase(int count);
-    void increasePurchase();        //_totalPurchase 변수 1 증가
+    void increasePurchase();        
+    //_totalPurchase 변수 1 증가
 
     // id 생성
     int generateId();
