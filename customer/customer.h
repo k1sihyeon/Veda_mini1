@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 class Customer {
@@ -11,7 +12,7 @@ public :
     void setUserId(const string& id);
 
     // prohibit get password
-    void setPassword(const string& newpassword);
+    void setPassword(const string& password);
 
     string getName() const;
     void setName(const string& name);
@@ -24,9 +25,6 @@ public :
     
     string getAddress() const;
     void setAddress(const string& address);
-
-    void printCustomerInfo() const;
-    void changeCustomerInfo();
 
     int getTotalPurchase() const;
     void updateTotalPurchase(int amount);
