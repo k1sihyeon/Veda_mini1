@@ -5,6 +5,12 @@ Customer::Customer(const string& id, const string& password, const string& name,
 };
 Customer::~Customer() {};
 
+int Customer::getUniqueId() const {
+    return uniqueId;
+}
+void Customer::setUniqueId(int id) {
+    userId = uniqueId;
+};
 string Customer::getUserId() const{
     return userId;
 }
