@@ -29,19 +29,19 @@ public:
     void setRequestedDeliveryDate(Date&);
 
     // getter
-    int getOrderId(); // can't set orderId
-    string getOrderStatus();
-    int getBuyerId();
-    int getProductId();
-    string getVendor();
-    int getQuantity();
-    double getTotalValue();
-    string getValueCurrency();
-    string getShipFrom();
-    string getShipTO();
-    Date getCreatedDate();
-    Date getRequestedShipDate();
-    Date getRequestedDeliveryDate();
+    int getOrderId() const; // can't set orderId
+    string getOrderStatus() const;
+    int getBuyerId() const;
+    int getProductId() const;
+    string getVendor() const;
+    int getQuantity() const;
+    double getTotalValue() const;
+    string getValueCurrency() const;
+    string getShipFrom() const;
+    string getShipTO() const;
+    Date getCreatedDate() const;
+    Date getRequestedShipDate() const;
+    Date getRequestedDeliveryDate() const;
 
 private:
     int orderId;
