@@ -44,19 +44,19 @@ public:
     Date getRequestedDeliveryDate() const;
 
 private:
-    int orderId;
-    string orderStatus;
-    int buyerId;
-    int productId;
-    string vendor;
-    int quantity;
-    int totalValue;
-    string valueCurrency;
-    string shipFrom;
-    string shipTo;
-    Date createdDate;
-    Date requestedShipDate;
-    Date requestedDeliveryDate;
+    int orderId;                // 주문번호
+    string orderStatus;         // 주문상태 - 완료, 배송 중, 처리 중
+    int buyerId;                // 구매자 ID
+    int productId;              // 구매 상품 ID
+    string vendor;              // 판매자나 상품 브랜드
+    int quantity;               // 구매 수량
+    int totalValue;             // 최종 가격
+    string valueCurrency;       // 가격 단위
+    string shipFrom;            // 배송 시작 장소
+    string shipTo;              // 배송 도착 장소
+    Date createdDate;           // 주문 생성 시간
+    Date requestedShipDate;     // 원하는 배송 시작 날짜
+    Date requestedDeliveryDate; // 원하는 배송 도착 날짜
 };
 
 #endif // ORDER_H
