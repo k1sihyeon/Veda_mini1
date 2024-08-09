@@ -5,35 +5,42 @@
 #include "date.h"
 using namespace std;
 
-class Order : public Date
+class Client;
+class Product;
+
+class Order :
 {
 public:
     Order();
     ~Order();
-    int getOrderId(); // can't set orderId
+
+    // setter
     void setOrderStatus(string&);
-    string getOrderStatus();
-    void setBuyerId(int&);
-    int getBuyerId();
-    void setProductId(int&);
-    int getProductId();
-    void setVendor(string&);
-    string getVendor();
+    void setBuyerId(const Client);
+    void setProductId(const Product);
+    void setVendor(const Product);
     void setQuantity(int&);
-    int getQuantity();
     void setTotalValue(double&);
-    double getTotalValue();
     void setValueCurrency(string&);
-    string getValueCurrency();
     void setShipFrom(string&);
-    string getShipFrom();
     void setShipTo(string&);
-    string getShipTO();
     void setCreatedDate(Date&);
-    Date getCreatedDate();
     void setRequestedShipDate(Date&);
-    Date getRequestedShipDate();
     void setRequestedDeliveryDate(Date&);
+
+    // getter
+    int getOrderId(); // can't set orderId
+    string getOrderStatus();
+    int getBuyerId();
+    int getProductId();
+    string getVendor();
+    int getQuantity();
+    double getTotalValue();
+    string getValueCurrency();
+    string getShipFrom();
+    string getShipTO();
+    Date getCreatedDate();
+    Date getRequestedShipDate();
     Date getRequestedDeliveryDate();
 
 private:
