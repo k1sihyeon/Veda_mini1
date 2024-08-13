@@ -1,62 +1,63 @@
 #ifndef ORDER_H
 #define ORDER_H
 
-#include <iostream>
-#include "date.h"
+#include <string>
 using namespace std;
 
 class Client;
 class Product;
 
-class Order :
+class Order
 {
 public:
     Order();
+    Order(int orderId, string orderStatus, int buyerId, int productId, string vendor, int quantity, int totalPrice,
+            string shipFrom, string shipTo, string createdDate, string requestedShipDate, string requestedDeiliveryDate);
     ~Order();
 
     // setter
+    void setOrderId(int);
     void setOrderStatus(string&);
     void setBuyerId(const Client);
     void setProductId(const Product);
     void setVendor(const Product);
     void setQuantity(int&);
-    void setTotalValue(double&);
-    void setValueCurrency(string&);
+    void setTotalPrice(const Product, int&);
     void setShipFrom(string&);
     void setShipTo(string&);
-    void setCreatedDate(Date&);
-    void setRequestedShipDate(Date&);
-    void setRequestedDeliveryDate(Date&);
+    void setCreatedDate();
+    void setRequestedShipDate(string&);
+    void setRequestedDeliveryDate(string&);
 
     // getter
-    int getOrderId() const; // can't set orderId
+    int getOrderId() const;
     string getOrderStatus() const;
     int getBuyerId() const;
     int getProductId() const;
     string getVendor() const;
     int getQuantity() const;
-    double getTotalValue() const;
-    string getValueCurrency() const;
+    int getTotalPrice() const;
     string getShipFrom() const;
-    string getShipTO() const;
-    Date getCreatedDate() const;
-    Date getRequestedShipDate() const;
-    Date getRequestedDeliveryDate() const;
+    string getShipTo() const;
+    string getCreatedDate() const;
+    string getRequestedShipDate() const;
+    string getRequestedDeliveryDate() const;
 
 private:
-    int orderId;                // 주문번호
-    string orderStatus;         // 주문상태 - 완료, 배송 중, 처리 중
-    int buyerId;                // 구매자 ID
-    int productId;              // 구매 상품 ID
-    string vendor;              // 판매자나 상품 브랜드
-    int quantity;               // 구매 수량
-    int totalValue;             // 최종 가격
-    string valueCurrency;       // 가격 단위
-    string shipFrom;            // 배송 시작 장소
-    string shipTo;              // 배송 도착 장소
-    Date createdDate;           // 주문 생성 시간
-    Date requestedShipDate;     // 원하는 배송 시작 날짜
-    Date requestedDeliveryDate; // 원하는 배송 도착 날짜
+    int m_orderId;                  // 주문번호
+    string m_orderStatus;           // 주문상태 - 완료, 배송 중, 처리 중
+    int m_buyerId;                  // 구매자 ID
+    int m_productId;                // 구매 상품 ID
+    string m_vendor;                // 판매자 이름
+    int m_quantity;                 // 구매 수량
+    int m_totalPrice;               // 최종 가격
+    string m_shipFrom;              // 배송 시작 장소
+    string m_shipTo;                // 배송 도착 장소
+    string m_createdDate;           // 주문 생성 시간
+    string m_requestedShipDate;     // 원하는 배송 시작 날짜
+    string m_requestedDeliveryDate; // 원하는 배송 도착 날짜
+
+    string getCurrentTime();
 };
 
 #endif // ORDER_H
