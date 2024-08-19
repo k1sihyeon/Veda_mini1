@@ -47,7 +47,7 @@ void Customer::updateTotalPurchase(int amount) {
 }
 
 int Customer::getGroup() const {
-    return group;
+    return userGroup;
 }
 
 void Customer::updateGroup() {

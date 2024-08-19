@@ -3,6 +3,6 @@
 using namespace std;
 class Observer {
 public :
-	virtual void update(const string& productname, int quantity) = 0;
+	virtual void update(const string& userId, const string& productname, int quantity) = 0;
 	virtual ~Observer() = default;
 };

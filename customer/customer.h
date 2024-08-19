@@ -32,6 +32,14 @@ public :
     int getGroup() const;
     void updateGroup();
 
+    friend std::ostream& operator<<(std::ostream& os, const Customer& customer) {
+        os << customer.userId << ',' << customer.userPassword << ',' << customer.userName << ','
+            << customer.userGender << ',' << customer.userPhoneNumber << ',' << customer.userAddress 
+            << ',' << customer.totalPurchase << ',' << customer.userGroup;
+        return os;
+    }
+
+
 private:
 
     string userId;
@@ -44,6 +52,6 @@ private:
 
     int totalPurchase;
     enum Group { basic, silver, gold, platinum };
-    Group group;
+    Group userGroup;
 };
 
