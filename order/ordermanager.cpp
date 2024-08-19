@@ -66,21 +66,24 @@ int OrderManager::makeOrderId( )
     }
 }
 
-void OrderManager::inputOrder(const Client& buyer, const Product& product, int quantity, string reqShipDate, string reqDeriveryDate)
+void OrderManager::inputOrder(string status, const Client& buyer, const Product& product, int quantity, string reqShipDate, string reqDeriveryDate)
 {
     Order *tmp = new Order();
     int id = makeOrderId();
+    
     tmp->setOrderId(id);
+    tmp->setOrderStatus(status);
     tmp->setBuyerId(buyer);
     tmp->setProductId(product);
     tmp->setVendor(product);
+
     tmp->setQuantity(quantity);
     tmp->setTotalPrice(product, quantity);
     tmp->setCreatedDate();
     tmp->setRequestedShipDate(reqShipDate);
     tmp->setRequestedDeliveryDate(reqDeriveryDate);
     orderList.insert({id, tmp});
-    cout << "Input Order Successfully";
+    cout << endl << "Input Order Successfully" << endl;
 }
 
 void OrderManager::deleteOrder(int key)
@@ -117,7 +120,7 @@ void OrderManager::modifyOrder(int key)
     case 4:
         return;
     default:
-        cout << "Wrong Number! Press number Again";
+        cout << "Wrong Number! Press number Again" << endl;
         break;
     }
     tmp->setOrderStatus(orderStatus);
@@ -131,7 +134,11 @@ Order* OrderManager::search(int id)
 
 void OrderManager::displayOrder()
 {
-    cout << endl << "Order List" << endl << endl;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                 Order List                  " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << endl;
     for (const auto& v : orderList) {
         Order* tmp = v.second;
 
@@ -140,12 +147,12 @@ void OrderManager::displayOrder()
         cout << tmp->getCreatedDate() << endl;
 
         cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
-        cout << setw(11) << setfill(' ') << tmp->getVendor();
+        cout << tmp->getVendor();
         cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
         cout << left;
-        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "      | ";
+        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
         cout << right;
-        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << "KRW" << endl;
+        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
 
         cout << "From : " << tmp->getShipFrom() << endl;
         cout << "To : " << tmp->getShipTo() << endl;
@@ -153,11 +160,16 @@ void OrderManager::displayOrder()
         cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
         cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
     }
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }
 
 void OrderManager::displayOrder(string filter, string filterValue)
 {
-    cout << endl << "Order List" << endl << endl;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                 Order List                  " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << endl;
     for (const auto& v : orderList) {
         Order* tmp = v.second;
 
@@ -174,12 +186,12 @@ void OrderManager::displayOrder(string filter, string filterValue)
         cout << tmp->getCreatedDate() << endl;
 
         cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
-        cout << setw(11) << setfill(' ') << tmp->getVendor();
+        cout << tmp->getVendor();
         cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
         cout << left;
-        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "      | ";
+        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
         cout << right;
-        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << "KRW" << endl;
+        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
 
         cout << "From : " << tmp->getShipFrom() << endl;
         cout << "To : " << tmp->getShipTo() << endl;
@@ -187,11 +199,16 @@ void OrderManager::displayOrder(string filter, string filterValue)
         cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
         cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
     }
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }
 
 void OrderManager::displayOrder(string filter, int filterValue)
 {
-    cout << endl << "Order List" << endl << endl;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                 Order List                  " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << endl;
     for (const auto& v : orderList) {
         Order* tmp = v.second;
 
@@ -205,12 +222,12 @@ void OrderManager::displayOrder(string filter, int filterValue)
         cout << tmp->getCreatedDate() << endl;
 
         cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
-        cout << setw(11) << setfill(' ') << tmp->getVendor();
+        cout << tmp->getVendor();
         cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
         cout << left;
-        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "      | ";
+        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
         cout << right;
-        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << "KRW" << endl;
+        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
 
         cout << "From : " << tmp->getShipFrom() << endl;
         cout << "To : " << tmp->getShipTo() << endl;
@@ -218,51 +235,7 @@ void OrderManager::displayOrder(string filter, int filterValue)
         cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
         cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
     }
-}
-
-bool OrderManager::displayMenu()
-{
-    // Client *testClient = new Client(12345);
-    // Product *testProduct = new Product(12321, "testVendor", 500);
-
-    int ch, key;
-    cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "               Order Manager                 " << endl;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "  1. Display Order List                      " << endl;
-    cout << "  2. input Order <need to talkabout>         " << endl;
-    cout << "  3. Delete Order                            " << endl;
-    cout << "  4. Modify Order                            " << endl;
-    cout << "  5. Quit this Program                       " << endl;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << " What do you wanna do? ";
-    cin >> ch;
-    switch(ch) {
-    case 1: default:
-        displayOrder();
-        cin.ignore();
-        getchar();
-        break;
-    case 2:
-        //inputOrder(*testClient, *testProduct, 10, "2024-08-06","2024-08-30");
-        break;
-    case 3:
-        displayOrder();
-        cout << "   Choose Key : ";
-        cin >> key;
-        deleteOrder(key);
-        break;
-    case 4:
-        displayOrder();
-        cout << "   Choose Key : ";
-        cin >> key;
-        modifyOrder(key);
-        break;
-    case 5:
-        return false;
-    }
-    return true;
 }
 
 vector<string> OrderManager::parseCSV(istream &file, char delimiter)

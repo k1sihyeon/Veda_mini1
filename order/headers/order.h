@@ -10,7 +10,10 @@ class Product;
 class Order
 {
 public:
+    // inputOrder()에서 사용하는 생성자
     Order();
+
+     // csv 파일을 파싱할 때 사용할 생성자
     Order(int orderId, string orderStatus, int buyerId, int productId, string vendor, int quantity, int totalPrice,
             string shipFrom, string shipTo, string createdDate, string requestedShipDate, string requestedDeiliveryDate);
     ~Order();

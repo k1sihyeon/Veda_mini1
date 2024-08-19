@@ -148,8 +148,7 @@ string Order::getCurrentTime() {
     string year = to_string(now->tm_year + 1900);  // tm_year는 1900년부터 시작하므로, 1900을 더해야 함
     string month = to_string(now->tm_mon + 1);  // tm_mon은 0부터 시작하므로, 1을 더해야 함
     string day = to_string(now->tm_mday);
-    string hour = to_string(now->tm_hour);
     
-    string currentTime = year + "-" + month + "-" + day + "-" + hour;
+    string currentTime = year + "-" + month + "-" + day;
     return currentTime;
 }

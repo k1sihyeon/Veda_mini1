@@ -18,7 +18,7 @@ public:
 
     int makeOrderId();
 
-    void inputOrder(const Client&, const Product&, int quantity, string reqShipDate, string reqDeriveryDate);
+    void inputOrder(string status, const Client&, const Product&, int quantity, string reqShipDate, string reqDeriveryDate);
     void deleteOrder(int key);
     // void deleteOrder(int key, int key); // 필터로 삭제
     void modifyOrder(int key); // only modify orderStatus
@@ -29,8 +29,6 @@ public:
     void displayOrder();
     void displayOrder(string, string);
     void displayOrder(string, int);
-
-    bool displayMenu();
 
     vector<string> parseCSV(istream& , char);
 private:
