@@ -5,11 +5,8 @@ using namespace std;
 
 class Customer {
 public :
-    Customer(const string& id, const string& password, const string& name, bool gender);
+    Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address);
     ~Customer();
-
-    int getUniqueId() const;
-    void setUniqueId(int id);
 
     string getUserId() const;
     void setUserId(const string& id);
@@ -32,8 +29,11 @@ public :
     int getTotalPurchase() const;
     void updateTotalPurchase(int amount);
 
+    int getGroup() const;
+    void updateGroup();
+
 private:
-    int uniqueId; // manager gives it 
+
     string userId;
     string userPassword;
     string userName;
@@ -43,5 +43,7 @@ private:
     string userAddress;
 
     int totalPurchase;
+    enum Group { basic, silver, gold, platinum };
+    Group group;
 };
 

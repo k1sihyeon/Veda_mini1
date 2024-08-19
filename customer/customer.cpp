@@ -1,16 +1,10 @@
 #include "customer.h"
 
-Customer::Customer(const string& id, const string& password, const string& name, bool gender)
-    : userId(id), userPassword(password), userName(name), userGender(gender), totalPurchase(0){
+Customer::Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address)
+    : userId(id), userPassword(password), userName(name), userGender(gender), totalPurchase(0), userGroup(basic), userPhoneNumber(phonenum), userAddress(address) {
 };
 Customer::~Customer() {};
 
-int Customer::getUniqueId() const {
-    return uniqueId;
-}
-void Customer::setUniqueId(int id) {
-    userId = uniqueId;
-};
 string Customer::getUserId() const{
     return userId;
 }
@@ -50,4 +44,12 @@ int Customer::getTotalPurchase() const {
 }
 void Customer::updateTotalPurchase(int amount) {
     totalPurchase += amount;
+}
+
+int Customer::getGroup() const {
+    return group;
+}
+
+void Customer::updateGroup() {
+
 }
