@@ -1,20 +1,21 @@
 #include "product.h"
-#include <iostream>
 
 using namespace std;
 
+int Product::_sharedId = 0;
+
 Product::Product() {
-    _id = generateId();
-    _totalPurchase = 0;
+    // _id = generateId();
+    // _totalPurchase = 0;
 }
 
-Product::Product(string name, int price, string category, string company) {
+Product::Product(string name, int price, string category, string company, int total = 0) {
     _id = generateId();
     _name = name;
     _price = price;
     _category = category;
     _company = company;
-    _totalPurchase = 0;
+    _totalPurchase = total;
 }
 
 Product::~Product() {
@@ -45,6 +46,10 @@ int Product::getTotalPurchase() {
     return _totalPurchase;
 }
 
+string Product::getMoreDetails() {
+    return "";
+}
+
 void Product::setId(int id) {
     _id = id;
 }
@@ -65,19 +70,13 @@ void Product::setTotalPurchase(int count) {
     _totalPurchase = count;
 }
 
-void Product::increasePurchase() {
-    _totalPurchase += 1;
+void Product::increasePurchase(int purchase) {
+    if (purchase <= 0)
+        return;
+    _totalPurchase += purchase;
 }
 
 int Product::generateId() {
-    if (!isInit)
-        initSharedId();
-
     _sharedId += 1;
     return _sharedId;
-}
-
-void Product::initSharedId() {
-    _sharedId = 0;
-    isInit = true;
 }
