@@ -8,6 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 using std::ifstream;
@@ -79,6 +80,21 @@ void ProductManager::printAll() {
         cout << prod->getCompany() << ",";
         cout << prod->getTotalPurchase() << ",";
         cout << prod->getMoreDetails() << endl;
+    }
+}
+
+void ProductManager::printList() {
+    //totalPurchase가 많은 순서대로
+    vector<pair<int, Product *>> tmp(prodList.begin(), prodList.end());
+    
+    sort(tmp.begin(), tmp.end(), []
+    (const pair<int, Product *>& a, const pair<int, Product *>& b) -> bool {
+        return a.second->getTotalPurchase() > b.second->getTotalPurchase();
+    });
+
+    for (const auto& pp : tmp) {
+        Product *p = pp.second;
+        this->printProduct(p);
     }
 }
 

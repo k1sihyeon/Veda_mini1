@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -34,6 +35,7 @@ class ProductManager {
     vector<Product *> searchProductByCategory(string category);
     void printProduct(Product* prod);
     void printAll();
+    void printList();
 
     void loadCSVfile();
     void saveCSVfile();
