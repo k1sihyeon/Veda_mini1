@@ -1,10 +1,8 @@
-#include <iostream>
 #include <string>
 
 #include "product.h"
 
 using namespace std;
-using std::to_string;
 
 class Clothes : public Product {
    private:
@@ -34,6 +32,4 @@ class Clothes : public Product {
     void setColor(string color) {
         this->color = color;
     }
-
-
 };

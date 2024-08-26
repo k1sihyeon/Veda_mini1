@@ -1,9 +1,9 @@
-#include "product.h"
 #include <string>
+
+#include "product.h"
 
 using namespace std;
 
-//public
 class Computer : public Product {
    private:
     string cpu;
@@ -15,8 +15,7 @@ class Computer : public Product {
         : Product(name, price, (string)"Computer", company, 0), cpu(cpu), ram(ram), gpu(gpu) {}
 
     string getMoreDetails() override {
-        //return "CPU: " + cpu + ",\t RAM: " + to_string(ram) + ",\t GPU: " + gpu;
-        return cpu + ", " + to_string(ram) + ", " + gpu;
+        return cpu + "," + to_string(ram) + "," + gpu;
     }
 
     string getCpu() {
@@ -42,5 +41,4 @@ class Computer : public Product {
     void setGpu(string gpu) {
         this->gpu = gpu;
     }
-
 };

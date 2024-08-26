@@ -1,8 +1,12 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
+#include <string>
 
 using namespace std;
+
+using std::string;
 
 class Product;
 
@@ -25,8 +29,11 @@ class ProductManager {
 
     void addProduct(Product* prod);
     void deleteProduct(int id);
-    Product* searchProduct(int id);
+    Product* searchProductByID(int id);
+    vector<Product *> searchProductByName(string name);
+    vector<Product *> searchProductByCategory(string category);
     void printProduct(Product* prod);
+    void printAll();
 
     void loadCSVfile();
     void saveCSVfile();
