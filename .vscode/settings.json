@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "string": "cpp",
+        "*.ipp": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "forward_list": "cpp",
+        "iomanip": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "iostream": "cpp",
+        "chrono": "cpp"
+    }
+}
