@@ -1,10 +1,5 @@
 #include "customer.h"
 
-Customer::Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address)
-    : userId(id), userPassword(password), userName(name), userGender(gender), totalPurchase(0), userGroup(basic), userPhoneNumber(phonenum), userAddress(address) {
-};
-Customer::~Customer() {};
-
 string Customer::getUserId() const{
     return userId;
 }
@@ -14,6 +9,13 @@ void Customer::setUserId(const string& id) {
 void Customer::setPassword(const string& password) {
     userPassword = password;
 };
+string Customer::hashPassword(const string& password) {
+    return password; // make later
+}
+bool Customer::checkPassword(const string& password) {
+    return password == this->userPassword; // fix later
+};
+
 string Customer::getName() const {
     return userName;
 };
@@ -50,6 +52,6 @@ int Customer::getGroup() const {
     return userGroup;
 }
 
-void Customer::updateGroup() {
-
+void Customer::updateGroup(int group) {
+    userGroup = Group(group);
 }

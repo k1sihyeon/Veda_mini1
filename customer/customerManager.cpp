@@ -2,19 +2,36 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include "customer.h"
 using namespace std;
+
+Customer parseCustomerFromLine(const std::string& line);
+
+bool customerManager::Login(const string& id, const string& pwd) {
+    auto it = customermap.find(id);
+    if (it != customermap.end()) {
+        Customer customer = it->second;
+        if (customer.checkPassword(pwd)) {
+            cout << "Login Success!" << endl;
+            return true;
+        }
+        else
+            cout << "Incorrect Password" << endl;
+    }
+    else
+        cout << "ID not exist." << endl;
+    return false;
+}
 
 
 void customerManager::showManageSystem() {
     while (true) {
-        cout << "Select mode:" << '\n';
-        cout << "1. Show customers list" << '\n';
-        cout << "2. Show user's info" << '\n';
-        cout << "3. Register user" << '\n';
-        cout << "4. Delete user" << '\n';
-        cout << "5. Change user info" << '\n';
-        cout << "6. Quit" << '\n';
+        cout << "Select mode:" << endl;
+        cout << "1. Show customers list" << endl;
+        cout << "2. Show user's info" << endl;
+        cout << "3. Manage group" << endl;
+        cout << "4. Quit" << endl;
         int sel;
         cin >> sel;
 
@@ -31,41 +48,17 @@ void customerManager::showManageSystem() {
                 showUserInfo(it->second);
             }
             else 
-                cout << "User not found." << '\n';
+                cout << "User not found." << endl;
             break;
         }
-        case 3:
-            registerUser();
-            break;
-        case 4: {
-            cout << "Enter Id: ";
-            string id;
-            cin >> id;
-            auto it = customermap.find(id);
-            if (it != customermap.end()) {
-                deleteUser(it->second);
-            }
-            else
-                cout << "User not found." << '\n';
+        case 3: {
             break;
         }
-        case 5: {
-            cout << "Enter Id: ";
-            string id;
-            cin >> id;
-            auto it = customermap.find(id);
-            if (it != customermap.end()) {
-                updateUserInfo(it->second);
-            }
-            else
-                cout << "User not found." << '\n';
-            break;
-        }
-        case 6:
-            cout << "Exiting system..." << '\n';
+        case 4:
+            cout << "Exiting system..." << endl;
             return;
         default:
-            cout << "Invalid selection." << '\n';
+            cout << "Invalid selection." << endl;
             break;
         }
     }
@@ -161,13 +154,13 @@ void customerManager::registerUser() {
     string addr = getInputWithConfirmation<string>("Enter your address : ");
 
     Customer customer(id, pw, name, gender, number, addr);
-    customermap[id] = customer;
+    customermap.insert(make_pair(id, customer));
     cout << "Register Complete! Welcome!";
 
     ofstream fout;
     fout.open("customersList.txt", ios::app);
     if (fout.is_open()) {
-        fout << customer << '\n';
+        fout << customer << endl;
         fout.close();
     }
     else {
@@ -188,7 +181,7 @@ void customerManager::deleteUser(Customer& customer) {
         string line;
         while (getline(fin, line)) {
             if (line.find(id) == string::npos) {
-                temp << line << '\n';
+                temp << line << endl;
             }
         }
         fin.close();
@@ -210,35 +203,25 @@ void customerManager::showUserList() {
         cout << "No users registered." << endl;
         return;
     }
-
-    vector<Customer> customers;
-    for (const auto& pair : customermap) {
-        customers.push_back(pair.second);
-    }
-
-    /* 필터나 소팅 기준 주는 기능 구현하기
-    sort(customers.begin(), customers.end(), [](const Customer& a, const Customer& b) {
-        if (a.getTotalPurchase() == b.getTotalPurchase()) {
-            return a.getName() < b.getName();
-        }
-        return a.getTotalPurchase() > b.getTotalPurchase();
-        });
-       */
-    cout << "User List:" << endl;
-    for (const auto& customer : customers) {
-        cout << customer << endl;
+    for (auto it : customermap) {
+        cout << endl;
+        cout << "==================================" << endl;
+        cout << endl;
+        showUserInfo(it.second);
+        cout << endl;
+        cout << "==================================" << endl;
+        cout << endl;
     }
 }
 
 void customerManager::showUserInfo(Customer& customer) {
-    cout << "User Info:" << '\n';
-    cout << "ID: " << customer.getUserId() << '\n';
-    cout << "Name: " << customer.getName() << '\n';
-    cout << "Gender: " << (customer.getGender() ? "Male" : "Female") << '\n';
-    cout << "Phone Number: " << customer.getPhoneNumber() << '\n';
-    cout << "Address: " << customer.getAddress() << '\n';
-    cout << "Total Purchase: " << customer.getTotalPurchase() << '\n';
-    cout << "You are in [ " << customer.getGroup() << " ] group. << '\n";
+    cout << "ID: " << customer.getUserId() << endl;
+    cout << "Name: " << customer.getName() << endl;
+    cout << "Gender: " << (customer.getGender() ? "Male" : "Female") << endl;
+    cout << "Phone Number: " << customer.getPhoneNumber() << endl;
+    cout << "Address: " << customer.getAddress() << endl;
+    cout << "Total Purchase: " << customer.getTotalPurchase() << endl;
+    cout << "[" << Customer::Group(customer.getGroup()) << "]" << endl;
 }
 
 void customerManager::updateUserInfo(Customer& customer) {
@@ -257,21 +240,21 @@ void customerManager::updateUserInfo(Customer& customer) {
         customer.setAddress(newAddr);
         customermap[id] = customer;
 
-        ifstream fin("customersList.txt");
+        ifstream fin(filepath);
         ofstream temp("temp.txt");
         string line;
         while (getline(fin, line)) {
             if (line.find(id) == string::npos) {
-                temp << line << '\n';
+                temp << line << endl;
             }
             else {
-                temp << customer << '\n';
+                temp << customer << endl;
             }
         }
         fin.close();
         temp.close();
-        remove("customersList.txt");
-        rename("temp.txt", "customersList.txt");
+        remove(filepath.c_str());
+        rename("temp.txt", filepath.c_str());
 
         cout << "User info updated successfully." << endl;
     }
@@ -279,4 +262,73 @@ void customerManager::updateUserInfo(Customer& customer) {
         cout << "User not found." << endl;
 }
 
+customerManager* customerManager::instance = nullptr;
+customerManager* customerManager::getInstance() {
+    if (instance == nullptr) {
+        instance = new customerManager();
+    }
+    return instance;
+}
 
+
+void customerManager::getRegisteredUsers() {
+    try{
+        ifstream file(filepath);
+        if (!file.is_open()) {
+            throw runtime_error("Could not open file");
+        }
+        string line;
+        while (getline(file, line)) {
+            try {
+                Customer customer = parseCustomerFromLine(line);
+                customerManager::getInstance()->addUser(customer);
+            }
+            catch (const std::exception& e) {
+                std::cerr << "Error parsing line: " << e.what() << std::endl;
+            }
+        }
+
+            file.close();
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
+Customer parseCustomerFromLine(const std::string& line) {
+    if (line.empty() || std::all_of(line.begin(), line.end(), isspace)) {
+        throw runtime_error("Empty or invalid line encountered.");
+    }
+
+    istringstream ss(line);
+    string token;
+
+    vector<string> tokens;
+    while (getline(ss, token, ',')) {
+        tokens.push_back(token);
+    }
+
+    if (tokens.size() != 8) {
+        throw runtime_error("Invalid line format: Incorrect number of fields.");
+    }
+
+    string id = tokens[0];
+    string password = tokens[1];
+    string name = tokens[2];
+    bool gender = (tokens[3] == "1");
+    string phoneNumber = tokens[4];
+    string address = tokens[5];
+    int totalPurchase = stoi(tokens[6]);
+    int group = stoi(tokens[7]);
+
+    Customer customer(id, password, name, gender, phoneNumber, address);
+    customer.updateTotalPurchase(totalPurchase);
+    customer.updateGroup(group);
+
+    return customer;
+}
+
+
+void customerManager::addUser(Customer& customer) {
+    customermap.insert(make_pair(customer.getUserId(), customer));
+    userCount++;
+}

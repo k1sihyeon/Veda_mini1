@@ -5,14 +5,22 @@ using namespace std;
 
 class Customer {
 public :
-    Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address);
-    ~Customer();
+    enum Group { basic, silver, gold, platinum };
+
+    Customer() {};
+    Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address)
+        : userId(id), userPassword(hashPassword(password)), userName(name), userGender(gender), totalPurchase(0), userGroup(Group::basic), userPhoneNumber(phonenum), userAddress(address) {
+    };
+    ~Customer() {};
 
     string getUserId() const;
     void setUserId(const string& id);
 
     // prohibit get password
+    string hashPassword(const string& password);
     void setPassword(const string& password);
+    bool checkPassword(const string& password);
+
 
     string getName() const;
     void setName(const string& name);
@@ -30,7 +38,7 @@ public :
     void updateTotalPurchase(int amount);
 
     int getGroup() const;
-    void updateGroup();
+    void updateGroup(int group);
 
     friend std::ostream& operator<<(std::ostream& os, const Customer& customer) {
         os << customer.userId << ',' << customer.userPassword << ',' << customer.userName << ','
@@ -38,6 +46,7 @@ public :
             << ',' << customer.totalPurchase << ',' << customer.userGroup;
         return os;
     }
+    
 
 
 private:
@@ -51,7 +60,6 @@ private:
     string userAddress;
 
     int totalPurchase;
-    enum Group { basic, silver, gold, platinum };
     Group userGroup;
 };
 
