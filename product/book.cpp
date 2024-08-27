@@ -15,8 +15,11 @@ class Book : public Product {
     Book(string name, int price, string company, string auther, int pages, int year, string isbn)
         : Product(name, price, "Book", company, 0), auther(auther), pages(pages), year(year), isbn(isbn) {}
 
-    string getMoreDetails() override {
-        return auther + "," + to_string(pages) + "," + to_string(year) + isbn;
+    string getMoreDetails(int option = 0) override {
+        if (option == 0)
+            return auther + "," + to_string(pages) + "," + to_string(year) + isbn;
+        else if (option == 1)
+            return "Auther: " + auther + "\tPages: " + to_string(pages) + "\tYear: " + to_string(year) + "\tISBN: " + isbn; 
     }
 
     string getAuther() {

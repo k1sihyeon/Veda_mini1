@@ -1,20 +1,21 @@
 #include "productManager.h"
-#include "product.h"
-#include "computer.cpp"
-#include "clothes.cpp"
-#include "book.cpp"
 
+#include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <sstream>
-#include <fstream>
 #include <vector>
-#include <algorithm>
+
+#include "book.cpp"
+#include "clothes.cpp"
+#include "computer.cpp"
+#include "product.h"
 
 using namespace std;
 using std::ifstream;
 using std::ofstream;
-using std::vector;
 using std::string;
+using std::vector;
 
 ProductManager::ProductManager() {
     Product::setSharedID(0);
@@ -37,11 +38,11 @@ Product* ProductManager::searchProductByID(int id) {
     return prodList[id];
 }
 
-std::vector<Product *> ProductManager::searchProductByName(string name) {
-    std::vector<Product *> v;
-    
+std::vector<Product*> ProductManager::searchProductByName(string name) {
+    std::vector<Product*> v;
+
     for (const auto& p : prodList) {
-        Product *tmp = p.second;
+        Product* tmp = p.second;
 
         if (tmp->getName() == name)
             v.push_back(tmp);
@@ -50,11 +51,11 @@ std::vector<Product *> ProductManager::searchProductByName(string name) {
     return v;
 }
 
-vector<Product *> ProductManager::searchProductByCategory(string category) {
-    vector<Product *> v;
-    
+vector<Product*> ProductManager::searchProductByCategory(string category) {
+    vector<Product*> v;
+
     for (const auto& p : prodList) {
-        Product *tmp = p.second;
+        Product* tmp = p.second;
 
         if (tmp->getCategory() == category)
             v.push_back(tmp);
@@ -63,10 +64,16 @@ vector<Product *> ProductManager::searchProductByCategory(string category) {
     return v;
 }
 
-//prod 카테고리 선택 및 보여주기 + order
+// prod 카테고리 선택 및 보여주기 + order
 
 void ProductManager::printProduct(Product* prod) {
-    cout << prod->getName() << " " << prod->getMoreDetails() << endl;
+    cout << prod->getCategory() << "\t";
+    cout << prod->getId() << "\t";
+    cout << prod->getName() << "\t";
+    cout << prod->getPrice() << "\t";
+    cout << prod->getCompany() << "\t";
+    cout << prod->getTotalPurchase() << "\t";
+    cout << prod->getMoreDetails(1) << "\n";
 }
 
 void ProductManager::printAll() {
@@ -84,16 +91,23 @@ void ProductManager::printAll() {
 }
 
 void ProductManager::printList() {
-    //totalPurchase가 많은 순서대로
-    vector<pair<int, Product *>> tmp(prodList.begin(), prodList.end());
-    
-    sort(tmp.begin(), tmp.end(), []
-    (const pair<int, Product *>& a, const pair<int, Product *>& b) -> bool {
+    // totalPurchase가 많은 순서대로
+    vector<pair<int, Product*>> tmp(prodList.begin(), prodList.end());
+
+    sort(tmp.begin(), tmp.end(), [](const pair<int, Product*>& a, const pair<int, Product*>& b) -> bool {
         return a.second->getTotalPurchase() > b.second->getTotalPurchase();
     });
 
+    cout << "Category" << "\t";
+    cout << "ID" << "\t";
+    cout << "Name" << "\t";
+    cout << "Price" << "\t";
+    cout << "Company" << "\t";
+    cout << "TotalPurchase" << "\t";
+    cout << "MoreDetails" << "\n";
+
     for (const auto& pp : tmp) {
-        Product *p = pp.second;
+        Product* p = pp.second;
         this->printProduct(p);
     }
 }
@@ -124,7 +138,7 @@ void ProductManager::loadCSVfile() {
     for (const auto& row : data) {
         Product* tmp;
 
-        if (row[0] == "Computer") {   
+        if (row[0] == "Computer") {
             tmp = Product::createProduct<Computer>(row[2], stoi(row[3]), row[4], row[6], stoi(row[7]), row[8]);
         }
         if (row[0] == "Clothes") {
@@ -141,8 +155,8 @@ void ProductManager::loadCSVfile() {
 
 void ProductManager::saveCSVfile() {
     ofstream file("product.csv", ios::trunc);
-    //ios::trunc -> 파일 새로 생성
-    
+    // ios::trunc -> 파일 새로 생성
+
     cout << "[save] opening File..." << endl;
     if (!file.is_open()) {
         cout << "[save] cannot open file : save" << endl;
@@ -153,7 +167,7 @@ void ProductManager::saveCSVfile() {
 
     if (prodList.empty())
         cout << "prodlist is empty!" << endl;
-    
+
     for (const auto& p : prodList) {
         Product* prod = p.second;
 

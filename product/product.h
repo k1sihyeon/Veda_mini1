@@ -35,7 +35,7 @@ class Product {
     string getCategory();
     string getCompany();
     int getTotalPurchase();
-    virtual string getMoreDetails();  // 가상 함수: 상세 제품 클래스에서 구현되어야 함
+    virtual string getMoreDetails(int option = 0);  // 가상 함수: 상세 제품 클래스에서 구현되어야 함
 
     // setter
     void setId(int id);

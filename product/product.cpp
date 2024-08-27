@@ -46,7 +46,7 @@ int Product::getTotalPurchase() {
     return _totalPurchase;
 }
 
-string Product::getMoreDetails() {
+string Product::getMoreDetails(int option) {
     return "";
 }
 
