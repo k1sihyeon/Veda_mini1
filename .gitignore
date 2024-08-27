@@ -3,3 +3,4 @@ Mini/
 
 ## ignore main
 customer/main.cpp
+.vscode/
