@@ -19,7 +19,7 @@ private:
     OrderManager *OM;
     string managerPassword = "VEDAisGOAT";
     void setStdinEcho(bool);
-    bool menuManageOrder();
+    bool menuManagementOrder();
 };
 
 #endif // SELLERSHOPPINGMALL_H

@@ -20,7 +20,7 @@ bool ClientShoppingMall::displayMenu()
     cout << "                                             " << endl;
     cout << "  1. Searching Product                       " << endl;
     cout << "                                             " << endl;
-    cout << "  2. Make Order                              " << endl;
+    cout << "  2. Make Order                              " << endl;    // 1과 merge
     cout << "                                             " << endl;
     cout << "  3. View Order                              " << endl;
     cout << "                                             " << endl;
@@ -73,6 +73,8 @@ bool ClientShoppingMall::menuOrderProduct()
     cout << "  Input Prefer Requested Derivery Date" << endl;
     cout << "  If don't care about this press ENTER" << endl;
     cout << "  YYYY-MM-DD " << endl << "  ";
+    cin >> reqderi;
+    
 
     // OM->inputOrder();
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;

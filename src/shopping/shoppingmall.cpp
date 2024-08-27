@@ -3,7 +3,7 @@
 #include "shoppingmall.h"
 #include "clientshoppingmall.h"
 #include "sellershoppingmall.h"
-#include "freakinawseomebanner.h"
+#include "litbanner.h"
 
 using namespace std;
 
@@ -11,7 +11,6 @@ ShoppingMall::ShoppingMall()
 {
     CSM = new ClientShoppingMall();
     SSM = new SellerShoppingMall();
-        
 }
 
 ShoppingMall::~ShoppingMall()
@@ -24,10 +23,10 @@ bool ShoppingMall::startShoppingMall()
 {
     freekinAwseomeWelcomeBanner();
 
-    int ch;
+    char ch;
     cout << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "                        Choose Your Login Type                        " << endl;
+    cout << "                        Choose Your Login Type                         " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                                                       " << endl;
     cout << "  1. Buyer                                                             " << endl;
@@ -42,15 +41,24 @@ bool ShoppingMall::startShoppingMall()
     cin >> ch;
 
     switch(ch) {
-    case 1: default:
+    case '1':
+        
         while(CSM->displayMenu()){}
         break;
-    case 2:
-        while(SSM->managerLogin()){}
+    case '2':
+        while(!SSM->managerLogin()){}
+        while(SSM->displayManageMenu()){}
         break;
-    case 3:
+    case '3':
         freekinAwseomeGoodByeBanner();
         return false;
+    default:
+        getchar();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        break;
     }
     return true;  
 

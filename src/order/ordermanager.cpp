@@ -1,3 +1,4 @@
+#include <unordered_map>
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -9,10 +10,12 @@
 #include "product.h"
 #include "ordermanager.h"
 
+using namespace std;
+
 OrderManager::OrderManager()
 {
     ifstream file;
-    file.open("orderlist.txt");
+    file.open("data/orderlist.csv");
     if(!file.fail()) {
         while(!file.eof()) {
             vector<string> row = parseCSV(file, ',');
@@ -24,17 +27,17 @@ OrderManager::OrderManager()
                 int totalPrice = atoi(row[6].c_str());
                 Order* tmp = new Order(id, row[1], buyerId, productId, row[4], quantity, totalPrice,
                                          row[7], row[8], row[9], row[10], row[11]);
-                orderList.insert( { id, tmp } );
+                orderList[id] = tmp;  // unordered_map에 삽입
             }
         }
     }
-    file.close( );
+    file.close();
 }
 
 OrderManager::~OrderManager()
 {
     ofstream file;
-    file.open("orderlist.txt");
+    file.open("data/orderlist.csv");
     if(!file.fail()) {
         for (const auto& v : orderList) {
             Order* tmp = v.second;
@@ -52,19 +55,24 @@ OrderManager::~OrderManager()
             file << tmp->getRequestedDeliveryDate() << endl;
         }
     }
-    file.close( );
+    file.close();
 }
 
-int OrderManager::makeOrderId( )
+int OrderManager::makeOrderId()
 {
-    if(orderList.size( ) == 0) {
+    if(orderList.empty()) {
         return 0;
     } else {
-        auto elem = orderList.end();
-        int id = (--elem)->first;
-        return ++id;
+        int maxId = 0;
+        for (const auto& elem : orderList) {
+            if (elem.first > maxId) {
+                maxId = elem.first;
+            }
+        }
+        return maxId + 1;
     }
 }
+
 
 void OrderManager::inputOrder(string status, const Client& buyer, const Product& product, int quantity, string reqShipDate, string reqDeriveryDate)
 {
@@ -82,7 +90,7 @@ void OrderManager::inputOrder(string status, const Client& buyer, const Product&
     tmp->setCreatedDate();
     tmp->setRequestedShipDate(reqShipDate);
     tmp->setRequestedDeliveryDate(reqDeriveryDate);
-    orderList.insert({id, tmp});
+    orderList[id] = tmp;  // unordered_map에 삽입
     cout << endl << "Input Order Successfully" << endl;
 }
 
@@ -132,88 +140,31 @@ Order* OrderManager::search(int id)
     return orderList[id];
 }
 
-void OrderManager::displayOrder()
+void OrderManager::displayOrder(string filter1, string filterValue1, string filter2, int filterValue2)
 {
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                 Order List                  " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << endl;
+
     for (const auto& v : orderList) {
         Order* tmp = v.second;
 
-        cout << setw(5) << setfill('0') << right << tmp->getOrderId() << " | ";
-        cout << setw(10) << setfill(' ') << tmp->getOrderStatus() << " | ";
-        cout << tmp->getCreatedDate() << endl;
+        bool filter1Passed = 
+            (filter1.empty() || 
+            (filter1 == "OrderStatus" && tmp->getOrderStatus() == filterValue1) ||
+            (filter1 == "CreatedDate" && tmp->getCreatedDate() == filterValue1) ||
+            (filter1 == "ShipFrom" && tmp->getShipFrom() == filterValue1) ||
+            (filter1 == "ShipTo" && tmp->getShipTo() == filterValue1) ||
+            (filter1 == "RequestDeliveryDate" && tmp->getRequestedDeliveryDate() == filterValue1));
 
-        cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
-        cout << tmp->getVendor();
-        cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
-        cout << left;
-        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
-        cout << right;
-        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
+        bool filter2Passed = 
+            (filter2.empty() || 
+            (filter2 == "BuyerId" && tmp->getBuyerId() == filterValue2) ||
+            (filter2 == "ProductId" && tmp->getProductId() == filterValue2));
 
-        cout << "From : " << tmp->getShipFrom() << endl;
-        cout << "To : " << tmp->getShipTo() << endl;
-
-        cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
-        cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
-    }
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-}
-
-void OrderManager::displayOrder(string filter, string filterValue)
-{
-    cout << "\033[2J\033[1;1H";
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "                 Order List                  " << endl;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << endl;
-    for (const auto& v : orderList) {
-        Order* tmp = v.second;
-
-        if ((filter == "OrderStatus" && tmp->getOrderStatus() != filterValue) ||
-            (filter == "CreatedDate" && tmp->getCreatedDate() != filterValue) ||
-            (filter == "ShipFrom" && tmp->getShipFrom() != filterValue) ||
-            (filter == "ShipTo" && tmp->getShipTo() != filterValue) ||
-            (filter == "RequestDeliveryDate" && tmp->getRequestedDeliveryDate() != filterValue)){
-            continue;
-        }
-
-        cout << setw(5) << setfill('0') << right << tmp->getOrderId() << " | ";
-        cout << setw(10) << setfill(' ') << tmp->getOrderStatus() << " | ";
-        cout << tmp->getCreatedDate() << endl;
-
-        cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
-        cout << tmp->getVendor();
-        cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
-        cout << left;
-        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
-        cout << right;
-        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
-
-        cout << "From : " << tmp->getShipFrom() << endl;
-        cout << "To : " << tmp->getShipTo() << endl;
-
-        cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
-        cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
-    }
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-}
-
-void OrderManager::displayOrder(string filter, int filterValue)
-{
-    cout << "\033[2J\033[1;1H";
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "                 Order List                  " << endl;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << endl;
-    for (const auto& v : orderList) {
-        Order* tmp = v.second;
-
-        if ((filter == "BuyerId" && tmp->getBuyerId() != filterValue) ||
-            (filter == "ProductId" && tmp->getProductId() != filterValue)){
+        if (!filter1Passed || !filter2Passed) {
             continue;
         }
 

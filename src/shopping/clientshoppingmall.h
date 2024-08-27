@@ -14,6 +14,7 @@ public:
     bool menuViewOrder();
 private:
     OrderManager *OM;
+    int curCustomerID;
 };
 
 #endif // CLIENTSHOPPINGMALL_H
