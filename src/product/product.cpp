@@ -22,7 +22,7 @@ Product::~Product() {
 
 }
 
-int Product::getId() {
+int Product::getId() const{
     return _id;
 }
 
@@ -30,7 +30,7 @@ string Product::getName() {
     return _name;
 }
 
-int Product::getPrice() {
+int Product::getPrice() const{
     return _price;
 }
 
@@ -38,7 +38,7 @@ string Product::getCategory() {
     return _category;
 }
 
-string Product::getCompany() {
+string Product::getCompany() const{
     return _company;
 }
 

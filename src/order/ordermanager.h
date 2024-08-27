@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Client;
+class Customer;
 class Product;
 
 class OrderManager
@@ -18,9 +18,10 @@ public:
     ~OrderManager();
 
     int makeOrderId();
+    void displayOrder(string filter1 = "", string filterValue1 = "", string filter2 = "", string filterValue2 = "");
     void displayOrder(string filter1 = "", string filterValue1 = "", string filter2 = "", int filterValue2 = -1);
     
-    void inputOrder(string status, const Client&, const Product&, int quantity, string reqShipDate, string reqDeriveryDate);
+    void inputOrder(string status, const Customer&, const Product&, int quantity, string reqShipDate, string reqDeriveryDate);
     // void deleteOrder(string filter1 = "", string filterValue);
     void deleteOrder(int key);
     // void modifyOrder(string filter1 = "", string filterValue);

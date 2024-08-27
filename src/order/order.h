@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-class Client;
+class Customer;
 class Product;
 
 class Order
@@ -14,19 +14,19 @@ public:
     Order();
 
      // csv 파일을 파싱할 때 사용할 생성자
-    Order(int orderId, string orderStatus, int buyerId, int productId, string vendor, int quantity, int totalPrice,
+    Order(int orderId, string orderStatus, string buyerId, int productId, string vendor, int quantity, int totalPrice,
             string shipFrom, string shipTo, string createdDate, string requestedShipDate, string requestedDeiliveryDate);
     ~Order();
 
     // setter
     void setOrderId(int);
     void setOrderStatus(string&);
-    void setBuyerId(const Client);
+    void setBuyerId(const Customer);
     void setProductId(const Product);
     void setVendor(const Product);
     void setQuantity(int&);
     void setTotalPrice(const Product, int&);
-    void setShipFrom(string&);
+    void setShipFrom(string& shipFrom);
     void setShipTo(string&);
     void setCreatedDate();
     void setRequestedShipDate(string&);
@@ -35,7 +35,7 @@ public:
     // getter
     int getOrderId() const;
     string getOrderStatus() const;
-    int getBuyerId() const;
+    string getBuyerId() const;
     int getProductId() const;
     string getVendor() const;
     int getQuantity() const;
@@ -49,7 +49,7 @@ public:
 private:
     int m_orderId;                  // 주문번호
     string m_orderStatus;           // 주문상태 - 완료, 배송 중, 처리 중
-    int m_buyerId;                  // 구매자 ID
+    string m_buyerId;                  // 구매자 ID
     int m_productId;                // 구매 상품 ID
     string m_vendor;                // 판매자 이름
     int m_quantity;                 // 구매 수량

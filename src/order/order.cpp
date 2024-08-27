@@ -2,14 +2,16 @@
 #include <string>
 
 #include "order.h"
-#include "client.h"
+#include "customer.h"
 #include "product.h"
+
+using namespace std;
 
 Order::Order()
 {
 }
 
-Order::Order(int orderId, string orderStatus, int buyerId, int productId, string vendor, int quantity, int totalValue,
+Order::Order(int orderId, string orderStatus, string buyerId, int productId, string vendor, int quantity, int totalValue,
                 string shipFrom, string shipTo, string createdDate, string requestedShipDate, string requestedDeiliveryDate)
             : m_orderId(orderId), m_orderStatus(orderStatus), m_buyerId(buyerId), m_productId(productId), m_vendor(vendor),
                 m_quantity(quantity), m_totalPrice(totalValue), m_shipFrom(shipFrom), m_shipTo(shipTo),
@@ -41,19 +43,19 @@ string Order::getOrderStatus() const
     return this->m_orderStatus;
 }
 
-void Order::setBuyerId(const Client buyer)
+void Order::setBuyerId(const Customer buyer)
 {
-    this->m_buyerId = buyer.getClientId();
+    this->m_buyerId = buyer.getUserId();
 }
 
-int Order::getBuyerId() const
+string Order::getBuyerId() const
 {
     return this->m_buyerId;
 }
 
 void Order::setProductId(const Product product)
 {
-    this->m_productId = product.getProductId();
+    this->m_productId = product.getId();
 }
 
 int Order::getProductId() const
@@ -63,7 +65,7 @@ int Order::getProductId() const
 
 void Order::setVendor(const Product product)
 {
-    this->m_vendor = product.getProductVendor();
+    this->m_vendor = product.getCompany();
 }
 
 string Order::getVendor() const

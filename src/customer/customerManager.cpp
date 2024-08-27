@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <vector> 
 #include "customer.h"
 using namespace std;
 
@@ -295,7 +296,9 @@ void customerManager::getRegisteredUsers() {
 }
 
 Customer parseCustomerFromLine(const std::string& line) {
-    if (line.empty() || std::all_of(line.begin(), line.end(), isspace)) {
+    //if (line.empty() || std::all_of(line.begin(), line.end(), isspace)) {
+    if (line.empty() || std::all_of(line.begin(), line.end(), [](unsigned char c){ return std::isspace(c); })) {
+    // 코드 본문...
         throw runtime_error("Empty or invalid line encountered.");
     }
 

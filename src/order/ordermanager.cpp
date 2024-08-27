@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "order.h"
-#include "client.h"
+#include "customer.h"
 #include "product.h"
 #include "ordermanager.h"
 
@@ -21,11 +21,10 @@ OrderManager::OrderManager()
             vector<string> row = parseCSV(file, ',');
             if(row.size()) {
                 int id = atoi(row[0].c_str());
-                int buyerId = atoi(row[2].c_str());
                 int productId = atoi(row[3].c_str());
                 int quantity = atoi(row[5].c_str());
                 int totalPrice = atoi(row[6].c_str());
-                Order* tmp = new Order(id, row[1], buyerId, productId, row[4], quantity, totalPrice,
+                Order* tmp = new Order(id, row[1], row[2], productId, row[4], quantity, totalPrice,
                                          row[7], row[8], row[9], row[10], row[11]);
                 orderList[id] = tmp;  // unordered_map에 삽입
             }
@@ -74,7 +73,7 @@ int OrderManager::makeOrderId()
 }
 
 
-void OrderManager::inputOrder(string status, const Client& buyer, const Product& product, int quantity, string reqShipDate, string reqDeriveryDate)
+void OrderManager::inputOrder(string status, const Customer& buyer, const Product& product, int quantity, string reqShipDate, string reqDeriveryDate)
 {
     Order *tmp = new Order();
     int id = makeOrderId();
@@ -140,7 +139,7 @@ Order* OrderManager::search(int id)
     return orderList[id];
 }
 
-void OrderManager::displayOrder(string filter1, string filterValue1, string filter2, int filterValue2)
+void OrderManager::displayOrder(string filter1, string filterValue1, string filter2, string filterValue2)
 {
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
@@ -162,6 +161,55 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
         bool filter2Passed = 
             (filter2.empty() || 
             (filter2 == "BuyerId" && tmp->getBuyerId() == filterValue2) ||
+            (filter2 == "ProductId" && to_string(tmp->getProductId()) == filterValue2));
+
+        if (!filter1Passed || !filter2Passed) {
+            continue;
+        }
+
+        cout << setw(5) << setfill('0') << right << tmp->getOrderId() << " | ";
+        cout << setw(10) << setfill(' ') << tmp->getOrderStatus() << " | ";
+        cout << tmp->getCreatedDate() << endl;
+
+        cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
+        cout << tmp->getVendor();
+        cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
+        cout << left;
+        cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
+        cout << right;
+        cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
+
+        cout << "From : " << tmp->getShipFrom() << endl;
+        cout << "To : " << tmp->getShipTo() << endl;
+
+        cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
+        cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
+    }
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+}
+
+void OrderManager::displayOrder(string filter1, string filterValue1, string filter2, int filterValue2)
+{
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                 Order List                  " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << endl;
+
+    for (const auto& v : orderList) {
+        Order* tmp = v.second;
+
+        bool filter1Passed = 
+            (filter1.empty() || 
+            (filter1 == "OrderStatus" && tmp->getOrderStatus() == filterValue1) ||
+            (filter1 == "CreatedDate" && tmp->getCreatedDate() == filterValue1) ||
+            (filter1 == "ShipFrom" && tmp->getShipFrom() == filterValue1) ||
+            (filter1 == "ShipTo" && tmp->getShipTo() == filterValue1) ||
+            (filter1 == "RequestDeliveryDate" && tmp->getRequestedDeliveryDate() == filterValue1));
+
+        bool filter2Passed = 
+            (filter2.empty() || 
+            (filter2 == "BuyerId" && tmp->getBuyerId() == to_string(filterValue2)) ||
             (filter2 == "ProductId" && tmp->getProductId() == filterValue2));
 
         if (!filter1Passed || !filter2Passed) {

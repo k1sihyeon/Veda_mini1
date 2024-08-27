@@ -153,16 +153,16 @@ bool SellerShoppingMall::menuManagementOrder()
 
     switch(ch) {
     case 1:
-        OM->displayOrder();
+        OM->displayOrder("", "", "", "");
         break;
     case 2:
-        OM->displayOrder("OrderStatus", "Processing");
+        OM->displayOrder("OrderStatus", "Processing", "", -1);
         break;
     case 3:
-        OM->displayOrder("OrderStatus", "InTransit");
+        OM->displayOrder("OrderStatus", "InTransit", "", -1);
         break;
     case 4:
-        OM->displayOrder("OrderStatus", "Derivered");
+        OM->displayOrder("OrderStatus", "Delivered", "", -1);
         break;
     case 5:
         return false;

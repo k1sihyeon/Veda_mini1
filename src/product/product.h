@@ -29,11 +29,11 @@ class Product {
     }
 
     // getter
-    int getId();
+    int getId() const;
     string getName();
-    int getPrice();
+    int getPrice() const;
     string getCategory();
-    string getCompany();
+    string getCompany() const;
     int getTotalPurchase();
     virtual string getMoreDetails(int option = 0);  // 가상 함수: 상세 제품 클래스에서 구현되어야 함
 
