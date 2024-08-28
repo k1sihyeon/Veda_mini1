@@ -2,6 +2,7 @@
 #define CLIENTSHOPPINGMALL_H
 
 class OrderManager;
+class ProductManager;
 
 class ClientShoppingMall
 {
@@ -12,8 +13,12 @@ public:
     bool displayMenu();
     
     bool menuViewOrder();
+    bool menuSearchProduct();
+    bool menuSearchProductByCategory();
+
 private:
     OrderManager *OM;
+    ProductManager *PM;
     int curCustomerID;
 };
 
