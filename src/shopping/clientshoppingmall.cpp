@@ -1,13 +1,137 @@
 #include <iostream>
+#if defined(_WIN32) || defined(_WIN64)
+#include <windows.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+#endif
+#include <thread>
+#include <chrono>
 
 #include "clientshoppingmall.h"
 #include "ordermanager.h"
+#include "customerManager.h"
+
 
 using namespace std;
 
 ClientShoppingMall::ClientShoppingMall()
 {
     OM = new OrderManager();
+}
+
+
+bool ClientShoppingMall::startClientShoppingMall()
+{
+    customerManager::getInstance()->getRegisteredUsers();
+    
+    int ch;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "               W E L C O M E  !              " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Login                                   " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. Register                                " << endl;
+    cout << "                                             " << endl;
+    cout << "  3. Quit                                    " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  What do you wanna do? ";
+    cin >> ch;
+
+    switch (ch) {
+    case 1:
+        while (!customerLogin()) {}
+        if (curCustomer != nullptr) {
+            while (displayMenu()) {}
+        }
+        break;
+    case 2:
+        while (customerManager::getInstance()->registerUser());
+        break;
+    case 3:
+        curCustomer = nullptr;
+        return true;
+    default:
+        getchar();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+    }
+    return false;
+
+}
+
+
+bool ClientShoppingMall::customerLogin()
+{
+    string inputID;
+    string inputPassword;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                Customer Login                " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  Input ID : ";
+
+    cin >> inputID;
+
+    cout << "  Input Password : ";
+    setStdinEcho(false);
+
+    cin >> inputPassword;
+    setStdinEcho(true);
+
+    if (customerManager::getInstance()->Login(inputID, inputPassword)) {
+        cout << endl << endl << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "            Login Successfully!!             " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << endl;
+
+        curCustomer = customerManager::getInstance()->getCustomer(inputID);
+        customerManager::getInstance()->showUserInfo(*curCustomer);
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        return true;
+    }
+    else {
+        getchar();
+        cout << endl << endl << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "               Wrong Input!!              " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        return false;
+    }
+}
+
+
+void ClientShoppingMall::setStdinEcho(bool enable) {
+#if defined(_WIN32) || defined(_WIN64)
+    // Windows 환경
+    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD mode;
+    GetConsoleMode(hStdin, &mode);
+
+    if (!enable)
+        mode &= ~ENABLE_ECHO_INPUT; // echo를 비활성화
+    else
+        mode |= ENABLE_ECHO_INPUT;  // echo를 활성화
+
+    SetConsoleMode(hStdin, mode);
+#else
+    // Linux 환경
+    struct termios tty;
+    tcgetattr(STDIN_FILENO, &tty);
+    if (!enable)
+        tty.c_lflag &= ~ECHO;
+    else
+        tty.c_lflag |= ECHO;
+    (void)tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+#endif
 }
 
 bool ClientShoppingMall::displayMenu()

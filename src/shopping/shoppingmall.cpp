@@ -42,8 +42,7 @@ bool ShoppingMall::startShoppingMall()
 
     switch(ch) {
     case '1':
-        
-        while(CSM->displayMenu()){}
+        while (!CSM->startClientShoppingMall()) {}
         break;
     case '2':
         while(!SSM->managerLogin()){}

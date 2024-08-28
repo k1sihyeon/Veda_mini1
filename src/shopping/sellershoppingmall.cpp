@@ -10,11 +10,13 @@
 
 #include "sellershoppingmall.h"
 #include "ordermanager.h"
+#include "customerManager.h"
 
 SellerShoppingMall::SellerShoppingMall()
 {
     OM = new OrderManager();
 }
+
 
 bool SellerShoppingMall::managerLogin()
 {
@@ -29,7 +31,7 @@ bool SellerShoppingMall::managerLogin()
     cin >> inputPassword;
     setStdinEcho(true);
 
-    if(inputPassword==managerPassword){
+    if (inputPassword == managerPassword) {
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << "            Login Successfully!!             " << endl;
@@ -37,7 +39,8 @@ bool SellerShoppingMall::managerLogin()
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
-    } else {
+    }
+    else {
         getchar();
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
@@ -75,7 +78,7 @@ bool SellerShoppingMall::displayManageMenu()
         // TODO for 김시현
         break;
     case 2:
-        // TODO for 노희진
+        customerManager::getInstance()->showManageSystem();
         break;
     case 3:
         while(menuManagementOrder()){}
