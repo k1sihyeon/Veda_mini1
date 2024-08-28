@@ -17,6 +17,7 @@ public:
     bool menuViewOrder();
     bool menuSearchProduct();
     bool menuSearchProductByCategory();
+    bool menuInputOrder();
 
     void setStdinEcho(bool enable);
     bool startClientShoppingMall();

@@ -17,7 +17,7 @@ class Book : public Product {
 
     string getMoreDetails(int option = 0) override {
         if (option == 0)
-            return auther + "," + to_string(pages) + "," + to_string(year) + isbn;
+            return auther + "," + to_string(pages) + "," + to_string(year) + "," + isbn;
         else if (option == 1)
             return "Auther: " + auther + "\tPages: " + to_string(pages) + "\tYear: " + to_string(year) + "\tISBN: " + isbn; 
     }

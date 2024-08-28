@@ -20,6 +20,7 @@ ClientShoppingMall::ClientShoppingMall()
 {
     OM = new OrderManager();
     PM = ProductManager::getInstance();
+    //PM->loadCSVfile();
 }
 
 
@@ -251,32 +252,33 @@ bool ClientShoppingMall::menuSearchProduct()
     cout << "  What do you wanna do? ";
     cin >> ch;
 
-    int productID;
+    vector<Product*> v;
     
     switch (ch) {
         case 1: {
             PM->printList();
-            cout << "주문할 Product ID 입력 >> ";
-            cin >> productID;
-            // order manager 호출
+            menuInputOrder();
             break;
         }
 
         case 2: {
-            while(menuSearchProductByCategory()) {}
+            while (menuSearchProductByCategory()) {}
             break;
         }
 
         case 3: {
             string name;
             cout << "검색할 이름 입력 >> ";
-            cin >> name;    //getline 으로 바꿔야 할 수도?
+            cin.ignore();   // 입력 버퍼 남은거 지우기
+            getline(cin, name);
 
-            PM->searchProductByName(name);
+            v = PM->searchProductByName(name);
+            
+            // vector 바로 출력
+            for (const auto& p : v)
+                PM->printProduct(p);
 
-            cout << "주문할 Product ID 입력 >> ";
-            cin >> productID;
-            // order manager 호출
+            menuInputOrder();
 
             break;
         }
@@ -286,12 +288,10 @@ bool ClientShoppingMall::menuSearchProduct()
             cout << "검색할 id 입력 >> ";
             cin >> id;
 
-            PM->searchProductByID(id);
+            Product* p = PM->searchProductByID(id);
+            PM->printProduct(p);
 
-            cout << "주문할 Product ID 입력 >> ";
-            cin >> productID;
-            // order manager 호출
-
+            menuInputOrder();
             break;
         }
 
@@ -344,16 +344,23 @@ bool ClientShoppingMall::menuSearchProductByCategory()
         case 5:
             return false;
         default:
-            return false;
+            return true;
     }
 
     for (const auto& p : v) {
         PM->printProduct(p);
     }
 
-    cout << "주문할 Product ID 입력 >> ";
-    cin >> productID;
-    // order manager 호출
+    menuInputOrder();
 
-    return true;
+    return false;
+}
+
+bool ClientShoppingMall::menuInputOrder() {
+    int productId;
+    cout << "주문할 Product ID 입력 >> ";
+    cin >> productId;
+
+    Product* prod =  PM->searchProductByID(productId);
+    //ordermanager 호출..
 }

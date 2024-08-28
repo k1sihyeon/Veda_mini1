@@ -12,10 +12,9 @@
 #include "product.h"
 
 using namespace std;
+
 using std::ifstream;
 using std::ofstream;
-using std::string;
-using std::vector;
 
 ProductManager::ProductManager() {
     Product::setSharedID(0);
@@ -39,15 +38,12 @@ Product* ProductManager::searchProductByID(int id) {
 }
 
 std::vector<Product*> ProductManager::searchProductByName(string name) {
-    
-    /*
+    std::vector<Product*> v;
+
     if (prodList.empty()) {
         cout << "Product List is EMPTY!!" << endl;
-        return;
-    }
-    */
-    
-    std::vector<Product*> v;
+        return v;
+    }   
 
     for (const auto& p : prodList) {
         Product* tmp = p.second;
@@ -60,15 +56,12 @@ std::vector<Product*> ProductManager::searchProductByName(string name) {
 }
 
 vector<Product*> ProductManager::searchProductByCategory(string category) {
-    
-    /*
+    vector<Product*> v;
+
     if (prodList.empty()) {
         cout << "Product List is EMPTY!!" << endl;
-        return;
+        return v;
     }
-    */
-
-    vector<Product*> v;
 
     for (const auto& p : prodList) {
         Product* tmp = p.second;
@@ -79,8 +72,6 @@ vector<Product*> ProductManager::searchProductByCategory(string category) {
 
     return v;
 }
-
-// prod 카테고리 선택 및 보여주기 + order
 
 void ProductManager::printProduct(Product* prod) {
     cout << prod->getCategory() << "\t";
@@ -136,12 +127,16 @@ void ProductManager::printList() {
 
 void ProductManager::loadCSVfile() {
     vector<vector<string>> data;
-    ifstream file("product.csv");
+    ifstream file(filepath);
+
+    cout << "[product.csv] Loading File..." << endl;
 
     if (!file.is_open()) {
-        cout << "cannot open file : load" << endl;
+        cout << "[product.csv] cannot open file : load" << endl;
         return;
     }
+
+    cout << "[product.csv] File Open Success! (load)" << endl;
 
     string line, word;
     while (getline(file, line)) {
@@ -178,12 +173,12 @@ void ProductManager::loadCSVfile() {
 }
 
 void ProductManager::saveCSVfile() {
-    ofstream file("product.csv", ios::trunc);
+    ofstream file(filepath, ios::trunc);
     // ios::trunc -> 파일 새로 생성
 
     cout << "[product.csv] Saving File..." << endl;
     if (!file.is_open()) {
-        cout << "[product.csv] cannot save file" << endl;
+        cout << "[product.csv] cannot open file in save" << endl;
         return;
     }
 
