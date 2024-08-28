@@ -18,15 +18,15 @@ private :
 
 	int userCount;
 
-	const string filepath = "C:/Users/change13/Desktop/MiniProject1_Sample/MiniProject1_Sample/Mini/customersList.txt";
+	const string filepath = "./data/customersList.csv";
 
 public :
 	static customerManager* getInstance();
 	void getRegisteredUsers();
 	int getuserCount() { return userCount;}
 
-	Customer& getCustomer(string id) {
-		return customermap[id];
+	Customer* getCustomer(string id) {
+		return &customermap[id];
 	}
 
 	void update(const string& userId, const string& productName, int quantity) override {
@@ -37,7 +37,7 @@ public :
 	void showManageSystem();
 
 	bool Login(const string& id, const string& pwd);
-	void registerUser(); // 회원가입
+	bool registerUser(); // 회원가입
 	void deleteUser(Customer& customer); // customermap 에서 유저 정보 삭제, txt파일에 업데이트 
 	void addUser(Customer& customer);
 

@@ -39,6 +39,14 @@ Product* ProductManager::searchProductByID(int id) {
 }
 
 std::vector<Product*> ProductManager::searchProductByName(string name) {
+    
+    /*
+    if (prodList.empty()) {
+        cout << "Product List is EMPTY!!" << endl;
+        return;
+    }
+    */
+    
     std::vector<Product*> v;
 
     for (const auto& p : prodList) {
@@ -52,6 +60,14 @@ std::vector<Product*> ProductManager::searchProductByName(string name) {
 }
 
 vector<Product*> ProductManager::searchProductByCategory(string category) {
+    
+    /*
+    if (prodList.empty()) {
+        cout << "Product List is EMPTY!!" << endl;
+        return;
+    }
+    */
+
     vector<Product*> v;
 
     for (const auto& p : prodList) {
@@ -91,6 +107,12 @@ void ProductManager::printAll() {
 }
 
 void ProductManager::printList() {
+
+    if (prodList.empty()) {
+        cout << "Product List is EMPTY!!" << endl;
+        return;
+    }
+
     // totalPurchase가 많은 순서대로
     vector<pair<int, Product*>> tmp(prodList.begin(), prodList.end());
 
@@ -138,12 +160,14 @@ void ProductManager::loadCSVfile() {
     for (const auto& row : data) {
         Product* tmp;
 
-        if (row[0] == "Computer") {
+        if (row[0] == "Computer")
             tmp = Product::createProduct<Computer>(row[2], stoi(row[3]), row[4], row[6], stoi(row[7]), row[8]);
-        }
-        if (row[0] == "Clothes") {
+        
+        if (row[0] == "Clothes")
             tmp = Product::createProduct<Clothes>(row[2], stoi(row[3]), row[4], stoi(row[6]), row[7]);
-        }
+        
+        if (row[0] == "Book")
+            tmp = Product::createProduct<Book>(row[2], stoi(row[3]), row[4], row[6], stoi(row[7]), stoi(row[8]), row[9]);
 
         tmp->setId(stoi(row[1]));
         tmp->setTotalPurchase(stoi(row[5]));
@@ -157,16 +181,20 @@ void ProductManager::saveCSVfile() {
     ofstream file("product.csv", ios::trunc);
     // ios::trunc -> 파일 새로 생성
 
-    cout << "[save] opening File..." << endl;
+    cout << "[product.csv] Saving File..." << endl;
     if (!file.is_open()) {
-        cout << "[save] cannot open file : save" << endl;
+        cout << "[product.csv] cannot save file" << endl;
         return;
     }
 
-    cout << "[save] File open success..!" << endl;
-
-    if (prodList.empty())
+    if (prodList.empty()) {
         cout << "prodlist is empty!" << endl;
+        cout << "[product.csv] cannot save file" << endl;
+        file.close();
+        return;
+    }
+    
+    cout << "[product.csv] File Open Success! (save)" << endl;
 
     for (const auto& p : prodList) {
         Product* prod = p.second;
@@ -181,4 +209,7 @@ void ProductManager::saveCSVfile() {
     }
 
     file.close();
+
+    cout << "[product.csv] File save success..!" << endl;
 }
+

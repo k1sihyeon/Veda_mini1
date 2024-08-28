@@ -10,6 +10,7 @@
 
 #include "sellershoppingmall.h"
 #include "ordermanager.h"
+#include "customerManager.h"
 #include "checkdate.h"
 
 
@@ -17,6 +18,7 @@ SellerShoppingMall::SellerShoppingMall()
 {
     OM = new OrderManager();
 }
+
 
 bool SellerShoppingMall::managerLogin()
 {
@@ -82,7 +84,7 @@ bool SellerShoppingMall::displayManageMenu()
         // TODO for 김시현
         break;
     case 2:
-        // TODO for 노희진
+        customerManager::getInstance()->showManageSystem();
         break;
     case 3:
         while(menuManagementOrder()){}

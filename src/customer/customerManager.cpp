@@ -14,7 +14,7 @@ bool customerManager::Login(const string& id, const string& pwd) {
     if (it != customermap.end()) {
         Customer customer = it->second;
         if (customer.checkPassword(pwd)) {
-            cout << "Login Success!" << endl;
+            // cout << "Login Success!" << endl;
             return true;
         }
         else
@@ -28,12 +28,25 @@ bool customerManager::Login(const string& id, const string& pwd) {
 
 void customerManager::showManageSystem() {
     while (true) {
-        cout << "Select mode:" << endl;
-        cout << "1. Show customers list" << endl;
-        cout << "2. Show user's info" << endl;
-        cout << "3. Manage group" << endl;
-        cout << "4. Quit" << endl;
+        customerManager::getInstance()->getRegisteredUsers();
+
         int sel;
+        cout << "\033[2J\033[1;1H";
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                 Manager Menu                " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                                             " << endl;
+        cout << "  1. Show customers list                     " << endl;
+        cout << "                                             " << endl;
+        cout << "  2. Show user's info                        " << endl;
+        cout << "                                             " << endl;
+        cout << "  3. Manage group                            " << endl;
+        cout << "                                             " << endl;
+        cout << "  4. Quit                                    " << endl;
+        cout << "                                             " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                                             " << endl;
+        cout << "  What do you wanna do? ";
         cin >> sel;
 
         switch (sel) {
@@ -138,7 +151,7 @@ string getPasswordInput() {
     return pw;
 }
 
-void customerManager::registerUser() {
+bool customerManager::registerUser() {
     string id;
     while (true) {
         id = getInputWithConfirmation<string>("Enter Id : ");
@@ -159,7 +172,7 @@ void customerManager::registerUser() {
     cout << "Register Complete! Welcome!";
 
     ofstream fout;
-    fout.open("customersList.txt", ios::app);
+    fout.open(filepath, ios::app);
     if (fout.is_open()) {
         fout << customer << endl;
         fout.close();
@@ -168,6 +181,7 @@ void customerManager::registerUser() {
         cout << "Unable to open file for writing." << endl;
     }
     userCount++;
+    return false;
 }
 
 
@@ -187,8 +201,8 @@ void customerManager::deleteUser(Customer& customer) {
         }
         fin.close();
         temp.close();
-        remove("customersList.txt");
-        rename("temp.txt", "customersList.txt");
+        remove(filepath.c_str());
+        rename("temp.txt", filepath.c_str());
 
         cout << "User " << id << " deleted successfully." << endl;
         userCount--;
@@ -204,15 +218,22 @@ void customerManager::showUserList() {
         cout << "No users registered." << endl;
         return;
     }
-    for (auto it : customermap) {
-        cout << endl;
-        cout << "==================================" << endl;
-        cout << endl;
-        showUserInfo(it.second);
-        cout << endl;
-        cout << "==================================" << endl;
-        cout << endl;
+    cout << "\033[2J\033[1;1H";
+    for (auto it : customermap) {   
+            cout << endl;
+            cout << "==================================" << endl;
+            cout << endl;
+            showUserInfo(it.second);
+            cout << endl;
+            cout << "==================================" << endl;
+            cout << endl;   
     }
+    while (1) {
+        char cm;
+        cin >> cm;
+        if (cm == 'q') return;
+    }
+
 }
 
 void customerManager::showUserInfo(Customer& customer) {
