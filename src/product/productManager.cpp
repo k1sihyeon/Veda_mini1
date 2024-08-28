@@ -40,10 +40,12 @@ Product* ProductManager::searchProductByID(int id) {
 
 std::vector<Product*> ProductManager::searchProductByName(string name) {
     
+    /*
     if (prodList.empty()) {
         cout << "Product List is EMPTY!!" << endl;
         return;
     }
+    */
     
     std::vector<Product*> v;
 
@@ -59,10 +61,12 @@ std::vector<Product*> ProductManager::searchProductByName(string name) {
 
 vector<Product*> ProductManager::searchProductByCategory(string category) {
     
+    /*
     if (prodList.empty()) {
         cout << "Product List is EMPTY!!" << endl;
         return;
     }
+    */
 
     vector<Product*> v;
 
