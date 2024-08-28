@@ -5,8 +5,6 @@
 #include "customer.h"
 #include "product.h"
 
-using namespace std;
-
 Order::Order()
 {
 }

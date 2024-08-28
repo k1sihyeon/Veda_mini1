@@ -22,11 +22,8 @@ public:
     void displayOrder(string filter1 = "", string filterValue1 = "", string filter2 = "", int filterValue2 = -1);
     
     void inputOrder(string status, const Customer&, const Product&, int quantity, string reqShipDate, string reqDeriveryDate);
-    // void deleteOrder(string filter1 = "", string filterValue);
-    void deleteOrder(int key);
-    // void modifyOrder(string filter1 = "", string filterValue);
-    void modifyOrder(int key);
-    // void search(string filter = "", string filterValue = "");
+    void deleteOrder(string filter, string filterValue);
+    void modifyOrder(string filter, string filterValue, string newOrderStatus);
     Order* search(int key);
 
     vector<string> parseCSV(istream& , char);

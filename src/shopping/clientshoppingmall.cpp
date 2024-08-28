@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "clientshoppingmall.h"
 #include "ordermanager.h"
@@ -12,7 +14,7 @@ ClientShoppingMall::ClientShoppingMall()
 
 bool ClientShoppingMall::displayMenu()
 {
-    int ch;                                                         
+    char ch;                                                         
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                Customer Menu                " << endl;
@@ -20,13 +22,11 @@ bool ClientShoppingMall::displayMenu()
     cout << "                                             " << endl;
     cout << "  1. Searching Product                       " << endl;
     cout << "                                             " << endl;
-    cout << "  2. Make Order                              " << endl;    // 1과 merge
+    cout << "  2. View Order                              " << endl;
     cout << "                                             " << endl;
-    cout << "  3. View Order                              " << endl;
+    cout << "  3. Modify Personal Information             " << endl;
     cout << "                                             " << endl;
-    cout << "  4. Modify Personal Information             " << endl;
-    cout << "                                             " << endl;
-    cout << "  5. Logout                                  " << endl;
+    cout << "  4. Logout                                  " << endl;
     cout << "                                             " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
@@ -34,53 +34,27 @@ bool ClientShoppingMall::displayMenu()
     cin >> ch;
 
     switch(ch) {
-    case 1: default:
+    case '1':
         // TODO for 김시현
         break;
-    case 2:
-        menuOrderProduct();
-        break;
-    case 3:
+    case '2':
         while(menuViewOrder()){}
         break;
-    case 4:
+    case '3':
         // TODO for 노희진
         break;
-    case 5:
+    case '4':
         return false;
+    default:
+        cin.ignore();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        break;
     }
     return true;
 }
 
-bool ClientShoppingMall::menuOrderProduct()
-{
-    int quan;
-    string reqship;
-    string reqderi;
-
-    cout << "\033[2J\033[1;1H";
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "               Order/Payment                 " << endl;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "  Input Quantity : ";
-    cin >> quan;
-    cout << endl;
-    cout << "  Input Prefer Requested Shipping Date" << endl;
-    cout << "  If you want shipping today press ENTER" << endl;
-    cout << "  YYYY-MM-DD " << endl << "  ";
-    cin >> reqship;
-    cout << endl;
-    cout << "  Input Prefer Requested Derivery Date" << endl;
-    cout << "  If don't care about this press ENTER" << endl;
-    cout << "  YYYY-MM-DD " << endl << "  ";
-    cin >> reqderi;
-    
-
-    // OM->inputOrder();
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    return true;
-
-}
 
 bool ClientShoppingMall::menuViewOrder()
 {
@@ -110,19 +84,19 @@ bool ClientShoppingMall::menuViewOrder()
         OM->displayOrder("", "", "", "");
         break;
     case 2:
-        OM->displayOrder("OrderStatus", "Processing", "", -1);
+        OM->displayOrder("OrderStatus", "Processing", "", "");
         break;
     case 3:
-        OM->displayOrder("OrderStatus", "InTransit", "", -1);
+        OM->displayOrder("OrderStatus", "InTransit", "", "");
         break;
     case 4:
-        OM->displayOrder("OrderStatus", "Delivered", "", -1);
+        OM->displayOrder("OrderStatus", "Delivered", "", "");
         break;
     case 5:
         return false;
     }
 
-    cout << " Press ENTER to return View Order Section" << endl;
+    cout << " Press ENTER to Return View Order Section" << endl;
     cin.ignore();
     getchar();
     

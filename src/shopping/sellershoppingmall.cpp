@@ -10,6 +10,8 @@
 
 #include "sellershoppingmall.h"
 #include "ordermanager.h"
+#include "checkdate.h"
+
 
 SellerShoppingMall::SellerShoppingMall()
 {
@@ -29,7 +31,11 @@ bool SellerShoppingMall::managerLogin()
     cin >> inputPassword;
     setStdinEcho(true);
 
-    if(inputPassword==managerPassword){
+    // 입력 버퍼 정리
+    cin.clear();                  // cin 상태 플래그 초기화
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // 입력 버퍼 정리
+
+    if(inputPassword == managerPassword){
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << "            Login Successfully!!             " << endl;
@@ -38,7 +44,7 @@ bool SellerShoppingMall::managerLogin()
         this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     } else {
-        getchar();
+        getchar(); // 입력을 기다림 (이전의 getchar())
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << "               Wrong Password!!              " << endl;
@@ -48,6 +54,7 @@ bool SellerShoppingMall::managerLogin()
         return false;
     }
 }
+
 
 bool SellerShoppingMall::displayManageMenu()
 {
@@ -130,21 +137,19 @@ void SellerShoppingMall::setStdinEcho(bool enable) {
 
 bool SellerShoppingMall::menuManagementOrder()
 {
-    int ch;
+    char ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "                 Choose Menu                 " << endl;
+    cout << "              Order Management               " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
-    cout << "  1. View Order                              " << endl;
+    cout << "  1. View & Search Order                     " << endl;
     cout << "                                             " << endl;
     cout << "  2. Modify Order                            " << endl;
     cout << "                                             " << endl;
-    cout << "  3. Show Order In Transit                   " << endl;
+    cout << "  3. Delete Order                            " << endl;
     cout << "                                             " << endl;   
-    cout << "  4. Show Order Delivered                    " << endl;
-    cout << "                                             " << endl;
-    cout << "  5. Return Manager Menu                     " << endl;
+    cout << "  4. Return Manager Menu                     " << endl;
     cout << "                                             " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
@@ -152,19 +157,116 @@ bool SellerShoppingMall::menuManagementOrder()
     cin >> ch;
 
     switch(ch) {
-    case 1:
-        OM->displayOrder("", "", "", "");
+    case '1':
+        while(subMenuDisplayFilters()){}
         break;
-    case 2:
-        OM->displayOrder("OrderStatus", "Processing", "", -1);
+    case '2':
+        while(subMenuDisplayFilters()){}
         break;
-    case 3:
-        OM->displayOrder("OrderStatus", "InTransit", "", -1);
+    case '3':
+        while(subMenuDisplayFilters()){}
         break;
-    case 4:
+    case '4':
+        return false;
+    default:
+        cin.ignore();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        break;
+    }    
+    return true;  
+}
+
+bool SellerShoppingMall::subMenuDisplayFilters()
+{
+    char ch;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "             Choose Filter Type              " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Order Status                            " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. Created Date                            " << endl;
+    cout << "                                             " << endl;
+    cout << "  3. Ship From  <   >                        " << endl;
+    cout << "                                             " << endl;   
+    cout << "  4. Ship To <   >                           " << endl;
+    cout << "                                             " << endl;
+    cout << "  5. Display ALL                             " << endl;
+    cout << "                                             " << endl;
+    cout << "  6. Return Customer Menu                    " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << " What do you wanna do? ";
+    cin >> ch;
+
+    switch(ch) {
+    case '1':
+        while(subMenuOrderStatusFilter()){}
+        break;
+    case '2':
+        while(subMenuCreateDateFilter()){}
+        break;
+    case '3':
+        while(subMenuShipFromFilter()){}
+        break;
+    case '4':
+        while(subMenuShipToFilter()){}
+        break;
+    case '5':
+        OM->displayOrder("","","","");
+        cout << " Press ENTER to return View Order Section" << endl;
+        cin.ignore();
+        getchar();
+        break;
+    case '6':
+        return false;
+    default:
+        cin.ignore();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        break;
+    }
+    
+    return true;  
+}
+
+bool SellerShoppingMall::subMenuOrderStatusFilter()
+{
+    char ch;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "             Choose Order Status             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Processing                              " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. In Transit                              " << endl;
+    cout << "                                             " << endl;
+    cout << "  3. Delivered                               " << endl;
+    cout << "                                             " << endl;
+    cout << "  4. Return Previous Menu                    " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << " What do you wanna do? ";
+    cin >> ch;
+
+    switch(ch) {
+    case '1':
+        OM->displayOrder("OrderStatus", "Processing", "", "");
+        break;
+    case '2':
+        OM->displayOrder("OrderStatus", "InTransit", "", "");
+        break;
+    case '3':
         OM->displayOrder("OrderStatus", "Delivered", "", -1);
         break;
-    case 5:
+    case '4':
         return false;
     default:
         cin.ignore();
@@ -178,5 +280,92 @@ bool SellerShoppingMall::menuManagementOrder()
     cin.ignore();
     getchar();
     
-    return true;  
+    return true; 
+}
+
+bool SellerShoppingMall::subMenuCreateDateFilter()
+{
+    string date;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "         Type Searching Created Date         " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  Type 0 to Return Prev Section              " << endl;
+    cout << "                                             " << endl;
+    cout << "                                             " << endl;
+    cout << "  Type Like Below Format                     " << endl;
+    cout << "                                             " << endl;
+    cout << "  YYYY-MM-DD                                 " << endl;
+    cout << "  ";
+    cin >> date;
+
+    if (date == "0") {
+        return false;
+    } else if (!isValidDateFormat(date)) {
+        cin.ignore();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        return true;
+    }
+
+    OM->displayOrder("CreatedDate", date, "", "");
+    cout << " Press ENTER to return View Order Section" << endl;
+    cin.ignore();
+    getchar();
+
+    return true;
+}
+
+
+
+bool SellerShoppingMall::subMenuShipFromFilter()
+{
+    string addr;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "        Type Searching Shipping Addr         " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  Type 0 to Return Prev Section              " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  Type Address : ";
+    cin >> addr;
+
+    if (addr == "0")
+        return false;
+
+    OM->displayOrder("ShipFrom", addr, "", "");
+    cout << " Press ENTER to return View Order Section" << endl;
+    cin.ignore();
+    getchar();
+
+    return true;
+}
+
+bool SellerShoppingMall::subMenuShipToFilter()
+{
+    string addr;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "        Type Searching Delivery Addr         " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  Type 0 to Return Prev Section              " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  Type Address : ";
+    cin >> addr;
+
+    if (addr == "0")
+        return false;
+
+    OM->displayOrder("ShipTo", addr, "", "");
+    cout << " Press ENTER to return View Order Section" << endl;
+    cin.ignore();
+    getchar();
+
+    return true;
 }

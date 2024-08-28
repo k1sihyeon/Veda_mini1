@@ -17,9 +17,15 @@ public:
     bool managerLogin();
 private:
     OrderManager *OM;
-    string managerPassword = "VEDAisGOAT";
+    string managerPassword = "veda";
     void setStdinEcho(bool);
+
     bool menuManagementOrder();
+    bool subMenuDisplayFilters();
+    bool subMenuOrderStatusFilter();
+    bool subMenuCreateDateFilter();
+    bool subMenuShipFromFilter();
+    bool subMenuShipToFilter();
 };
 
 #endif // SELLERSHOPPINGMALL_H

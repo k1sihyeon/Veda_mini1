@@ -26,7 +26,7 @@ public:
     void setVendor(const Product);
     void setQuantity(int&);
     void setTotalPrice(const Product, int&);
-    void setShipFrom(string& shipFrom);
+    void setShipFrom(string&);
     void setShipTo(string&);
     void setCreatedDate();
     void setRequestedShipDate(string&);

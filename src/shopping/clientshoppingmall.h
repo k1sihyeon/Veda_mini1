@@ -10,7 +10,7 @@ public:
     // ~ClientShoppingMall();
 
     bool displayMenu();
-    bool menuOrderProduct();
+    
     bool menuViewOrder();
 private:
     OrderManager *OM;

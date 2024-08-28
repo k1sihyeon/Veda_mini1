@@ -1,3 +1,6 @@
+#ifndef LITBANNER_H
+#define LITBANNER_H
+
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -317,3 +320,5 @@ void freekinAwseomeGoodByeBanner(){
     this_thread::sleep_for(chrono::milliseconds(300));
     cout << "\033[2J\033[1;1H";
 }
+
+#endif // LITDATE_H

@@ -57,7 +57,7 @@ bool ShoppingMall::startShoppingMall()
         cout << endl << endl;
         cout << "                 Wrong Input!!               " << endl;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        this_thread::sleep_for(chrono::milliseconds(1000));
+        this_thread::sleep_for(chrono::milliseconds(700));
         break;
     }
     return true;  

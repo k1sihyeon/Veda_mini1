@@ -93,45 +93,85 @@ void OrderManager::inputOrder(string status, const Customer& buyer, const Produc
     cout << endl << "Input Order Successfully" << endl;
 }
 
-void OrderManager::deleteOrder(int key)
+void OrderManager::deleteOrder(string filter, string filterValue)
 {
-    orderList.erase(key);
+    bool found = false;
+    vector<int> keysToDelete;
+
+    for (const auto& v : orderList) {
+        Order* tmp = v.second;
+        bool filterPassed = false;
+        if (filter == "OrderStatus") {
+            filterPassed = (tmp->getOrderStatus() == filterValue);
+        } else if (filter == "CreatedDate") {
+            filterPassed = (tmp->getCreatedDate() == filterValue);
+        } else if (filter == "ShipFrom") {
+            filterPassed = (tmp->getShipFrom() == filterValue);
+        } else if (filter == "ShipTo") {
+            filterPassed = (tmp->getShipTo() == filterValue);
+        } else {
+            cout << "Invalid filter provided!" << endl;
+            return;
+        }
+
+        // 조건을 만족하는 경우 주문을 삭제할 키를 저장
+        if (filterPassed) {
+            keysToDelete.push_back(v.first);
+            found = true;
+        }
+    }
+
+    // 저장된 키를 사용하여 주문 삭제
+    for (int key : keysToDelete) {
+        delete orderList[key]; // 메모리 할당된 주문 삭제
+        orderList.erase(key);  // unordered_map에서 삭제
+    }
+
+    // 결과 출력
+    if (found) {
+        cout << "Orders deleted successfully for matching filter." << endl;
+    } else {
+        cout << "No matching orders found with the specified filter." << endl;
+    }
 }
 
-void OrderManager::modifyOrder(int key)
+
+void OrderManager::modifyOrder(string filter, string filterValue, string newOrderStatus)
 {
-    Order *tmp = search(key);
-    int statusNum;
-    string orderStatus;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "               Select Status                 " << endl;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "  1. Processing                              " << endl;
-    cout << "  2. In Transit                              " << endl;
-    cout << "  3. Delivered                               " << endl;
-    cout << "  4. <Back to Previous Window>               " << endl;
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << " Press number key : ";
-    cin >> statusNum;
-    switch (statusNum)
-    {
-    case 1:
-        orderStatus = "Processing";
-        break;
-    case 2:
-        orderStatus = "In Transit";
-        break;
-    case 3:
-        orderStatus = "Delivered";
-        break;
-    case 4:
-        return;
-    default:
-        cout << "Wrong Number! Press number Again" << endl;
-        break;
+    bool found = false; // 하나 이상의 주문이 수정되었는지 여부 확인
+
+    for (auto& v : orderList) {
+        Order* tmp = v.second;
+
+        // 필터에 따른 조건 확인
+        bool filterPassed = false;
+
+        if (filter == "OrderStatus") {
+            filterPassed = (tmp->getOrderStatus() == filterValue);
+        } else if (filter == "CreatedDate") {
+            filterPassed = (tmp->getCreatedDate() == filterValue);
+        } else if (filter == "ShipFrom") {
+            filterPassed = (tmp->getShipFrom() == filterValue);
+        } else if (filter == "ShipTo") {
+            filterPassed = (tmp->getShipTo() == filterValue);
+        } else {
+            cout << "Invalid filter provided!" << endl;
+            return;
+        }
+
+        // 조건을 만족하는 경우 주문 상태 변경
+        if (filterPassed) {
+            tmp->setOrderStatus(newOrderStatus);
+            found = true; // 변경된 주문이 있음을 표시
+        }
     }
-    tmp->setOrderStatus(orderStatus);
-    orderList[key] = tmp;
+
+    // 결과 출력
+    if (found) {
+        cout << "Order status updated successfully for matching orders." << endl;
+    } else {
+        cout << "No matching orders found with the specified filter." << endl;
+    }
 }
 
 Order* OrderManager::search(int id)
