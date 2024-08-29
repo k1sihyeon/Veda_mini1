@@ -166,7 +166,7 @@ bool ClientShoppingMall::displayMenu()
         while(menuViewOrder()){}
         break;
     case '3':
-        // TODO for 노희진
+        customerManager::getInstance()->updateUserInfo(*curCustomer);
         break;
     case '4':
         return false;
