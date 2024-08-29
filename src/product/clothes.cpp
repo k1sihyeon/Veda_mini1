@@ -14,10 +14,16 @@ class Clothes : public Product {
      : Product(name, price, (string)"Clothes", company, 0), size(size), color(color) {}
 
     string getMoreDetails(int option = 0) override {
-        if (option == 0)
-            return to_string(size) + "," + color;
-        else if (option = 1)
-            return "Size: " + to_string(size) + "\tColor: " + color;
+        switch (option) {
+            case 0:
+                return to_string(size) + "," + color;
+            case 1:
+                return "Size: " + to_string(size) + "\tColor: " + color;
+            case 2:
+                return "Size: " + to_string(size) + " | Color: " + color;
+        }
+
+        return "";
     }
 
     int getSize() {

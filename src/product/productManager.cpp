@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <iomanip>
 
 #include "book.cpp"
 #include "clothes.cpp"
@@ -84,13 +85,21 @@ vector<Product*> ProductManager::searchProductByCategory(string category) {
 }
 
 void ProductManager::printProduct(Product* prod) {
-    cout << prod->getCategory() << "\t";
-    cout << prod->getId() << "\t";
-    cout << prod->getName() << "\t";
-    cout << prod->getPrice() << "\t";
-    cout << prod->getCompany() << "\t";
-    cout << prod->getTotalPurchase() << "\t";
-    cout << prod->getMoreDetails(1) << "\n";
+
+    const int w = 9;
+
+    cout << setw(w) << setfill(' ') << left << "ID" << ": " << setw(5) << setfill('0') << right << prod->getId() << " | ";
+    cout << "Total Purchases :" << setw(5) << setfill(' ') << right << prod->getTotalPurchase() << endl;
+    
+    cout << setw(w) << setfill(' ') << left << "Category" << ": " << prod->getCategory() << " | " << "Name" << " : " << setw(20) << setfill(' ') << left << prod->getName() << endl;
+
+    cout << setw(w) << setfill(' ') << left << "Price" << ": " << setw(7) << setfill(' ') << right << prod->getPrice() << "₩" << " | ";
+    cout << "Maker : " << prod->getCompany() << endl;
+
+    cout << prod->getMoreDetails(2) << "\n";
+
+    cout << setw(50) << setfill('-') << " ";
+    cout << endl;
 }
 
 void ProductManager::printAll() {
@@ -121,13 +130,13 @@ void ProductManager::printList() {
         return a.second->getTotalPurchase() > b.second->getTotalPurchase();
     });
 
-    cout << "Category" << "\t";
-    cout << "ID" << "\t";
-    cout << "Name" << "\t";
-    cout << "Price" << "\t";
-    cout << "Company" << "\t";
-    cout << "TotalPurchase" << "\t";
-    cout << "MoreDetails" << "\n";
+    // cout << "Category" << "\t";
+    // cout << "ID" << "\t";
+    // cout << "Name" << "\t";
+    // cout << "Price" << "\t";
+    // cout << "Company" << "\t";
+    // cout << "TotalPurchase" << "\t";
+    // cout << "MoreDetails" << "\n";
 
     for (const auto& pp : tmp) {
         Product* p = pp.second;
