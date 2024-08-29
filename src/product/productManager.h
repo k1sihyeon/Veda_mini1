@@ -15,6 +15,7 @@ class ProductManager {
    private:
     inline static ProductManager* instance;
     unordered_map<int, Product*> prodList;
+    const string filepath = "./data/productList.csv";
 
    public:
     ProductManager();

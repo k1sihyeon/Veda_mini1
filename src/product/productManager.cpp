@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <iomanip>
 
 #include "book.cpp"
 #include "clothes.cpp"
@@ -12,10 +13,9 @@
 #include "product.h"
 
 using namespace std;
+
 using std::ifstream;
 using std::ofstream;
-using std::string;
-using std::vector;
 
 ProductManager::ProductManager() {
     Product::setSharedID(0);
@@ -35,22 +35,26 @@ void ProductManager::deleteProduct(int id) {
 }
 
 Product* ProductManager::searchProductByID(int id) {
-    return prodList[id];
+    if (prodList.count(id))
+        return prodList[id];
+
+    else
+        return nullptr;
 }
 
-std::vector<Product*> ProductManager::searchProductByName(string name) {
-    
-    /*
+vector<Product*> ProductManager::searchProductByName(string name) {
+    vector<Product*> v;
+
     if (prodList.empty()) {
         cout << "Product List is EMPTY!!" << endl;
-        return;
-    }
-    */
-    
-    std::vector<Product*> v;
+        return v;
+    }   
 
     for (const auto& p : prodList) {
         Product* tmp = p.second;
+
+        if (tmp == nullptr)
+            continue;
 
         if (tmp->getName() == name)
             v.push_back(tmp);
@@ -60,18 +64,18 @@ std::vector<Product*> ProductManager::searchProductByName(string name) {
 }
 
 vector<Product*> ProductManager::searchProductByCategory(string category) {
-    
-    /*
-    if (prodList.empty()) {
-        cout << "Product List is EMPTY!!" << endl;
-        return;
-    }
-    */
-
     vector<Product*> v;
 
-    for (const auto& p : prodList) {
+    if (this->prodList.empty()) {
+        cout << "Product List is EMPTY!!" << endl;
+        return v;
+    }
+
+    for (const auto& p : this->prodList) {
         Product* tmp = p.second;
+
+        if (tmp == nullptr)
+            continue;
 
         if (tmp->getCategory() == category)
             v.push_back(tmp);
@@ -80,16 +84,22 @@ vector<Product*> ProductManager::searchProductByCategory(string category) {
     return v;
 }
 
-// prod 카테고리 선택 및 보여주기 + order
-
 void ProductManager::printProduct(Product* prod) {
-    cout << prod->getCategory() << "\t";
-    cout << prod->getId() << "\t";
-    cout << prod->getName() << "\t";
-    cout << prod->getPrice() << "\t";
-    cout << prod->getCompany() << "\t";
-    cout << prod->getTotalPurchase() << "\t";
-    cout << prod->getMoreDetails(1) << "\n";
+
+    const int w = 9;
+
+    cout << setw(w) << setfill(' ') << left << "ID" << ": " << setw(5) << setfill('0') << right << prod->getId() << " | ";
+    cout << "Total Purchases :" << setw(5) << setfill(' ') << right << prod->getTotalPurchase() << endl;
+    
+    cout << setw(w) << setfill(' ') << left << "Category" << ": " << prod->getCategory() << " | " << "Name" << " : " << setw(20) << setfill(' ') << left << prod->getName() << endl;
+
+    cout << setw(w) << setfill(' ') << left << "Price" << ": " << setw(7) << setfill(' ') << right << prod->getPrice() << "₩" << " | ";
+    cout << "Maker : " << prod->getCompany() << endl;
+
+    cout << prod->getMoreDetails(2) << "\n";
+
+    cout << setw(50) << setfill('-') << " ";
+    cout << endl;
 }
 
 void ProductManager::printAll() {
@@ -120,28 +130,34 @@ void ProductManager::printList() {
         return a.second->getTotalPurchase() > b.second->getTotalPurchase();
     });
 
-    cout << "Category" << "\t";
-    cout << "ID" << "\t";
-    cout << "Name" << "\t";
-    cout << "Price" << "\t";
-    cout << "Company" << "\t";
-    cout << "TotalPurchase" << "\t";
-    cout << "MoreDetails" << "\n";
+    // cout << "Category" << "\t";
+    // cout << "ID" << "\t";
+    // cout << "Name" << "\t";
+    // cout << "Price" << "\t";
+    // cout << "Company" << "\t";
+    // cout << "TotalPurchase" << "\t";
+    // cout << "MoreDetails" << "\n";
 
     for (const auto& pp : tmp) {
         Product* p = pp.second;
+        if (p == nullptr)
+            continue;
         this->printProduct(p);
     }
 }
 
 void ProductManager::loadCSVfile() {
     vector<vector<string>> data;
-    ifstream file("product.csv");
+    ifstream file(filepath);
+
+    cout << "[product.csv] Loading File..." << endl;
 
     if (!file.is_open()) {
-        cout << "cannot open file : load" << endl;
+        cout << "[product.csv] cannot open file : load" << endl;
         return;
     }
+
+    cout << "[product.csv] File Open Success! (load)" << endl;
 
     string line, word;
     while (getline(file, line)) {
@@ -178,12 +194,12 @@ void ProductManager::loadCSVfile() {
 }
 
 void ProductManager::saveCSVfile() {
-    ofstream file("product.csv", ios::trunc);
+    ofstream file(filepath, ios::trunc);
     // ios::trunc -> 파일 새로 생성
 
     cout << "[product.csv] Saving File..." << endl;
     if (!file.is_open()) {
-        cout << "[product.csv] cannot save file" << endl;
+        cout << "[product.csv] cannot open file in save" << endl;
         return;
     }
 

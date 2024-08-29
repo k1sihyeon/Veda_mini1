@@ -9,14 +9,12 @@ using namespace std;
 
 ShoppingMall::ShoppingMall()
 {
-    CSM = new ClientShoppingMall();
-    SSM = new SellerShoppingMall();
+   
 }
 
 ShoppingMall::~ShoppingMall()
 {
-    delete CSM;
-    delete SSM;
+ 
 }
 
 bool ShoppingMall::startShoppingMall()
@@ -42,11 +40,15 @@ bool ShoppingMall::startShoppingMall()
 
     switch(ch) {
     case '1':
+        CSM = new ClientShoppingMall();
         while (!CSM->startClientShoppingMall()) {}
+        delete CSM;
         break;
     case '2':
+        SSM = new SellerShoppingMall();
         while(!SSM->managerLogin()){}
         while(SSM->displayManageMenu()){}
+        delete SSM;
         break;
     case '3':
         freekinAwseomeGoodByeBanner();
