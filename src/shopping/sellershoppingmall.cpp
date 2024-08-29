@@ -12,11 +12,13 @@
 #include "ordermanager.h"
 #include "checkdate.h"
 #include "customerManager.h"
+#include "productManager.h"
 
 
 SellerShoppingMall::SellerShoppingMall()
 {
     OM = new OrderManager();
+    PM = ProductManager::getInstance();
 }
 
 bool SellerShoppingMall::managerLogin()
@@ -80,7 +82,7 @@ bool SellerShoppingMall::displayManageMenu()
 
     switch(ch) {
     case 1:
-        // TODO for 김시현
+        while (menuProductManagement()) {}
         break;
     case 2:
         customerManager::getInstance()->showManageSystem();
@@ -466,5 +468,146 @@ bool SellerShoppingMall::subMenuDeleteOrder(string filter, string filterValue)
         this_thread::sleep_for(chrono::milliseconds(1000));
         break;
     }
+    return false;
+}
+
+bool SellerShoppingMall::menuProductManagement()
+{
+    int ch;                                                         
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "              Product Managemet              " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Search Product                          " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. Modify Product                          " << endl;
+    cout << "                                             " << endl;
+    cout << "  3. Delete Product                          " << endl;
+    cout << "                                             " << endl;
+    cout << "  4. Return to Manager Menu                  " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  What do you wanna do? ";
+    cin >> ch;
+
+    switch (ch) {
+        case 1:
+            while (subMenuSearchProduct()) {}
+            break;
+        
+        case 2:
+            while (subMenuModifyProduct()) {}
+            break;
+
+        case 3:
+            while (subMenuDeleteProduct()) {}
+            break;
+
+        case 4:
+            return false;
+
+        default:
+            return true;
+    }
+
+    return true;
+}
+
+bool SellerShoppingMall::subMenuSearchProduct() {
+    // 일단은 전체 리스트 보여주기..
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "               View All Product              " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    PM->printList();
+
+    cout << "\nPress ENTER to Return" << endl;
+    cin.clear();
+    cin.ignore();
+    getchar();
+
+    return false;
+}
+
+bool SellerShoppingMall::subMenuModifyProduct() {
+    int pid;
+
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                Modify Product               " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    cout << "Input Prodcut ID to Modify >> ";
+    cin >> pid;
+
+    Product* p = PM->searchProductByID(pid);
+    if (p == nullptr) {
+        cout << "           ID is NOT Valid!!             " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        return true;
+    }
+
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    printf ("         Modify Product | ID : %d\n", pid);
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    PM->printProduct(p);
+
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "         Select Attribute to Modify          " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+
+
+    return false;
+}
+
+bool SellerShoppingMall::subMenuDeleteProduct() {
+    int pid;
+    
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                Delete Product               " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    cout << "Input Prodcut ID to Delete >> ";
+    cin >> pid;
+
+    Product* p = PM->searchProductByID(pid);
+    if (p == nullptr) {
+        cout << "           ID is NOT Valid!!             " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        return true;
+    }
+
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    printf ("         Delete Product | ID : %d\n", pid);
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    PM->printProduct(p);
+
+    cin.clear();
+    cin.ignore();
+    char in;
+    cout << "Are You Sure To DELETE? (Y/N) >> ";
+    cin >> in;
+
+    if (in == 'y' || in == 'Y') {
+        
+        return false;
+    }
+    else if (in == 'n' || in == 'N') {
+        return false;
+    }
+    else {
+
+    }
+
+
     return false;
 }

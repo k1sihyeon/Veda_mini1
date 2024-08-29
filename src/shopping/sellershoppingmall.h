@@ -6,6 +6,7 @@
 using namespace std;
 
 class OrderManager;
+class ProductManager;
 
 class SellerShoppingMall
 {
@@ -17,6 +18,7 @@ public:
     bool managerLogin();
 private:
     OrderManager *OM;
+    ProductManager *PM;
     string managerPassword = "veda";
     int orderCmdStatus = 0;
     void setStdinEcho(bool);
@@ -29,6 +31,11 @@ private:
     bool subMenuShipToFilter();
     bool subMenuModifyOrder(string, string);
     bool subMenuDeleteOrder(string, string);
+
+    bool menuProductManagement();
+    bool subMenuSearchProduct();
+    bool subMenuModifyProduct();
+    bool subMenuDeleteProduct();
 };
 
 #endif // SELLERSHOPPINGMALL_H
