@@ -20,6 +20,7 @@ ClientShoppingMall::ClientShoppingMall()
 {
     OM = new OrderManager();
     PM = ProductManager::getInstance();
+    PM->loadCSVfile();
 }
 
 
@@ -166,7 +167,7 @@ bool ClientShoppingMall::displayMenu()
         while(menuViewOrder()){}
         break;
     case '3':
-        // TODO for 노희진
+        customerManager::getInstance()->updateUserInfo(*curCustomer);
         break;
     case '4':
         return false;
@@ -250,48 +251,25 @@ bool ClientShoppingMall::menuSearchProduct()
     cout << "                                             " << endl;
     cout << "  What do you wanna do? ";
     cin >> ch;
-
-    int productID;
     
     switch (ch) {
         case 1: {
-            PM->printList();
-            cout << "주문할 Product ID 입력 >> ";
-            cin >> productID;
-            // order manager 호출
+            while (menuSearchAllProduct()) {}
             break;
         }
 
         case 2: {
-            while(menuSearchProductByCategory()) {}
+            while (menuSearchProductByCategory()) {}
             break;
         }
 
         case 3: {
-            string name;
-            cout << "검색할 이름 입력 >> ";
-            cin >> name;    //getline 으로 바꿔야 할 수도?
-
-            PM->searchProductByName(name);
-
-            cout << "주문할 Product ID 입력 >> ";
-            cin >> productID;
-            // order manager 호출
-
+            while (menuSearchProductByName()) {}
             break;
         }
 
         case 4: {
-            int id;
-            cout << "검색할 id 입력 >> ";
-            cin >> id;
-
-            PM->searchProductByID(id);
-
-            cout << "주문할 Product ID 입력 >> ";
-            cin >> productID;
-            // order manager 호출
-
+            while (menuSearchProductById()) {}
             break;
         }
 
@@ -304,6 +282,19 @@ bool ClientShoppingMall::menuSearchProduct()
     }
 
     return true;
+}
+
+bool ClientShoppingMall::menuSearchAllProduct()
+{
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "               View All Product              " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    PM->printList();
+    menuInputOrder();
+
+    return false;
 }
 
 bool ClientShoppingMall::menuSearchProductByCategory()
@@ -334,26 +325,104 @@ bool ClientShoppingMall::menuSearchProductByCategory()
     switch (category) {
         case 1:
             v = PM->searchProductByCategory("Computer");
+            cout << "\033[2J\033[1;1H";
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "             Category : Computer             " << endl;
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 2:
             v = PM->searchProductByCategory("Clothes");
+            cout << "\033[2J\033[1;1H";
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "             Category : Clothes             " << endl;
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 3:
             v = PM->searchProductByCategory("Book");
+            cout << "\033[2J\033[1;1H";
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "              Category : Book                " << endl;
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 5:
             return false;
         default:
-            return false;
+            return true;
+    }
+
+    if (v.empty()) {
+        cout << "   List is EMPTY   " << endl;
+        return true;
     }
 
     for (const auto& p : v) {
         PM->printProduct(p);
     }
 
-    cout << "주문할 Product ID 입력 >> ";
-    cin >> productID;
-    // order manager 호출
+    menuInputOrder();
 
-    return true;
+    return false;
+}
+
+bool ClientShoppingMall::menuSearchProductByName()
+{
+    vector<Product*> v;
+    string name;
+    cout << "검색할 이름 입력 >> ";
+    cin.clear();
+    cin.ignore();  // 입력 버퍼 남은거 지우기
+    getline(cin, name);
+
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    printf ("                 Name : %s\n", name.c_str());
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    v = PM->searchProductByName(name);
+
+    if (v.empty()) {
+        cout << "   List is EMPTY   " << endl;
+        return true;
+    }
+
+    for (const auto& p : v)
+        PM->printProduct(p);
+
+    menuInputOrder();
+
+    return false;
+}
+
+bool ClientShoppingMall::menuSearchProductById()
+{
+    int id;
+    cout << "검색할 id 입력 >> ";
+    cin >> id;
+
+    Product* p = PM->searchProductByID(id);
+    if (p == nullptr) {
+        cout << " ID is not valid " << endl;
+        return true;
+    }
+
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    printf("                 ID : %d\n", id);
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    PM->printProduct(p);
+
+    menuInputOrder();
+
+    return false;
+}
+
+bool ClientShoppingMall::menuInputOrder()
+{
+    int productId;
+    cout << "주문할 Product ID 입력 >> ";
+    cin >> productId;
+
+    Product* prod =  PM->searchProductByID(productId);
+    //ordermanager 호출..
 }

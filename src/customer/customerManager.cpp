@@ -60,6 +60,12 @@ void customerManager::showManageSystem() {
             auto it = customermap.find(id);
             if (it != customermap.end()) {
                 showUserInfo(it->second);
+                while (1) {
+                    char c;
+                    cin >> c;
+                    if (c == 'q')
+                        break;
+                }
             }
             else 
                 cout << "User not found." << endl;
@@ -220,23 +226,19 @@ void customerManager::showUserList() {
     }
     cout << "\033[2J\033[1;1H";
     for (auto it : customermap) {   
-            cout << endl;
-            cout << "==================================" << endl;
-            cout << endl;
-            showUserInfo(it.second);
-            cout << endl;
-            cout << "==================================" << endl;
-            cout << endl;   
+            showUserInfo(it.second);  
     }
     while (1) {
         char cm;
         cin >> cm;
         if (cm == 'q') return;
     }
-
 }
 
 void customerManager::showUserInfo(Customer& customer) {
+    cout << endl;
+    cout << "==================================" << endl;
+    cout << endl;
     cout << "ID: " << customer.getUserId() << endl;
     cout << "Name: " << customer.getName() << endl;
     cout << "Gender: " << (customer.getGender() ? "Male" : "Female") << endl;
@@ -244,9 +246,22 @@ void customerManager::showUserInfo(Customer& customer) {
     cout << "Address: " << customer.getAddress() << endl;
     cout << "Total Purchase: " << customer.getTotalPurchase() << endl;
     cout << "[" << Customer::Group(customer.getGroup()) << "]" << endl;
+    cout << endl;
+    cout << "==================================" << endl;
+    cout << endl;
 }
 
 void customerManager::updateUserInfo(Customer& customer) {
+
+
+
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "         Modify Personal Information         " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+
+
     string id = customer.getUserId();
     if (customermap.find(id) != customermap.end()) {
         cout << "Updating info for user " << id << endl;
@@ -263,7 +278,7 @@ void customerManager::updateUserInfo(Customer& customer) {
         customermap[id] = customer;
 
         ifstream fin(filepath);
-        ofstream temp("temp.txt");
+        ofstream temp("temp.csv");
         string line;
         while (getline(fin, line)) {
             if (line.find(id) == string::npos) {
@@ -276,7 +291,7 @@ void customerManager::updateUserInfo(Customer& customer) {
         fin.close();
         temp.close();
         remove(filepath.c_str());
-        rename("temp.txt", filepath.c_str());
+        rename("temp.csv", filepath.c_str());
 
         cout << "User info updated successfully." << endl;
     }

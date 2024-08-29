@@ -15,11 +15,16 @@ class Computer : public Product {
         : Product(name, price, (string)"Computer", company, 0), cpu(cpu), ram(ram), gpu(gpu) {}
 
     string getMoreDetails(int option = 0) override {
-        if (option == 0)
-            return cpu + "," + to_string(ram) + "," + gpu;
+        switch (option) {
+            case 0:
+                return cpu + "," + to_string(ram) + "," + gpu;
+            case 1:
+                return "CPU: " + cpu + "\tRAM: " + to_string(ram) + "\tGPU: " + gpu;
+            case 2:
+                return "CPU: " + cpu + " | RAM: " + to_string(ram) + " | GPU: " + gpu;
+        }
         
-        else if (option == 1)
-            return "CPU: " + cpu + "\tRAM: " + to_string(ram) + "\tGPU: " + gpu;
+        return "";
     }
 
     string getCpu() {
