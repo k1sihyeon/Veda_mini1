@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include <algorithm>
 
 #include "order.h"
 #include "customer.h"
@@ -36,7 +37,7 @@ OrderManager::OrderManager()
 OrderManager::~OrderManager()
 {
     ofstream file;
-    file.open("data/orderlist.csv");
+    file.open("data/orderlist.csv", ios::trunc);
     if(!file.fail()) {
         for (const auto& v : orderList) {
             Order* tmp = v.second;
@@ -133,6 +134,34 @@ void OrderManager::deleteOrder(string filter, string filterValue)
     } else {
         cout << "No matching orders found with the specified filter." << endl;
     }
+
+        // 주문이 삭제된 후 파일에 다시 저장
+    ofstream file;
+    file.open("data/orderlist.csv", ios::trunc | ios::out);
+    if (!file.fail()) {
+        vector<int> keys;
+        for (const auto& v : orderList) {
+            keys.push_back(v.first); // 모든 키를 벡터에 저장
+        }
+        sort(keys.begin(), keys.end()); // 키를 정렬
+
+        for (int key : keys) {
+            Order* tmp = orderList[key];
+            file << tmp->getOrderId() << ",";
+            file << tmp->getOrderStatus() << ",";
+            file << tmp->getBuyerId() << ",";
+            file << tmp->getProductId() << ",";
+            file << tmp->getVendor() << ",";
+            file << tmp->getQuantity() << ",";
+            file << tmp->getTotalPrice() << ",";
+            file << tmp->getShipFrom() << ",";
+            file << tmp->getShipTo() << ",";
+            file << tmp->getCreatedDate() << ",";
+            file << tmp->getRequestedShipDate() << ",";
+            file << tmp->getRequestedDeliveryDate() << endl;
+        }
+    }
+    file.close();
 }
 
 
@@ -172,6 +201,34 @@ void OrderManager::modifyOrder(string filter, string filterValue, string newOrde
     } else {
         cout << "No matching orders found with the specified filter." << endl;
     }
+
+        // 주문이 삭제된 후 파일에 다시 저장
+    ofstream file;
+    file.open("data/orderlist.csv", ios::trunc | ios::out);
+    if (!file.fail()) {
+        vector<int> keys;
+        for (const auto& v : orderList) {
+            keys.push_back(v.first); // 모든 키를 벡터에 저장
+        }
+        sort(keys.begin(), keys.end()); // 키를 정렬
+
+        for (int key : keys) {
+            Order* tmp = orderList[key];
+            file << tmp->getOrderId() << ",";
+            file << tmp->getOrderStatus() << ",";
+            file << tmp->getBuyerId() << ",";
+            file << tmp->getProductId() << ",";
+            file << tmp->getVendor() << ",";
+            file << tmp->getQuantity() << ",";
+            file << tmp->getTotalPrice() << ",";
+            file << tmp->getShipFrom() << ",";
+            file << tmp->getShipTo() << ",";
+            file << tmp->getCreatedDate() << ",";
+            file << tmp->getRequestedShipDate() << ",";
+            file << tmp->getRequestedDeliveryDate() << endl;
+        }
+    }
+    file.close();
 }
 
 Order* OrderManager::search(int id)

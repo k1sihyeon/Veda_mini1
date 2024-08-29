@@ -18,6 +18,7 @@ public:
 private:
     OrderManager *OM;
     string managerPassword = "veda";
+    int orderCmdStatus = 0;
     void setStdinEcho(bool);
 
     bool menuManagementOrder();
@@ -26,6 +27,8 @@ private:
     bool subMenuCreateDateFilter();
     bool subMenuShipFromFilter();
     bool subMenuShipToFilter();
+    bool subMenuModifyOrder(string, string);
+    bool subMenuDeleteOrder(string, string);
 };
 
 #endif // SELLERSHOPPINGMALL_H
