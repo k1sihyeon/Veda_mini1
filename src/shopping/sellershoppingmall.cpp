@@ -13,7 +13,10 @@
 #include "checkdate.h"
 #include "customerManager.h"
 #include "productManager.h"
-
+#include "product.h"
+#include "computer.cpp"
+#include "clothes.cpp"
+#include "book.cpp"
 
 SellerShoppingMall::SellerShoppingMall()
 {
@@ -557,10 +560,94 @@ bool SellerShoppingMall::subMenuModifyProduct() {
 
     PM->printProduct(p);
 
+    int attr;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "         Select Attribute to Modify          " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Name                                    " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. Price                                   " << endl;
+    cout << "                                             " << endl;
+    cout << "  3. Maker                                   " << endl;
+    cout << "                                             " << endl;
+    
+    // getMoreDetails를 순수 가상 함수로 바꾸고 싶은데 dependency가 좀 있음;;
+    if (Computer* cp = dynamic_cast<Computer*>(p))
+        cout << cp->getMoreDetails(3);
+    else if (Clothes* ct = dynamic_cast<Clothes*>(p))
+        cout << ct->getMoreDetails(3);
+    else if (Book* bk = dynamic_cast<Book*>(p))
+        cout << bk->getMoreDetails(3);
+    else
+        cout << "err" << endl;
 
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  What do you want to Modify? ";
+    cin >> attr;
+
+    switch (attr) {
+        case 1: {
+            string name;
+            cin.clear();
+            cin.ignore();
+            getline(cin, name);
+
+            p->setName(name);
+            break;
+        }
+        
+        case 2: {
+            int price;
+            cin >> price;
+
+            p->setPrice(price);
+            break;
+        }
+
+        case 3: {
+            string maker;
+            cin.clear();
+            cin.ignore();
+            getline(cin, maker);
+
+            p->setCompany(maker);
+            break;
+        }
+
+        default: {
+            if (Computer* cp = dynamic_cast<Computer*>(p)) {
+                if (attr == 4) {
+
+                }
+                else if (attr == 5) {
+
+                }
+            }
+            else if (Clothes* ct = dynamic_cast<Clothes*>(p)) {
+                if (attr == 4) {
+
+                }
+                else if (attr == 5) {
+                    
+                }
+            }
+            else if (Book* bk = dynamic_cast<Book*>(p)) {
+                if (attr == 4) {
+
+                }
+                else if (attr == 5) {
+                    
+                }
+            }
+
+            break;
+        }
+    }
+
+    cin.ignore();
+    getchar();
 
 
     return false;
@@ -598,16 +685,17 @@ bool SellerShoppingMall::subMenuDeleteProduct() {
     cin >> in;
 
     if (in == 'y' || in == 'Y') {
-        
+        PM->deleteProduct(pid);
         return false;
     }
     else if (in == 'n' || in == 'N') {
         return false;
     }
     else {
-
+        cout << "          Input is NOT Valid!!           " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        return true;
     }
-
 
     return false;
 }

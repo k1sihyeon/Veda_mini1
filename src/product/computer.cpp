@@ -22,6 +22,8 @@ class Computer : public Product {
                 return "CPU: " + cpu + "\tRAM: " + to_string(ram) + "\tGPU: " + gpu;
             case 2:
                 return "CPU: " + cpu + " | RAM: " + to_string(ram) + " | GPU: " + gpu;
+            case 3:
+                return "  4. CPU\n\n  5. RAM\n\n  6. GPU\n\n";
         }
         
         return "";
