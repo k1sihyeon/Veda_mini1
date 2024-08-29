@@ -34,11 +34,15 @@ void ProductManager::deleteProduct(int id) {
 }
 
 Product* ProductManager::searchProductByID(int id) {
-    return prodList[id];
+    if (prodList.count(id))
+        return prodList[id];
+
+    else
+        return nullptr;
 }
 
-std::vector<Product*> ProductManager::searchProductByName(string name) {
-    std::vector<Product*> v;
+vector<Product*> ProductManager::searchProductByName(string name) {
+    vector<Product*> v;
 
     if (prodList.empty()) {
         cout << "Product List is EMPTY!!" << endl;
@@ -47,6 +51,9 @@ std::vector<Product*> ProductManager::searchProductByName(string name) {
 
     for (const auto& p : prodList) {
         Product* tmp = p.second;
+
+        if (tmp == nullptr)
+            continue;
 
         if (tmp->getName() == name)
             v.push_back(tmp);
@@ -58,13 +65,16 @@ std::vector<Product*> ProductManager::searchProductByName(string name) {
 vector<Product*> ProductManager::searchProductByCategory(string category) {
     vector<Product*> v;
 
-    if (prodList.empty()) {
+    if (this->prodList.empty()) {
         cout << "Product List is EMPTY!!" << endl;
         return v;
     }
 
-    for (const auto& p : prodList) {
+    for (const auto& p : this->prodList) {
         Product* tmp = p.second;
+
+        if (tmp == nullptr)
+            continue;
 
         if (tmp->getCategory() == category)
             v.push_back(tmp);
@@ -121,6 +131,8 @@ void ProductManager::printList() {
 
     for (const auto& pp : tmp) {
         Product* p = pp.second;
+        if (p == nullptr)
+            continue;
         this->printProduct(p);
     }
 }
