@@ -206,16 +206,16 @@ bool ClientShoppingMall::menuViewOrder()
 
     switch(ch) {
     case 1: default:
-        OM->displayOrder("", "", "", "");
+        OM->displayOrder("", "", "BuyerId", curCustomer->getUserId());
         break;
     case 2:
-        OM->displayOrder("OrderStatus", "Processing", "", "");
+        OM->displayOrder("OrderStatus", "Processing", "BuyerId", curCustomer->getUserId());
         break;
     case 3:
-        OM->displayOrder("OrderStatus", "InTransit", "", "");
+        OM->displayOrder("OrderStatus", "InTransit", "BuyerId", curCustomer->getUserId());
         break;
     case 4:
-        OM->displayOrder("OrderStatus", "Delivered", "", "");
+        OM->displayOrder("OrderStatus", "Delivered", "BuyerId", curCustomer->getUserId());
         break;
     case 5:
         return false;

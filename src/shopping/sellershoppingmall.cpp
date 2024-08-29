@@ -10,7 +10,6 @@
 
 #include "sellershoppingmall.h"
 #include "ordermanager.h"
-#include "customerManager.h"
 #include "checkdate.h"
 
 
@@ -18,7 +17,6 @@ SellerShoppingMall::SellerShoppingMall()
 {
     OM = new OrderManager();
 }
-
 
 bool SellerShoppingMall::managerLogin()
 {
@@ -84,7 +82,7 @@ bool SellerShoppingMall::displayManageMenu()
         // TODO for 김시현
         break;
     case 2:
-        customerManager::getInstance()->showManageSystem();
+        // TODO for 노희진
         break;
     case 3:
         while(menuManagementOrder()){}
@@ -139,6 +137,7 @@ void SellerShoppingMall::setStdinEcho(bool enable) {
 
 bool SellerShoppingMall::menuManagementOrder()
 {
+    orderCmdStatus = 0;
     char ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
@@ -160,12 +159,15 @@ bool SellerShoppingMall::menuManagementOrder()
 
     switch(ch) {
     case '1':
+        orderCmdStatus = 1;
         while(subMenuDisplayFilters()){}
         break;
     case '2':
+        orderCmdStatus = 2;
         while(subMenuDisplayFilters()){}
         break;
     case '3':
+        orderCmdStatus = 3;
         while(subMenuDisplayFilters()){}
         break;
     case '4':
@@ -261,12 +263,24 @@ bool SellerShoppingMall::subMenuOrderStatusFilter()
     switch(ch) {
     case '1':
         OM->displayOrder("OrderStatus", "Processing", "", "");
+        if(orderCmdStatus==2)
+            while(subMenuModifyOrder("OrderStatus", "Processing")){}
+        else if(orderCmdStatus==3)
+            while(subMenuDeleteOrder("OrderStatus", "Processing")){}
         break;
     case '2':
         OM->displayOrder("OrderStatus", "InTransit", "", "");
+        if(orderCmdStatus==2)
+            while(subMenuModifyOrder("OrderStatus", "InTransit")){}
+        else if(orderCmdStatus==3)
+            while(subMenuDeleteOrder("OrderStatus", "InTransit")){}
         break;
     case '3':
         OM->displayOrder("OrderStatus", "Delivered", "", -1);
+        if(orderCmdStatus==2)
+            while(subMenuModifyOrder("OrderStatus", "Delivered")){}
+        else if(orderCmdStatus==3)
+            while(subMenuDeleteOrder("OrderStatus", "Delivered")){}
         break;
     case '4':
         return false;
@@ -313,6 +327,10 @@ bool SellerShoppingMall::subMenuCreateDateFilter()
     }
 
     OM->displayOrder("CreatedDate", date, "", "");
+    if(orderCmdStatus==2)
+        while(subMenuModifyOrder("CreatedDate", date)){}
+    else if(orderCmdStatus==3)
+        while(subMenuDeleteOrder("CreatedDate", date)){}
     cout << " Press ENTER to return View Order Section" << endl;
     cin.ignore();
     getchar();
@@ -340,6 +358,10 @@ bool SellerShoppingMall::subMenuShipFromFilter()
         return false;
 
     OM->displayOrder("ShipFrom", addr, "", "");
+    if(orderCmdStatus==2)
+        while(subMenuModifyOrder("ShipFrom", addr)){}
+    else if(orderCmdStatus==3)
+        while(subMenuDeleteOrder("ShipFrom", addr)){}
     cout << " Press ENTER to return View Order Section" << endl;
     cin.ignore();
     getchar();
@@ -365,9 +387,83 @@ bool SellerShoppingMall::subMenuShipToFilter()
         return false;
 
     OM->displayOrder("ShipTo", addr, "", "");
+    if(orderCmdStatus==2)
+        while(subMenuModifyOrder("ShipTo", addr)){}
+    else if(orderCmdStatus==3)
+        while(subMenuDeleteOrder("ShipTo", addr)){}
     cout << " Press ENTER to return View Order Section" << endl;
     cin.ignore();
     getchar();
 
     return true;
+}
+
+bool SellerShoppingMall::subMenuModifyOrder(string filter, string filterValue)
+{
+    char ch;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "            Choose Modify Option             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Status To In Transit                    " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. Status To Delivered                     " << endl;
+    cout << "                                             " << endl;
+    cout << "  3. Return Previous Menu                    " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  Type Option Number : ";
+    cin >> ch;
+
+    switch(ch) {
+    case '1':
+        OM->modifyOrder(filter, filterValue, "InTransit");
+        break;
+    case '2':
+        OM->modifyOrder(filter, filterValue, "Delivered");
+        break;
+    case '3':
+        return false;
+    default:
+        cin.ignore();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        break;
+    }
+
+    return false;
+}
+
+bool SellerShoppingMall::subMenuDeleteOrder(string filter, string filterValue)
+{
+    char ch;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "     Are you Sure to Delete this orders?     " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Yes                                     " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. No                                      " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  Type Option Number : ";
+    cin >> ch;
+
+    switch(ch) {
+    case '1':
+        OM->deleteOrder(filter, filterValue);
+        break;
+    case '2':
+        return false;
+    default:
+        cin.ignore();
+        cout << endl << endl;
+        cout << "                 Wrong Input!!               " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        break;
+    }
+    return false;
 }
