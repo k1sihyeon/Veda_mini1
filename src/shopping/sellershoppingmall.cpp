@@ -590,55 +590,245 @@ bool SellerShoppingMall::subMenuModifyProduct() {
     switch (attr) {
         case 1: {
             string name;
+            
+            cout << "\033[A\033[2K";
+            cout << "Input Name >> ";
             cin.clear();
             cin.ignore();
             getline(cin, name);
 
-            p->setName(name);
+            cout << "\033[A\033[2K";
+            cout << "Name: " << p->getName() << " will be changed into " << name << endl;
+
+            cin.clear();
+            cin.ignore();
+            char in;
+            cout << "Are You Sure To Modify? (Y/N) >> ";
+            cin >> in;
+
+            if (in == 'y' || in == 'Y') { 
+                p->setName(name);
+                return false;
+            }
+            else if (in == 'n' || in == 'N') { 
+                return false;
+            }
+            else {
+                cout << "          Input is NOT Valid!!           " << endl;
+                this_thread::sleep_for(chrono::milliseconds(1000));
+                return true;
+            }
+            
             break;
         }
         
         case 2: {
             int price;
+            
+            cout << "\033[A\033[2K";
+            cout << "Input Price >> ";
             cin >> price;
 
-            p->setPrice(price);
+            cout << "\033[A\033[2K";
+            cout << "Price: " << p->getPrice() << " will be changed into " << price << endl;
+
+            cin.clear();
+            cin.ignore();
+            char in;
+            cout << "Are You Sure To Modify? (Y/N) >> ";
+            cin >> in;
+
+            if (in == 'y' || in == 'Y') { 
+                p->setPrice(price);
+                return false;
+            }
+            else if (in == 'n' || in == 'N') { 
+                return false;
+            }
+            else {
+                cout << "          Input is NOT Valid!!           " << endl;
+                this_thread::sleep_for(chrono::milliseconds(1000));
+                return true;
+            }
+
             break;
         }
 
         case 3: {
             string maker;
+
+            cout << "\033[A\033[2K";
+            cout << "Input Maker >> ";
             cin.clear();
             cin.ignore();
             getline(cin, maker);
 
-            p->setCompany(maker);
+            cout << "\033[A\033[2K";
+            cout << "Maker: " << p->getPrice() << " will be changed into " << maker << endl;
+
+            cin.clear();
+            cin.ignore();
+            char in;
+            cout << "Are You Sure To Modify? (Y/N) >> ";
+            cin >> in;
+
+            if (in == 'y' || in == 'Y') { 
+                p->setCompany(maker);
+                return false;
+            }
+            else if (in == 'n' || in == 'N') { 
+                return false;
+            }
+            else {
+                cout << "          Input is NOT Valid!!           " << endl;
+                this_thread::sleep_for(chrono::milliseconds(1000));
+                return true;
+            }
+
             break;
         }
 
         default: {
             if (Computer* cp = dynamic_cast<Computer*>(p)) {
-                if (attr == 4) {
+                switch (attr) {
+                    case 4: {
+                        string cpu;
 
-                }
-                else if (attr == 5) {
+                        cout << "\033[A\033[2K";
+                        cout << "Input Maker >> ";
+                        cin.clear();
+                        cin.ignore();
+                        getline(cin, cpu);
 
+                        cout << "\033[A\033[2K";
+                        cout << "CPU: " << cp->getCpu() << " will be changed into " << cpu << endl;
+
+                        cin.clear();
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            cp->setCompany(cpu);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
+
+                        break;
+                    }
+
+                    case 5: {
+                        int price;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input Price >> ";
+                        cin >> price;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Price: " << p->getPrice() << " will be changed into " << price << endl;
+
+                        cin.clear();
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            p->setPrice(price);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
+
+                        break;
+                    }
+
+                    break;
+
+                    case 6: {
+                        string gpu;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input Maker >> ";
+                        cin.clear();
+                        cin.ignore();
+                        getline(cin, gpu);
+
+                        cout << "\033[A\033[2K";
+                        cout << "GPU: " << cp->getGpu() << " will be changed into " << gpu << endl;
+
+                        cin.clear();
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            cp->setCompany(gpu);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
+
+                        break;
+                    }
+
+                    default:
+                        cout << "          Input is NOT Valid!!           " << endl;
+                        this_thread::sleep_for(chrono::milliseconds(1000));
+                        return true;
                 }
             }
             else if (Clothes* ct = dynamic_cast<Clothes*>(p)) {
-                if (attr == 4) {
+                switch (attr) {
+                    case 4:
 
-                }
-                else if (attr == 5) {
-                    
+                        break;
+
+                    case 5:
+
+                        break;
+
+                    default:
+                        cout << "          Input is NOT Valid!!           " << endl;
+                        this_thread::sleep_for(chrono::milliseconds(1000));
+                        return true;
                 }
             }
             else if (Book* bk = dynamic_cast<Book*>(p)) {
-                if (attr == 4) {
+                switch (attr) {
+                    case 4:
 
-                }
-                else if (attr == 5) {
-                    
+                        break;
+
+                    case 5:
+
+                        break;
+
+                    default:
+                        cout << "          Input is NOT Valid!!           " << endl;
+                        this_thread::sleep_for(chrono::milliseconds(1000));
+                        return true;
                 }
             }
 
