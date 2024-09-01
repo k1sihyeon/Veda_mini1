@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include "Observer.h"
 #include "customer.h"
+#include <vector> 
 using namespace std;
 
 
@@ -43,10 +44,11 @@ public :
 
 	void showUserList(); // customermap 전부 출력 (sorting 기준 (totalpurchase 순, 이름순.. ?) 세울지)
 	void showUserInfo(Customer& customer); // user 한명 정보 보기 (id / pw / 이름 / 성별 / 전화번호 / 주소 / 총구매금액 ) 
-	void updateUserInfo(Customer& customer); // user 정보 변경 후 txt 파일에 업데이트
+	void updateUserInfo(Customer& customer); // change ui + user 정보 변경 후 txt 파일에 업데이트 
+	void updateChangedUserInfo(Customer& customer); // user 정보 변경후 txt 파일에 업데이트 
 
-	void addUserToGroup(const string& userId, const string& groupName); 
-	void removeUserFromGroup(const string& userId, const string& groupName);
+	vector<Customer> getGroupList(Customer::Group group);
+
 };
 
 /* 

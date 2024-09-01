@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector> 
 #include "customer.h"
+#include "customerGroupManager.h"
 using namespace std;
 
 Customer parseCustomerFromLine(const std::string& line);
@@ -72,6 +73,7 @@ void customerManager::showManageSystem() {
             break;
         }
         case 3: {
+            customerGroupManager::getInstance()->showGroupManageSystem();
             break;
         }
         case 4:
@@ -228,11 +230,8 @@ void customerManager::showUserList() {
     for (auto it : customermap) {   
             showUserInfo(it.second);  
     }
-    while (1) {
-        char cm;
-        cin >> cm;
-        if (cm == 'q') return;
-    }
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.get();
 }
 
 void customerManager::showUserInfo(Customer& customer) {
@@ -245,7 +244,7 @@ void customerManager::showUserInfo(Customer& customer) {
     cout << "Phone Number: " << customer.getPhoneNumber() << endl;
     cout << "Address: " << customer.getAddress() << endl;
     cout << "Total Purchase: " << customer.getTotalPurchase() << endl;
-    cout << "[" << Customer::Group(customer.getGroup()) << "]" << endl;
+    cout << "[" << customer.groupToString(Customer::Group(customer.getGroup())) << "]" << endl;
     cout << endl;
     cout << "==================================" << endl;
     cout << endl;
@@ -277,27 +276,40 @@ void customerManager::updateUserInfo(Customer& customer) {
         customer.setAddress(newAddr);
         customermap[id] = customer;
 
-        ifstream fin(filepath);
-        ofstream temp("temp.csv");
-        string line;
-        while (getline(fin, line)) {
-            if (line.find(id) == string::npos) {
-                temp << line << endl;
-            }
-            else {
-                temp << customer << endl;
-            }
-        }
-        fin.close();
-        temp.close();
-        remove(filepath.c_str());
-        rename("temp.csv", filepath.c_str());
-
-        cout << "User info updated successfully." << endl;
+        updateChangedUserInfo(customer);
     }
     else 
         cout << "User not found." << endl;
 }
+
+
+//file update
+void customerManager::updateChangedUserInfo(Customer& customer) {
+    ifstream fin(filepath);
+    ofstream temp("temp.csv");
+    string line;
+    while (getline(fin, line)) {
+        // 라인을 쉼표로 분할하여 ID를 추출
+        istringstream ss(line);
+        string token;
+        getline(ss, token, ',');  // 첫 번째 토큰은 ID입니다.
+
+        // ID가 일치하는지 확인
+        if (token == customer.getUserId()) {
+            temp << customer << endl;  // 일치하면 업데이트된 고객 정보 기록
+        }
+        else {
+            temp << line << endl;  // 그렇지 않으면 원래 라인 기록
+        }
+    }
+    fin.close();
+    temp.close();
+    remove(filepath.c_str());
+    rename("temp.csv", filepath.c_str());
+
+    cout << "User info updated successfully." << endl;
+}
+
 
 customerManager* customerManager::instance = nullptr;
 customerManager* customerManager::getInstance() {
@@ -370,4 +382,16 @@ Customer parseCustomerFromLine(const std::string& line) {
 void customerManager::addUser(Customer& customer) {
     customermap.insert(make_pair(customer.getUserId(), customer));
     userCount++;
+}
+
+vector<Customer> customerManager::getGroupList(Customer::Group group) {
+    std::vector<Customer> groupList;
+
+    for (const auto& pair : customermap) {
+        const Customer& customer = pair.second;
+        if (customer.getGroup() == group) {
+            groupList.push_back(customer);
+        }
+    }
+    return groupList;
 }
