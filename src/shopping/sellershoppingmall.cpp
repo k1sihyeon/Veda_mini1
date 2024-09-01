@@ -664,7 +664,7 @@ bool SellerShoppingMall::subMenuModifyProduct() {
             getline(cin, maker);
 
             cout << "\033[A\033[2K";
-            cout << "Maker: " << p->getPrice() << " will be changed into " << maker << endl;
+            cout << "Maker: " << p->getCompany() << " will be changed into " << maker << endl;
 
             cin.clear();
             cin.ignore();
@@ -695,7 +695,7 @@ bool SellerShoppingMall::subMenuModifyProduct() {
                         string cpu;
 
                         cout << "\033[A\033[2K";
-                        cout << "Input Maker >> ";
+                        cout << "Input CPU >> ";
                         cin.clear();
                         cin.ignore();
                         getline(cin, cpu);
@@ -726,14 +726,14 @@ bool SellerShoppingMall::subMenuModifyProduct() {
                     }
 
                     case 5: {
-                        int price;
+                        int ram;
 
                         cout << "\033[A\033[2K";
-                        cout << "Input Price >> ";
-                        cin >> price;
+                        cout << "Input RAM >> ";
+                        cin >> ram;
 
                         cout << "\033[A\033[2K";
-                        cout << "Price: " << p->getPrice() << " will be changed into " << price << endl;
+                        cout << "RAM: " << cp->getRam() << " will be changed into " << ram << endl;
 
                         cin.clear();
                         cin.ignore();
@@ -742,7 +742,7 @@ bool SellerShoppingMall::subMenuModifyProduct() {
                         cin >> in;
 
                         if (in == 'y' || in == 'Y') {
-                            p->setPrice(price);
+                            cp->setRam(ram);
                             return false;
                         }
                         else if (in == 'n' || in == 'N') {
@@ -763,7 +763,7 @@ bool SellerShoppingMall::subMenuModifyProduct() {
                         string gpu;
 
                         cout << "\033[A\033[2K";
-                        cout << "Input Maker >> ";
+                        cout << "Input GPU >> ";
                         cin.clear();
                         cin.ignore();
                         getline(cin, gpu);
@@ -778,7 +778,7 @@ bool SellerShoppingMall::subMenuModifyProduct() {
                         cin >> in;
 
                         if (in == 'y' || in == 'Y') {
-                            cp->setCompany(gpu);
+                            cp->setGpu(gpu);
                             return false;
                         }
                         else if (in == 'n' || in == 'N') {
@@ -801,13 +801,71 @@ bool SellerShoppingMall::subMenuModifyProduct() {
             }
             else if (Clothes* ct = dynamic_cast<Clothes*>(p)) {
                 switch (attr) {
-                    case 4:
+                    case 4: {
+                        int size;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input SIZE >> ";
+                        cin >> size;
+
+                        cout << "\033[A\033[2K";
+                        cout << "SIZE: " << ct->getSize() << " will be changed into " << size << endl;
+
+                        cin.clear();
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            ct->setSize(size);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
 
                         break;
+                    }
 
-                    case 5:
+                    case 5: {
+                        string color;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input COLOR >> ";
+                        cin.clear();
+                        cin.ignore();
+                        getline(cin, color);
+
+                        cout << "\033[A\033[2K";
+                        cout << "COLOR: " << ct->getColor() << " will be changed into " << color << endl;
+
+                        cin.clear();
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            ct->setColor(color);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
 
                         break;
+                    }
 
                     default:
                         cout << "          Input is NOT Valid!!           " << endl;
@@ -817,13 +875,137 @@ bool SellerShoppingMall::subMenuModifyProduct() {
             }
             else if (Book* bk = dynamic_cast<Book*>(p)) {
                 switch (attr) {
-                    case 4:
+                    case 4: {
+                        string auther;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input AUTHOR >> ";
+                        cin.clear();
+                        cin.ignore();
+                        getline(cin, auther);
+
+                        cout << "\033[A\033[2K";
+                        cout << "AUTHOR: " << bk->getAuther() << " will be changed into " << auther << endl;
+
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            bk->setAuther(auther);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
 
                         break;
+                    }
 
-                    case 5:
+                    case 5: {
+                        int page;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input PAGES >> ";
+                        cin >> page;
+
+                        cout << "\033[A\033[2K";
+                        cout << "PAGES: " << bk->getPages() << " will be changed into " << page << endl;
+
+                        cin.clear();
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            bk->setPages(page);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
 
                         break;
+                    }
+
+                    case 6: {
+                        int year;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input YEAR >> ";
+                        cin >> year;
+
+                        cout << "\033[A\033[2K";
+                        cout << "YEAR: " << bk->getYear() << " will be changed into " << year << endl;
+
+                        cin.clear();
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            bk->setYear(year);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
+
+                        break;
+                    }
+
+
+                    case 7: {
+                        string isbn;
+
+                        cout << "\033[A\033[2K";
+                        cout << "Input ISBN >> ";
+                        cin.clear();
+                        cin.ignore();
+                        getline(cin, isbn);
+
+                        cout << "\033[A\033[2K";
+                        cout << "ISBN: " << bk->getIsbn() << " will be changed into " << isbn << endl;
+
+                        cin.ignore();
+                        char in;
+                        cout << "Are You Sure To Modify? (Y/N) >> ";
+                        cin >> in;
+
+                        if (in == 'y' || in == 'Y') {
+                            bk->setIsbn(isbn);
+                            return false;
+                        }
+                        else if (in == 'n' || in == 'N') {
+                            return false;
+                        }
+                        else {
+                            cout << "          Input is NOT Valid!!           " << endl;
+                            this_thread::sleep_for(chrono::milliseconds(1000));
+                            return true;
+                        }
+
+                        break;
+                    }
+
 
                     default:
                         cout << "          Input is NOT Valid!!           " << endl;
@@ -835,10 +1017,6 @@ bool SellerShoppingMall::subMenuModifyProduct() {
             break;
         }
     }
-
-    cin.ignore();
-    getchar();
-
 
     return false;
 }

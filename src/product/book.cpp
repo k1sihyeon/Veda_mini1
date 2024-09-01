@@ -38,7 +38,7 @@ class Book : public Product {
         return auther;
     }
 
-    int gePages() {
+    int getPages() {
         return pages;
     }
 
