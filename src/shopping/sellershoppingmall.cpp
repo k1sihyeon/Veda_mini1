@@ -486,9 +486,11 @@ bool SellerShoppingMall::menuProductManagement()
     cout << "                                             " << endl;
     cout << "  2. Modify Product                          " << endl;
     cout << "                                             " << endl;
-    cout << "  3. Delete Product                          " << endl;
+    cout << "  3. Add New Product                         " << endl;
     cout << "                                             " << endl;
-    cout << "  4. Return to Manager Menu                  " << endl;
+    cout << "  4. Delete Product                          " << endl;
+    cout << "                                             " << endl;
+    cout << "  5. Return to Manager Menu                  " << endl;
     cout << "                                             " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
@@ -505,10 +507,14 @@ bool SellerShoppingMall::menuProductManagement()
             break;
 
         case 3:
-            while (subMenuDeleteProduct()) {}
+            while (subMenuAddProduct()) {}
             break;
 
         case 4:
+            while (subMenuDeleteProduct()) {}
+            break;
+
+        case 5:
             return false;
 
         default:
@@ -1066,4 +1072,171 @@ bool SellerShoppingMall::subMenuDeleteProduct() {
     }
 
     return false;
+}
+
+bool SellerShoppingMall::subMenuAddProduct() {
+    int category;
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "    Select Category of Product want to add   " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  1. Computer                                " << endl;
+    cout << "                                             " << endl;
+    cout << "  2. Clothes                                 " << endl;
+    cout << "                                             " << endl;
+    cout << "  3. Book                                    " << endl;
+    cout << "                                             " << endl;
+    cout << "  4. reserved                                " << endl;
+    cout << "                                             " << endl;
+    cout << "  5. Return to Search Product                " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  What do you wanna do? ";
+    cin >> category;
+
+    switch (category) {
+        case 1:
+            cout << "\033[2J\033[1;1H";
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "     Add New Product (Category : Computer)   " << endl;
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            break;
+        case 2:
+            cout << "\033[2J\033[1;1H";
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "     Add New Product (Category : Clothes)    " << endl;
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            break;
+        case 3:
+            cout << "\033[2J\033[1;1H";
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "       Add New Product (Category : Book)     " << endl;
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            break;
+        case 5:
+            return false;
+        default:
+            return true;
+    }
+
+    string name, maker;
+    int price;
+
+    cout << "Input Name >> ";
+    cin.clear();
+    cin.ignore();
+    getline(cin, name);
+
+    cout << "\033[A\033[2K";
+    cout << "Input Maker >> ";
+    cin.clear();
+    cin.ignore();
+    getline(cin, maker);
+
+    cout << "\033[A\033[2K";
+    cout << "Input Price >> ";
+    cin >> price;
+
+    Product* p;
+
+    switch (category) {
+        case 1: {
+            string cpu, gpu;
+            int ram;
+            cout << "\033[A\033[2K";
+            cout << "Input CPU >> ";
+            cin.clear();
+            cin.ignore();
+            getline(cin, cpu);
+
+            cout << "\033[A\033[2K";
+            cout << "Input GPU >> ";
+            cin.clear();
+            cin.ignore();
+            getline(cin, gpu);
+
+            cout << "\033[A\033[2K";
+            cout << "Input RAM >> ";
+            cin >> ram;
+
+            p = Product::createProduct<Computer>(name, price, maker, cpu, ram, gpu);
+
+            break;
+        }
+
+        case 2: {
+            int size;
+            string color;
+            
+            cout << "Input SIZE >> ";
+            cin >> size;
+
+            cout << "\033[A\033[2K";
+            cout << "Input COLOR >> ";
+            cin.clear();
+            cin.ignore();
+            getline(cin, color);
+
+            p = Product::createProduct<Clothes>(name, price, maker, size, color);
+
+            break;
+        }
+
+        case 3: {
+            string auther, isbn;
+            int pages, year;
+
+            cout << "Input AUTHER >> ";
+            cin.clear();
+            cin.ignore();
+            getline(cin, auther);
+
+            cout << "\033[A\033[2K";
+            cout << "Input ISBN >> ";
+            cin.clear();
+            cin.ignore();
+            getline(cin, isbn);
+
+            cout << "\033[A\033[2K";
+            cout << "Input PAGES >> ";
+            cin >> pages;
+
+            cout << "\033[A\033[2K";
+            cout << "Input YEAR of published >> ";
+            cin >> year;
+
+            p = Product::createProduct<Book>(name, price, maker, auther, pages, year, isbn);
+
+            break;
+        }
+
+        case 5:
+            return false;
+        default:
+            return true;
+    }
+
+    cout << "\033[A\033[2K";
+    PM->printProduct(p);
+
+    cin.ignore();
+    char in;
+    cout << "Are You Sure To ADD? (Y/N) >> ";
+    cin >> in;
+
+    if (in == 'y' || in == 'Y') {
+        PM->addProduct(p);
+        return false;
+    }
+    else if (in == 'n' || in == 'N') {
+        return false;
+    }
+    else {
+        cout << "          Input is NOT Valid!!           " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        return true;
+    }
+
 }

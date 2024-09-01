@@ -36,6 +36,7 @@ private:
     bool subMenuSearchProduct();
     bool subMenuModifyProduct();
     bool subMenuDeleteProduct();
+    bool subMenuAddProduct();
 };
 
 #endif // SELLERSHOPPINGMALL_H
