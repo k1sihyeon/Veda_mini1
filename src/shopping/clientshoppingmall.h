@@ -9,7 +9,7 @@ class ClientShoppingMall
 {
 public:
     ClientShoppingMall();
-    // ~ClientShoppingMall();
+    ~ClientShoppingMall();
 
     bool customerLogin();
     bool displayMenu();
