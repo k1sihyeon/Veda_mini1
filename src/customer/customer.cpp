@@ -55,3 +55,13 @@ int Customer::getGroup() const {
 void Customer::updateGroup(int group) {
     userGroup = Group(group);
 }
+
+string Customer::groupToString(Group group) {
+    switch (group) {
+    case Group::basic: return "Basic";
+    case Group::gold: return "Gold";
+    case Group::platinum: return "Platinum";
+    case Group::silver: return "Silver";
+    default: return "Unknown";
+    }
+}

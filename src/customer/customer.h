@@ -40,6 +40,8 @@ public :
     int getGroup() const;
     void updateGroup(int group);
 
+    string groupToString(Group group);
+
     friend std::ostream& operator<<(std::ostream& os, const Customer& customer) {
         os << customer.userId << ',' << customer.userPassword << ',' << customer.userName << ','
             << customer.userGender << ',' << customer.userPhoneNumber << ',' << customer.userAddress 

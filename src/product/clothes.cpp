@@ -21,6 +21,8 @@ class Clothes : public Product {
                 return "Size: " + to_string(size) + "\tColor: " + color;
             case 2:
                 return "Size: " + to_string(size) + " | Color: " + color;
+            case 3:
+                return "  4. Size\n\n  5. Color\n\n";
         }
 
         return "";

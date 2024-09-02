@@ -58,6 +58,10 @@ void Product::setName(string name) {
     _name = name;
 }
 
+void Product::setPrice(int price) {
+    _price = price;
+}
+
 void Product::setCategory(string category) {
     _category = category;
 }
