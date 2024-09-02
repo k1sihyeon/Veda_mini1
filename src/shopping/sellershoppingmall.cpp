@@ -24,6 +24,11 @@ SellerShoppingMall::SellerShoppingMall()
     PM = ProductManager::getInstance();
 }
 
+SellerShoppingMall::~SellerShoppingMall()
+{
+    ProductManager::getInstance()->saveCSVfile();
+}
+
 bool SellerShoppingMall::managerLogin()
 {
     string inputPassword;
@@ -1170,6 +1175,7 @@ bool SellerShoppingMall::subMenuAddProduct() {
             int size;
             string color;
             
+            cout << "\033[A\033[2K";
             cout << "Input SIZE >> ";
             cin >> size;
 
@@ -1188,6 +1194,7 @@ bool SellerShoppingMall::subMenuAddProduct() {
             string auther, isbn;
             int pages, year;
 
+            cout << "\033[A\033[2K";
             cout << "Input AUTHER >> ";
             cin.clear();
             cin.ignore();

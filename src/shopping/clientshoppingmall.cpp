@@ -20,9 +20,12 @@ ClientShoppingMall::ClientShoppingMall()
 {
     OM = new OrderManager();
     PM = ProductManager::getInstance();
-    //PM->loadCSVfile();
 }
 
+ClientShoppingMall::~ClientShoppingMall()
+{
+    ProductManager::getInstance()->saveCSVfile();
+}
 
 bool ClientShoppingMall::startClientShoppingMall()
 {

@@ -12,7 +12,7 @@ class SellerShoppingMall
 {
 public:
     SellerShoppingMall();
-    // ~SellerShoppingMall();
+    ~SellerShoppingMall();
 
     bool displayManageMenu();
     bool managerLogin();
