@@ -6,15 +6,20 @@ string Customer::getUserId() const{
 void Customer::setUserId(const string& id) {
     userId = id;
 };
-void Customer::setPassword(const string& password) {
-    userPassword = password;
-};
+
 string Customer::hashPassword(const string& password) {
-    return password; // make later
+    unsigned long hash = 0;
+    for (char c : password) {
+        hash = hash * 31 + c;
+    }
+    return std::to_string(hash);
 }
+
 bool Customer::checkPassword(const string& password) {
-    return password == this->userPassword; // fix later
+    return hashPassword(password) == this->userPassword;
 };
+
+
 
 string Customer::getName() const {
     return userName;

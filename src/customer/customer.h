@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 class Customer {
@@ -18,7 +19,6 @@ public :
 
     // prohibit get password
     string hashPassword(const string& password);
-    void setPassword(const string& password);
     bool checkPassword(const string& password);
 
 
