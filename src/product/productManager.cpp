@@ -130,14 +130,6 @@ void ProductManager::printList() {
         return a.second->getTotalPurchase() > b.second->getTotalPurchase();
     });
 
-    // cout << "Category" << "\t";
-    // cout << "ID" << "\t";
-    // cout << "Name" << "\t";
-    // cout << "Price" << "\t";
-    // cout << "Company" << "\t";
-    // cout << "TotalPurchase" << "\t";
-    // cout << "MoreDetails" << "\n";
-
     for (const auto& pp : tmp) {
         Product* p = pp.second;
         if (p == nullptr)
@@ -210,7 +202,7 @@ void ProductManager::saveCSVfile() {
         return;
     }
     
-    cout << "[product.csv] File Open Success! (save)" << endl;
+    cout << "[product.csv] Opening File... (save)" << endl;
 
     for (const auto& p : prodList) {
         Product* prod = p.second;

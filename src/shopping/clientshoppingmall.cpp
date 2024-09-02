@@ -20,9 +20,12 @@ ClientShoppingMall::ClientShoppingMall()
 {
     OM = new OrderManager();
     PM = ProductManager::getInstance();
-    PM->loadCSVfile();
 }
 
+ClientShoppingMall::~ClientShoppingMall()
+{
+    ProductManager::getInstance()->saveCSVfile();
+}
 
 bool ClientShoppingMall::startClientShoppingMall()
 {
@@ -160,7 +163,6 @@ bool ClientShoppingMall::displayMenu()
 
     switch(ch) {
     case '1':
-        // TODO for 김시현
         while (menuSearchProduct()){}
         break;
     case '2':
@@ -299,7 +301,7 @@ bool ClientShoppingMall::menuSearchAllProduct()
 
 bool ClientShoppingMall::menuSearchProductByCategory()
 {
-    int category, productID;
+    int category;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "               Select Category               " << endl;
@@ -351,7 +353,8 @@ bool ClientShoppingMall::menuSearchProductByCategory()
     }
 
     if (v.empty()) {
-        cout << "   List is EMPTY   " << endl;
+        cout << "              List is EMPTY!!                " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
 
@@ -381,7 +384,8 @@ bool ClientShoppingMall::menuSearchProductByName()
     v = PM->searchProductByName(name);
 
     if (v.empty()) {
-        cout << "   List is EMPTY   " << endl;
+        printf(" Can NOT Search Product Named in : %s !! \n", name.c_str());
+        this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
 
@@ -401,7 +405,8 @@ bool ClientShoppingMall::menuSearchProductById()
 
     Product* p = PM->searchProductByID(id);
     if (p == nullptr) {
-        cout << " ID is not valid " << endl;
+        cout << "           ID is NOT Valid!!             " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
 
