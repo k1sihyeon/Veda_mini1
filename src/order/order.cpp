@@ -5,6 +5,8 @@
 #include "customer.h"
 #include "product.h"
 
+using namespace std;
+
 Order::Order()
 {
 }
@@ -41,9 +43,9 @@ string Order::getOrderStatus() const
     return this->m_orderStatus;
 }
 
-void Order::setBuyerId(const Customer buyer)
+void Order::setBuyerId(Customer* buyer)
 {
-    this->m_buyerId = buyer.getUserId();
+    this->m_buyerId = buyer->getUserId();
 }
 
 string Order::getBuyerId() const
@@ -51,9 +53,9 @@ string Order::getBuyerId() const
     return this->m_buyerId;
 }
 
-void Order::setProductId(const Product product)
+void Order::setProductId(Product* product)
 {
-    this->m_productId = product.getId();
+    this->m_productId = product->getId();
 }
 
 int Order::getProductId() const
@@ -61,9 +63,9 @@ int Order::getProductId() const
     return this->m_productId;
 }
 
-void Order::setVendor(const Product product)
+void Order::setVendor(Product* product)
 {
-    this->m_vendor = product.getCompany();
+    this->m_vendor = product->getCompany();
 }
 
 string Order::getVendor() const
@@ -81,9 +83,9 @@ int Order::getQuantity() const
     return this->m_quantity;
 }
 
-void Order::setTotalPrice(const Product product, int& quantity)
+void Order::setTotalPrice(Product* product, int& quantity)
 {
-    this->m_totalPrice = product.getPrice() * quantity;
+    this->m_totalPrice = product->getPrice() * quantity;
 }
 
 int Order::getTotalPrice() const
@@ -145,10 +147,14 @@ string Order::getCurrentTime() {
     time_t t = time(0);  // 현재 시간을 가져옴
     tm* now = localtime(&t);  // 현재 시간을 tm 구조체로 변환
 
-    string year = to_string(now->tm_year + 1900);  // tm_year는 1900년부터 시작하므로, 1900을 더해야 함
-    string month = to_string(now->tm_mon + 1);  // tm_mon은 0부터 시작하므로, 1을 더해야 함
-    string day = to_string(now->tm_mday);
+    // 연도는 그대로 사용
+    string year = to_string(now->tm_year + 1900);
+
+    // 월과 일은 한 자릿수일 경우 앞에 0을 추가
+    string month = (now->tm_mon + 1 < 10) ? "0" + to_string(now->tm_mon + 1) : to_string(now->tm_mon + 1);
+    string day = (now->tm_mday < 10) ? "0" + to_string(now->tm_mday) : to_string(now->tm_mday);
     
     string currentTime = year + "-" + month + "-" + day;
     return currentTime;
 }
+

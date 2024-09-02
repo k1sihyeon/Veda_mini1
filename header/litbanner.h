@@ -10,6 +10,8 @@ using namespace std;
 void freekinAwseomeWelcomeBanner(){
     int delay = 10; // millisec
 
+    cout << "\033[1;33m";
+
     cout << "\033[2J\033[1;1H";
     cout << " __      __ ______  _____             __  __            _       _      " << endl;
     cout << " \\ \\    / /|  ____||  __ \\    /\\     |  \\/  |    /\\    | |     | |     " << endl;
@@ -158,13 +160,21 @@ void freekinAwseomeWelcomeBanner(){
     cout << " __      __ ______  _____             __  __            _       _      " << endl;
     cout << " \\ \\    / /|  ____||  __ \\    /\\     |  \\/  |    /\\    | |     | |     " << endl;
     cout << "  \\ \\  / / | |__   | |  | |  /  \\    | \\  / |   /  \\   | |     | |     " << endl;
-    cout << "              __              Wellcome!!                               " << endl;
+    cout << "              __";
+    cout << "\033[5;33m";
+    cout << "              Wellcome!!                               " << endl;
+    cout << "\033[0m";
+    cout << "\033[1;33m";
     cout << "    \\  /   | |____ | |__| |/ ____ \\  | |  | | / ____ \\ | |____ | |____ " << endl;
     cout << "     \\/    |______||_____//_/    \\_\\ |_|  |_|/_/    \\_\\|______||______|" << endl;
+
+    cout << "\033[0m";
 }
 
 void freekinAwseomeGoodByeBanner(){
-    int delay = 20; // millisec
+    int delay = 10; // millisec
+
+    cout << "\033[1;33m";
 
     cout << "\033[2J\033[1;1H";
     cout << " __      __ ______  _____             __  __            _       _      " << endl;
@@ -476,10 +486,18 @@ void freekinAwseomeGoodByeBanner(){
     cout << " __      __ ______  _____             __  __            _       _      " << endl;
     cout << " \\ \\    / /|  ____||  __ \\    /\\     |  \\/  |    /\\    | |     | |     " << endl;
     cout << "  \\ \\  / / | |__   | |  | |  /  \\    | \\  / |   /  \\   | |     | |     " << endl;
-    cout << "  (=^･ω･^=)ﾉ” ~                GoodBye!!!                              " << endl;
+    cout << "  (=^･ω･^=)ﾉ” ~ ";
+    cout << "\033[0m";
+    cout << "\033[5;33m";
+    cout << "               GoodBye!!!                              " << endl;
+    cout << "\033[0m";
+    cout << "\033[1;33m";
     cout << "    \\  /   | |____ | |__| |/ ____ \\  | |  | | / ____ \\ | |____ | |____ " << endl;
     cout << "     \\/    |______||_____//_/    \\_\\ |_|  |_|/_/    \\_\\|______||______|" << endl;
-    this_thread::sleep_for(chrono::milliseconds(1500));
+    this_thread::sleep_for(chrono::milliseconds(2000));
+
+
+    cout << "\033[0m";
     cout << "\033[2J\033[1;1H";
 }
 

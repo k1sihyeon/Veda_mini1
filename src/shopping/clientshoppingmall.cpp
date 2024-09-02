@@ -12,18 +12,21 @@
 #include "ordermanager.h"
 #include "customerManager.h"
 #include "productManager.h"
+#include "product.h"
 
 
 using namespace std;
 
 ClientShoppingMall::ClientShoppingMall()
 {
-    OM = new OrderManager();
+    OM = OrderManager::getInstance();
     PM = ProductManager::getInstance();
 }
 
 ClientShoppingMall::~ClientShoppingMall()
 {
+    delete OM;
+    delete PM;
     ProductManager::getInstance()->saveCSVfile();
 }
 
@@ -106,7 +109,7 @@ bool ClientShoppingMall::customerLogin()
         getchar();
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-        cout << "               Wrong Input!!              " << endl;
+        cout << "               Wrong Input!!                 " << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(1000));
@@ -430,4 +433,76 @@ bool ClientShoppingMall::menuInputOrder()
 
     Product* prod =  PM->searchProductByID(productId);
     //ordermanager 호출..
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                 Make Order                  " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  Type ""CANCEL"" If you Cancel Order        " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    int quantity;
+    string tmpQuantity;
+    cout << "  Type Product's Quantity : ";
+    cin >> tmpQuantity;
+    if (tmpQuantity == "CANCEL") {
+        cout << "\033[A\033[2K";
+        cout << "                                             " << endl;
+        cout << "               Order Canceled!!              " << endl;
+        cout << "                                             " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                                             " << endl;
+        cout << " Press ENTER to Prev Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
+    }
+    quantity = stoi(tmpQuantity);
+
+    string addr;
+    cout << "\033[A\033[2K";
+    cout << "  Type Your Address : ";
+    cin >> addr;
+    if (addr == "CANCEL") {
+        cout << "\033[A\033[2K";
+        cout << "                                             " << endl;
+        cout << "               Order Canceled!!              " << endl;
+        cout << "                                             " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                                             " << endl;
+        cout << " Press ENTER to Prev Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
+    }
+    
+    string deliverDate;
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  If you don't care about Delivery Date,     " << endl;
+    cout << "  Type NULL                                  " << endl;
+    cout << "  Type Requesting Delivery Date Like Below   " << endl;
+    cout << "  YYYY-MM-DD" << endl;
+    cout << "  ";
+    cin >> deliverDate;
+    if (deliverDate == "CANCEL") {
+        cout << "\033[A\033[2K";
+        cout << "                                             " << endl;
+        cout << "               Order Canceled!!              " << endl;
+        cout << "                                             " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                                             " << endl;
+        cout << " Press ENTER to Prev Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
+    }
+
+    OM->inputOrder("Processing", curCustomer, prod, quantity, "NULL", deliverDate);
+    int purchase = quantity * (prod->getPrice());
+    curCustomer->updateTotalPurchase(purchase);
+    prod->increasePurchase(quantity);
+    return false;
 }

@@ -168,18 +168,20 @@ bool SellerShoppingMall::menuManagementOrder()
     cout << " What do you wanna do? ";
     cin >> ch;
 
+    int filtertype;
+
     switch(ch) {
     case '1':
         orderCmdStatus = 1;
-        while(subMenuDisplayFilters()){}
+        while(subMenuDisplayFilters(filtertype)){}
         break;
     case '2':
         orderCmdStatus = 2;
-        while(subMenuDisplayFilters()){}
+        while(subMenuDisplayFilters(filtertype)){}
         break;
     case '3':
         orderCmdStatus = 3;
-        while(subMenuDisplayFilters()){}
+        while(subMenuDisplayFilters(filtertype)){}
         break;
     case '4':
         return false;
@@ -189,11 +191,32 @@ bool SellerShoppingMall::menuManagementOrder()
         cout << "                 Wrong Input!!               " << endl;
         this_thread::sleep_for(chrono::milliseconds(1000));
         break;
-    }    
+    }
+
+    switch(filtertype){
+    case 1:
+        while(subMenuOrderStatusFilter()){};
+        break;
+    case 2:
+        while(subMenuCreateDateFilter()){};
+        break;
+    case 3:
+        while(subMenuShipFromFilter()){};
+        break;
+    case 4:
+        while(subMenuShipToFilter()){};
+        break;
+    case 5:
+        OM->displayOrder("","","","");
+        cout << " Press ENTER to return View Order Section" << endl;
+        cin.ignore();
+        getchar();
+        break; 
+    }
     return true;  
 }
 
-bool SellerShoppingMall::subMenuDisplayFilters()
+bool SellerShoppingMall::subMenuDisplayFilters(int& v)
 {
     char ch;
     cout << "\033[2J\033[1;1H";
@@ -220,23 +243,20 @@ bool SellerShoppingMall::subMenuDisplayFilters()
 
     switch(ch) {
     case '1':
-        while(subMenuOrderStatusFilter()){}
-        break;
+        v = 1;
+        return false;
     case '2':
-        while(subMenuCreateDateFilter()){}
-        break;
+        v = 2;
+        return false;
     case '3':
-        while(subMenuShipFromFilter()){}
-        break;
+        v = 3;
+        return false;
     case '4':
-        while(subMenuShipToFilter()){}
-        break;
+        v = 4;
+        return false;
     case '5':
-        OM->displayOrder("","","","");
-        cout << " Press ENTER to return View Order Section" << endl;
-        cin.ignore();
-        getchar();
-        break;
+        v = 5;
+        return false;
     case '6':
         return false;
     default:
@@ -412,8 +432,8 @@ bool SellerShoppingMall::subMenuShipToFilter()
 bool SellerShoppingMall::subMenuModifyOrder(string filter, string filterValue)
 {
     char ch;
-    cout << "\033[2J\033[1;1H";
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    // cout << "\033[2J\033[1;1H";
+    // cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "            Choose Modify Option             " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
