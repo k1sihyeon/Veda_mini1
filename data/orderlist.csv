@@ -1,11 +1,8 @@
-1,InTransit,1001,1103,VEDA,10,5000,Korea,NorthKorea,2024-08-13,2024-08-15,2024-08-30
-2,InTransit,12345,12212,VEDA,9,5000,Korea,NorthKorea,2024-8-13-11,2024-08-13,2024-08-15
-3,InTransit,12345,12212,VEDA,8,5000,Korea,NorthKorea,2024-8-13-11,2024-08-13,2024-08-15
-4,InTransit,98765,12212,VEDA,7,5000,Korea,NorthKorea,2024-8-13-11,2024-08-13,2024-08-15
-5,InTransit,98765,12212,VEDA,6,5000,Korea,NorthKorea,2024-8-13-11,2024-08-13,2024-08-15
-6,InTransit,98765,12212,VEDA,5,5000,Korea,NorthKorea,2024-8-14-0,2024-08-13,2024-08-15
-7,InTransit,66666,12212,VEDA,4,5000,Korea,NorthKorea,2024-8-14-0,2024-08-13,2024-08-15
-8,InTransit,hj,12212,VEDA,4,5000,Korea,NorthKorea,2024-8-14-0,2024-08-13,2024-08-15
-9,InTransit,hj,12212,VEDA,4,5000,Korea,NorthKorea,2024-8-14-0,2024-08-13,2024-08-15
-10,InTransit,shj,12212,VEDA,4,5000,Korea,NorthKorea,2024-8-14-0,2024-08-13,2024-08-15
-11,InTransit,shj,12212,VEDA,4,5000,Korea,NorthKorea,2024-8-14-0,2024-08-13,2024-08-15
+19, Processing, shj, 7, Scribner, 2, 30000, Veda Mall, north, 2024-09-02, NULL, 2024-09-19
+18, InTransit, shj, 2, Apple, 1, 1500000, Veda Mall, north, 2024-09-02, NULL, 2024-09-18
+17, InTransit, shj, 3, Korea Publish, 1, 38000, Veda Mall, north, 2024-09-02, NULL, 2024-09-18
+16, InTransit, shj, 4, Apple, 1, 4000000, Veda Mall, north, 2024-9-2, NULL, NULL
+15, InTransit, shj, 6, Levi's, 1, 80000, Veda Mall, north, 2024-9-2, NULL, 2024-09-18
+14, InTransit, shj, 5, Dell, 1, 2000000, Veda Mall, north, 2024-9-2, NULL, 2024-09-13
+13, InTransit, shj, 7, Scribner, 1, 15000, , , 2024-9-1, NULL, 2024-09-01
+12, InTransit, shj, 3, Korea Publish, 2, 76000, , , 2024-9-1, NULL, 2024-09-03

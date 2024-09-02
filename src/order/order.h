@@ -21,11 +21,11 @@ public:
     // setter
     void setOrderId(int);
     void setOrderStatus(string&);
-    void setBuyerId(const Customer);
-    void setProductId(const Product);
-    void setVendor(const Product);
+    void setBuyerId(Customer*);
+    void setProductId(Product*);
+    void setVendor(Product*);
     void setQuantity(int&);
-    void setTotalPrice(const Product, int&);
+    void setTotalPrice(Product*, int&);
     void setShipFrom(string&);
     void setShipTo(string&);
     void setCreatedDate();

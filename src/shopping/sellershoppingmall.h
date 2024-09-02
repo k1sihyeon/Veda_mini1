@@ -22,7 +22,7 @@ private:
     void setStdinEcho(bool);
 
     bool menuManagementOrder();
-    bool subMenuDisplayFilters();
+    bool subMenuDisplayFilters(int&);
     bool subMenuOrderStatusFilter();
     bool subMenuCreateDateFilter();
     bool subMenuShipFromFilter();

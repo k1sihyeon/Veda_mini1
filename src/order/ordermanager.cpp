@@ -74,7 +74,7 @@ int OrderManager::makeOrderId()
 }
 
 
-void OrderManager::inputOrder(string status, const Customer& buyer, const Product& product, int quantity, string reqShipDate, string reqDeriveryDate)
+void OrderManager::inputOrder(string status, Customer* buyer, Product* product, int quantity, string reqShipDate, string reqDeriveryDate)
 {
     Order *tmp = new Order();
     int id = makeOrderId();
@@ -87,10 +87,42 @@ void OrderManager::inputOrder(string status, const Customer& buyer, const Produc
 
     tmp->setQuantity(quantity);
     tmp->setTotalPrice(product, quantity);
+    string shipfrom = "Veda Mall";
+    tmp->setShipFrom(shipfrom);
+    string shipto = buyer->getAddress();
+    tmp->setShipTo(shipto);
     tmp->setCreatedDate();
     tmp->setRequestedShipDate(reqShipDate);
     tmp->setRequestedDeliveryDate(reqDeriveryDate);
     orderList[id] = tmp;  // unordered_map에 삽입
+
+    ofstream file;
+    file.open("data/orderlist.csv", ios::trunc | ios::out);
+    if (!file.fail()) {
+        vector<int> keys;
+        for (const auto& v : orderList) {
+            keys.push_back(v.first); // 모든 키를 벡터에 저장
+        }
+        sort(keys.begin(), keys.end()); // 키를 정렬
+
+        for (int key : keys) {
+            Order* tmp = orderList[key];
+            file << tmp->getOrderId() << ",";
+            file << tmp->getOrderStatus() << ",";
+            file << tmp->getBuyerId() << ",";
+            file << tmp->getProductId() << ",";
+            file << tmp->getVendor() << ",";
+            file << tmp->getQuantity() << ",";
+            file << tmp->getTotalPrice() << ",";
+            file << tmp->getShipFrom() << ",";
+            file << tmp->getShipTo() << ",";
+            file << tmp->getCreatedDate() << ",";
+            file << tmp->getRequestedShipDate() << ",";
+            file << tmp->getRequestedDeliveryDate() << endl;
+        }
+    }
+    file.close();
+
     cout << endl << "Input Order Successfully" << endl;
 }
 
@@ -130,9 +162,13 @@ void OrderManager::deleteOrder(string filter, string filterValue)
 
     // 결과 출력
     if (found) {
-        cout << "Orders deleted successfully for matching filter." << endl;
+        cout << endl;
+        cout << "  Orders deleted successfully for matching filter." << endl;
+        cout << endl;
     } else {
-        cout << "No matching orders found with the specified filter." << endl;
+        cout << endl;
+        cout << "  No matching orders found with the specified filter." << endl;
+        cout << endl;
     }
 
         // 주문이 삭제된 후 파일에 다시 저장
@@ -197,9 +233,13 @@ void OrderManager::modifyOrder(string filter, string filterValue, string newOrde
 
     // 결과 출력
     if (found) {
-        cout << "Order status updated successfully for matching orders." << endl;
+        cout << endl;
+        cout << "  Order status updated successfully for matching orders." << endl;
+        cout << endl;
     } else {
-        cout << "No matching orders found with the specified filter." << endl;
+        cout << endl;
+        cout << "  No matching orders found with the specified filter." << endl;
+        cout << endl;
     }
 
         // 주문이 삭제된 후 파일에 다시 저장
@@ -267,8 +307,9 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
         cout << setw(5) << setfill('0') << right << tmp->getOrderId() << " | ";
         cout << setw(10) << setfill(' ') << tmp->getOrderStatus() << " | ";
         cout << tmp->getCreatedDate() << endl;
-
-        cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
+        cout << left;
+        cout << "Buyer : " << setw(5) << setfill(' ') << tmp->getBuyerId() << "      | ";
+        cout << right;
         cout << tmp->getVendor();
         cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
         cout << left;
@@ -316,8 +357,9 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
         cout << setw(5) << setfill('0') << right << tmp->getOrderId() << " | ";
         cout << setw(10) << setfill(' ') << tmp->getOrderStatus() << " | ";
         cout << tmp->getCreatedDate() << endl;
-
-        cout << "Buyer : " << setw(5) << setfill('0') << tmp->getBuyerId() << "      | ";
+        cout << left;
+        cout << "Buyer : " << setw(5) << setfill(' ') << tmp->getBuyerId() << "      | ";
+        cout << right;
         cout << tmp->getVendor();
         cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
         cout << left;
