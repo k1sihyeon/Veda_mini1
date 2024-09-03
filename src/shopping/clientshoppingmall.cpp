@@ -26,7 +26,7 @@ ClientShoppingMall::ClientShoppingMall()
 ClientShoppingMall::~ClientShoppingMall()
 {
     delete OM;
-    delete PM;
+    //delete PM;
     ProductManager::getInstance()->saveCSVfile();
 }
 
