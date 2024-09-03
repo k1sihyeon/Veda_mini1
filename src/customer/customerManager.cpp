@@ -310,7 +310,7 @@ void customerManager::updateChangedUserInfo(Customer& customer) {
     remove(filepath.c_str());
     rename("temp.csv", filepath.c_str());
 
-    cout << "User info updated successfully." << endl;
+    // cout << "User info updated successfully." << endl;
 }
 
 

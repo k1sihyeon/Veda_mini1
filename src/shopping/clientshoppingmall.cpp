@@ -25,7 +25,7 @@ ClientShoppingMall::ClientShoppingMall()
 
 ClientShoppingMall::~ClientShoppingMall()
 {
-    delete OM;
+    //delete OM;
     //delete PM;
     ProductManager::getInstance()->saveCSVfile();
 }
@@ -107,7 +107,7 @@ bool ClientShoppingMall::customerLogin()
         cout << endl;
 
         curCustomer = customerManager::getInstance()->getCustomer(inputID);
-        customerManager::getInstance()->showUserInfo(*curCustomer);
+        // customerManager::getInstance()->showUserInfo(*curCustomer);
         this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
@@ -516,9 +516,28 @@ bool ClientShoppingMall::menuInputOrder()
         return false;
     }
 
-    OM->inputOrder("Processing", curCustomer, prod, quantity, "NULL", deliverDate);
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
     int purchase = quantity * (prod->getPrice());
+    int tear = curCustomer->getGroup();
+    int discount = tear *1000;
+    cout << "  (+)      Total Purchase : " << purchase << endl;
+    cout << "  (-) Membership Discount : " << discount << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  (=)             Payment : " << purchase - discount << endl;
+
+    OM->inputOrder("Processing", curCustomer, prod, quantity, "NULL", deliverDate);
+
+    cout << endl << " Press ENTER to Prev Section" << endl;
+        cin.ignore();
+        getchar();
+    
     curCustomer->updateTotalPurchase(purchase);
     prod->increasePurchase(quantity);
+    customerManager::getInstance()->updateChangedUserInfo(*curCustomer);
     return false;
 }

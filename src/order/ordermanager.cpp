@@ -122,8 +122,9 @@ void OrderManager::inputOrder(string status, Customer* buyer, Product* product, 
         }
     }
     file.close();
-
-    cout << endl << "Input Order Successfully" << endl;
+    cout << "\033[1;33m";
+    cout << endl << endl << "  Make Order Successfully" << endl;
+    cout << "\033[0m";
 }
 
 void OrderManager::deleteOrder(string filter, string filterValue)
@@ -314,7 +315,7 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
         cout << "Buyer : " << setw(5) << setfill(' ') << tmp->getBuyerId() << "      | ";
         cout << right;
         cout << tmp->getVendor();
-        cout << " : " << setw(10) << setfill(' ') << tmp->getProductId() << endl;
+        cout << " : " << setw(5) << setfill(' ') << tmp->getProductId() << endl;
         cout << left;
         cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
         cout << right;
@@ -363,7 +364,7 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
         cout << "Buyer : " << setw(5) << setfill(' ') << tmp->getBuyerId() << "      | ";
         cout << right;
         cout << tmp->getVendor();
-        cout << "' : " << setw(10) << setfill(' ') << tmp->getProductId() << endl;
+        cout << "' : " << setw(5) << setfill(' ') << tmp->getProductId() << endl;
         cout << left;
         cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
         cout << right;

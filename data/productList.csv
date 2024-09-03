@@ -1,7 +1,7 @@
-Clothes,1,T-Shirt,30000,Nike,100,100,Black
-Computer,2,MacBook Pro,1500000,Apple,50,M1,16,NONE
-Book,3,Linux Programming,38000,Korea Publish,75,YoungJin Suh,905,2021,979-11-88621-74-3
-Computer,4,Mac Pro,4000000,Apple,20,M2,32,NVIDIA RTX 4070
-Computer,5,Gaming PC,2000000,Dell,20,Intel i9,32,RTX 3080
+Book,7,The Great Gatsby,15000,Scribner,505,F. Scott Fitzgerald,180,1925,978-0-7432-7356-5
 Clothes,6,Jeans,80000,Levi's,150,32,Blue
-Book,7,The Great Gatsby,15000,Scribner,502,F. Scott Fitzgerald,180,1925,978-0-7432-7356-5
+Computer,5,Gaming PC,2000000,Dell,21,Intel i9,32,RTX 3080
+Computer,4,Mac Pro,4000000,Apple,20,M2,32,NVIDIA RTX 4070
+Book,3,Linux Programming,38000,Korea Publish,75,YoungJin Suh,905,2021,979-11-88621-74-3
+Computer,2,MacBook Pro,1500000,Apple,50,M1,16,NONE
+Clothes,1,T-Shirt,30000,Nike,100,100,Black
