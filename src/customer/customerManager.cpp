@@ -4,6 +4,7 @@
 #include <sstream>
 #include <algorithm>
 #include <vector> 
+#include <limits>
 #include "customer.h"
 #include "customerGroupManager.h"
 using namespace std;
