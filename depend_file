@@ -1,0 +1,33 @@
+customerGroupManager.o: src/customer/customerGroupManager.cpp \
+ src/customer/customerGroupManager.h src/customer/customer.h \
+ src/customer/customerManager.h src/customer/Observer.h
+customer.o: src/customer/customer.cpp src/customer/customer.h
+customerManager.o: src/customer/customerManager.cpp \
+ src/customer/customerManager.h src/customer/Observer.h \
+ src/customer/customer.h src/customer/customerGroupManager.h
+ordermanager.o: src/order/ordermanager.cpp src/order/order.h \
+ src/customer/customer.h src/product/product.h src/order/ordermanager.h
+order.o: src/order/order.cpp src/order/order.h src/customer/customer.h \
+ src/product/product.h
+clothes.o: src/product/clothes.cpp src/product/product.h
+product.o: src/product/product.cpp src/product/product.h
+book.o: src/product/book.cpp src/product/product.h
+productManager.o: src/product/productManager.cpp \
+ src/product/productManager.h src/product/book.cpp src/product/product.h \
+ src/product/clothes.cpp src/product/computer.cpp
+computer.o: src/product/computer.cpp src/product/product.h
+sellershoppingmall.o: src/shopping/sellershoppingmall.cpp \
+ src/shopping/sellershoppingmall.h src/order/ordermanager.h \
+ src/order/order.h header/checkdate.h src/customer/customerManager.h \
+ src/customer/Observer.h src/customer/customer.h \
+ src/product/productManager.h src/product/product.h \
+ src/product/computer.cpp src/product/clothes.cpp src/product/book.cpp
+shoppingmall.o: src/shopping/shoppingmall.cpp src/shopping/shoppingmall.h \
+ src/shopping/clientshoppingmall.h src/shopping/sellershoppingmall.h \
+ header/litbanner.h
+clientshoppingmall.o: src/shopping/clientshoppingmall.cpp \
+ src/shopping/clientshoppingmall.h src/order/ordermanager.h \
+ src/order/order.h src/customer/customerManager.h src/customer/Observer.h \
+ src/customer/customer.h src/product/productManager.h \
+ src/product/product.h
+main.o: src/main.cpp src/shopping/shoppingmall.h

@@ -280,7 +280,9 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
 {
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                 Order List                  " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << endl;
 

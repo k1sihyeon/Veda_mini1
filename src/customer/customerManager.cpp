@@ -34,7 +34,9 @@ void customerManager::showManageSystem() {
         int sel;
         cout << "\033[2J\033[1;1H";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "                 Manager Menu                " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << "                                             " << endl;
         cout << "  1. Show customers list                     " << endl;

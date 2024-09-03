@@ -19,7 +19,9 @@ void customerGroupManager::showGroupManageSystem() {
         int sel;
         cout << "\033[2J\033[1;1H";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "             Group Manage Menu               " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << "                                             " << endl;
         cout << "  1. Show Group list                         " << endl;
@@ -61,7 +63,9 @@ void customerGroupManager::showGroupManageSystem() {
 bool customerGroupManager::viewGroup() {
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                 View Group                  " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Basic                                   " << endl;
@@ -132,7 +136,9 @@ bool customerGroupManager::viewGroup() {
 void customerGroupManager::changeUserGroup() {
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "          Updating User's Group              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "Enter the ID of the user you want to change group: ";
     string userId;

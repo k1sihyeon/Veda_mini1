@@ -37,7 +37,9 @@ bool ClientShoppingMall::startClientShoppingMall()
     int ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               W E L C O M E  !              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Login                                   " << endl;
@@ -81,7 +83,9 @@ bool ClientShoppingMall::customerLogin()
     string inputPassword;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                Customer Login                " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "  Input ID : ";
 
@@ -96,7 +100,9 @@ bool ClientShoppingMall::customerLogin()
     if (customerManager::getInstance()->Login(inputID, inputPassword)) {
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "            Login Successfully!!             " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << endl;
 
@@ -109,7 +115,9 @@ bool ClientShoppingMall::customerLogin()
         getchar();
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "               Wrong Input!!                 " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(1000));
@@ -148,7 +156,9 @@ bool ClientShoppingMall::displayMenu()
     char ch;                                                         
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                Customer Menu                " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Searching Product                       " << endl;
@@ -192,7 +202,9 @@ bool ClientShoppingMall::menuViewOrder()
     int ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               Choose Filter                 " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Show All Order                          " << endl;
@@ -239,7 +251,9 @@ bool ClientShoppingMall::menuSearchProduct()
     int ch;                                                         
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               Search  Product               " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. View All Products                       " << endl;
@@ -293,7 +307,9 @@ bool ClientShoppingMall::menuSearchAllProduct()
 {
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               View All Product              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     PM->printList();
@@ -307,7 +323,9 @@ bool ClientShoppingMall::menuSearchProductByCategory()
     int category;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               Select Category               " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Computer                                " << endl;
@@ -332,21 +350,27 @@ bool ClientShoppingMall::menuSearchProductByCategory()
             v = PM->searchProductByCategory("Computer");
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "             Category : Computer             " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 2:
             v = PM->searchProductByCategory("Clothes");
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "             Category : Clothes             " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 3:
             v = PM->searchProductByCategory("Book");
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "              Category : Book                " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 5:
@@ -381,7 +405,9 @@ bool ClientShoppingMall::menuSearchProductByName()
 
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     printf ("                 Name : %s\n", name.c_str());
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     v = PM->searchProductByName(name);
@@ -415,7 +441,9 @@ bool ClientShoppingMall::menuSearchProductById()
 
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     printf("                 ID : %d\n", id);
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     PM->printProduct(p);
@@ -435,7 +463,9 @@ bool ClientShoppingMall::menuInputOrder()
     //ordermanager 호출..
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                 Make Order                  " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  Type ""CANCEL"" If you Cancel Order        " << endl;
@@ -483,8 +513,11 @@ bool ClientShoppingMall::menuInputOrder()
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "  If you don't care about Delivery Date,     " << endl;
     cout << "  Type NULL                                  " << endl;
+    cout << endl;
     cout << "  Type Requesting Delivery Date Like Below   " << endl;
+    cout << "\033[1;33m";
     cout << "  YYYY-MM-DD" << endl;
+    cout << "\033[0m";
     cout << "  ";
     cin >> deliverDate;
     if (deliverDate == "CANCEL") {

@@ -1,8 +1,2 @@
-19, Processing, shj, 7, Scribner, 2, 30000, Veda Mall, north, 2024-09-02, NULL, 2024-09-19
-18, InTransit, shj, 2, Apple, 1, 1500000, Veda Mall, north, 2024-09-02, NULL, 2024-09-18
-17, InTransit, shj, 3, Korea Publish, 1, 38000, Veda Mall, north, 2024-09-02, NULL, 2024-09-18
-16, InTransit, shj, 4, Apple, 1, 4000000, Veda Mall, north, 2024-9-2, NULL, NULL
-15, InTransit, shj, 6, Levi's, 1, 80000, Veda Mall, north, 2024-9-2, NULL, 2024-09-18
-14, InTransit, shj, 5, Dell, 1, 2000000, Veda Mall, north, 2024-9-2, NULL, 2024-09-13
-13, InTransit, shj, 7, Scribner, 1, 15000, , , 2024-9-1, NULL, 2024-09-01
-12, InTransit, shj, 3, Korea Publish, 2, 76000, , , 2024-9-1, NULL, 2024-09-03
+12,InTransit,shj,3,Korea Publish,2,76000,,,2024-9-1,NULL,2024-09-03
+13,InTransit,shj,7,Scribner,1,15000,,,2024-9-1,NULL,2024-09-01

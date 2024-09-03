@@ -34,7 +34,9 @@ bool SellerShoppingMall::managerLogin()
     string inputPassword;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                Manager Login                " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "  Input Password : ";
 
@@ -49,7 +51,9 @@ bool SellerShoppingMall::managerLogin()
     if(inputPassword == managerPassword){
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "            Login Successfully!!             " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(1000));
@@ -58,7 +62,9 @@ bool SellerShoppingMall::managerLogin()
         getchar(); // 입력을 기다림 (이전의 getchar())
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "               Wrong Password!!              " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(1000));
@@ -72,7 +78,9 @@ bool SellerShoppingMall::displayManageMenu()
     int ch;                                                         
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                 Manager Menu                " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Product Mangement                       " << endl;
@@ -152,7 +160,9 @@ bool SellerShoppingMall::menuManagementOrder()
     char ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "              Order Management               " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. View & Search Order                     " << endl;
@@ -221,7 +231,9 @@ bool SellerShoppingMall::subMenuDisplayFilters(int& v)
     char ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "             Choose Filter Type              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Order Status                            " << endl;
@@ -275,7 +287,9 @@ bool SellerShoppingMall::subMenuOrderStatusFilter()
     char ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "             Choose Order Status             " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Processing                              " << endl;
@@ -298,21 +312,33 @@ bool SellerShoppingMall::subMenuOrderStatusFilter()
             while(subMenuModifyOrder("OrderStatus", "Processing")){}
         else if(orderCmdStatus==3)
             while(subMenuDeleteOrder("OrderStatus", "Processing")){}
-        break;
+        cout << endl;
+        cout << " Press ENTER to return View Order Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
     case '2':
         OM->displayOrder("OrderStatus", "InTransit", "", "");
         if(orderCmdStatus==2)
             while(subMenuModifyOrder("OrderStatus", "InTransit")){}
         else if(orderCmdStatus==3)
             while(subMenuDeleteOrder("OrderStatus", "InTransit")){}
-        break;
+        cout << endl;
+        cout << " Press ENTER to return View Order Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
     case '3':
         OM->displayOrder("OrderStatus", "Delivered", "", -1);
         if(orderCmdStatus==2)
             while(subMenuModifyOrder("OrderStatus", "Delivered")){}
         else if(orderCmdStatus==3)
             while(subMenuDeleteOrder("OrderStatus", "Delivered")){}
-        break;
+        cout << endl;
+        cout << " Press ENTER to return View Order Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
     case '4':
         return false;
     default:
@@ -322,11 +348,6 @@ bool SellerShoppingMall::subMenuOrderStatusFilter()
         this_thread::sleep_for(chrono::milliseconds(1000));
         break;
     }
-
-    cout << " Press ENTER to return View Order Section" << endl;
-    cin.ignore();
-    getchar();
-    
     return true; 
 }
 
@@ -335,7 +356,9 @@ bool SellerShoppingMall::subMenuCreateDateFilter()
     string date;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "         Type Searching Created Date         " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  Type 0 to Return Prev Section              " << endl;
@@ -366,7 +389,7 @@ bool SellerShoppingMall::subMenuCreateDateFilter()
     cin.ignore();
     getchar();
 
-    return true;
+    return false;
 }
 
 
@@ -376,7 +399,9 @@ bool SellerShoppingMall::subMenuShipFromFilter()
     string addr;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "        Type Searching Shipping Addr         " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  Type 0 to Return Prev Section              " << endl;
@@ -397,7 +422,7 @@ bool SellerShoppingMall::subMenuShipFromFilter()
     cin.ignore();
     getchar();
 
-    return true;
+    return false;
 }
 
 bool SellerShoppingMall::subMenuShipToFilter()
@@ -405,7 +430,9 @@ bool SellerShoppingMall::subMenuShipToFilter()
     string addr;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "        Type Searching Delivery Addr         " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  Type 0 to Return Prev Section              " << endl;
@@ -426,7 +453,7 @@ bool SellerShoppingMall::subMenuShipToFilter()
     cin.ignore();
     getchar();
 
-    return true;
+    return false;
 }
 
 bool SellerShoppingMall::subMenuModifyOrder(string filter, string filterValue)
@@ -434,7 +461,9 @@ bool SellerShoppingMall::subMenuModifyOrder(string filter, string filterValue)
     char ch;
     // cout << "\033[2J\033[1;1H";
     // cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "            Choose Modify Option             " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Status To In Transit                    " << endl;
@@ -470,9 +499,11 @@ bool SellerShoppingMall::subMenuModifyOrder(string filter, string filterValue)
 bool SellerShoppingMall::subMenuDeleteOrder(string filter, string filterValue)
 {
     char ch;
-    cout << "\033[2J\033[1;1H";
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    // cout << "\033[2J\033[1;1H";
+    // cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "     Are you Sure to Delete this orders?     " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Yes                                     " << endl;
@@ -486,7 +517,7 @@ bool SellerShoppingMall::subMenuDeleteOrder(string filter, string filterValue)
     switch(ch) {
     case '1':
         OM->deleteOrder(filter, filterValue);
-        break;
+        return false;
     case '2':
         return false;
     default:
@@ -504,7 +535,9 @@ bool SellerShoppingMall::menuProductManagement()
     int ch;                                                         
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "              Product Managemet              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Search Product                          " << endl;
@@ -553,7 +586,9 @@ bool SellerShoppingMall::subMenuSearchProduct() {
     // 일단은 전체 리스트 보여주기..
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               View All Product              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     PM->printList();
@@ -571,7 +606,9 @@ bool SellerShoppingMall::subMenuModifyProduct() {
 
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                Modify Product               " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     cout << "Input Prodcut ID to Modify >> ";
@@ -586,14 +623,18 @@ bool SellerShoppingMall::subMenuModifyProduct() {
 
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     printf ("         Modify Product | ID : %d\n", pid);
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     PM->printProduct(p);
 
     int attr;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "         Select Attribute to Modify          " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Name                                    " << endl;
@@ -1057,7 +1098,9 @@ bool SellerShoppingMall::subMenuDeleteProduct() {
     
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                Delete Product               " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     cout << "Input Prodcut ID to Delete >> ";
@@ -1072,7 +1115,9 @@ bool SellerShoppingMall::subMenuDeleteProduct() {
 
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     printf ("         Delete Product | ID : %d\n", pid);
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     PM->printProduct(p);
@@ -1103,7 +1148,9 @@ bool SellerShoppingMall::subMenuAddProduct() {
     int category;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "    Select Category of Product want to add   " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Computer                                " << endl;
@@ -1125,19 +1172,25 @@ bool SellerShoppingMall::subMenuAddProduct() {
         case 1:
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "     Add New Product (Category : Computer)   " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 2:
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "     Add New Product (Category : Clothes)    " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 3:
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "       Add New Product (Category : Book)     " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 5:
