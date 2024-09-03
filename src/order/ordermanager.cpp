@@ -306,6 +306,7 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
             continue;
         }
 
+        cout << "=============================================" << endl;
         cout << setw(5) << setfill('0') << right << tmp->getOrderId() << " | ";
         cout << setw(10) << setfill(' ') << tmp->getOrderStatus() << " | ";
         cout << tmp->getCreatedDate() << endl;
@@ -313,17 +314,15 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
         cout << "Buyer : " << setw(5) << setfill(' ') << tmp->getBuyerId() << "      | ";
         cout << right;
         cout << tmp->getVendor();
-        cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
+        cout << " : " << setw(10) << setfill(' ') << tmp->getProductId() << endl;
         cout << left;
         cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
         cout << right;
         cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
 
-        cout << "From : " << tmp->getShipFrom() << endl;
-        cout << "To : " << tmp->getShipTo() << endl;
-
-        cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
+        cout << "Ship To : " << tmp->getShipTo() << endl;
         cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
+        
     }
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }
@@ -356,6 +355,7 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
             continue;
         }
 
+        cout << "=============================================" << endl;
         cout << setw(5) << setfill('0') << right << tmp->getOrderId() << " | ";
         cout << setw(10) << setfill(' ') << tmp->getOrderStatus() << " | ";
         cout << tmp->getCreatedDate() << endl;
@@ -363,17 +363,14 @@ void OrderManager::displayOrder(string filter1, string filterValue1, string filt
         cout << "Buyer : " << setw(5) << setfill(' ') << tmp->getBuyerId() << "      | ";
         cout << right;
         cout << tmp->getVendor();
-        cout << "'s product : " << setw(5) << setfill('0') << tmp->getProductId() << endl;
+        cout << "' : " << setw(10) << setfill(' ') << tmp->getProductId() << endl;
         cout << left;
         cout << "Quantity : " << setw(5) << setfill(' ') << tmp->getQuantity() << "   | ";
         cout << right;
         cout << "Value : " << setw(7) << setfill(' ') << tmp->getTotalPrice() << " KRW" << endl;
-
-        cout << "From : " << tmp->getShipFrom() << endl;
-        cout << "To : " << tmp->getShipTo() << endl;
-
-        cout << "Prepare : " << tmp->getRequestedShipDate() << endl;
+        cout << "Ship To : " << tmp->getShipTo() << endl;
         cout << "Deliver : " << tmp->getRequestedDeliveryDate() << endl << endl;
+        
     }
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }

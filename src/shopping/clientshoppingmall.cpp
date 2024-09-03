@@ -489,28 +489,11 @@ bool ClientShoppingMall::menuInputOrder()
         return false;
     }
     quantity = stoi(tmpQuantity);
-
-    string addr;
-    cout << "\033[A\033[2K";
-    cout << "  Type Your Address : ";
-    cin >> addr;
-    if (addr == "CANCEL") {
-        cout << "\033[A\033[2K";
-        cout << "                                             " << endl;
-        cout << "               Order Canceled!!              " << endl;
-        cout << "                                             " << endl;
-        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-        cout << "                                             " << endl;
-        cout << " Press ENTER to Prev Section" << endl;
-        cin.ignore();
-        getchar();
-        return false;
-    }
     
     string deliverDate;
     cout << "\033[A\033[2K";
-    cout << "\033[A\033[2K";
-    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    //cout << "\033[A\033[2K";
+    //cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "  If you don't care about Delivery Date,     " << endl;
     cout << "  Type NULL                                  " << endl;
     cout << endl;
