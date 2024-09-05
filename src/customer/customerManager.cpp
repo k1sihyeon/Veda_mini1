@@ -200,7 +200,7 @@ bool customerManager::registerUser() {
     cout << "\033[A\033[2K";
     string addr = getInputWithConfirmation<string>("  Enter your address : ");
 
-    Customer customer(id, pw, name, gender, number, addr);
+    Customer customer(id, pw, name, gender, number, addr, 1);
     customermap.insert(make_pair(id, customer));
     cout << endl << endl;
     cout << "\033[1;33m";

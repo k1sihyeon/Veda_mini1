@@ -29,21 +29,20 @@ public :
 	Customer* getCustomer(string id) {
 		return &customermap[id];
 	}
+
 	void update(const string& userId, const string& productname, int quantity) override {
-		auto it = customermap.find(userId);
-		if (it != customermap.end()) {
-			it->second.updateTotalPurchase(quantity);
-			int total = it->second.getTotalPurchase();
+		
+		customermap[userId].updateTotalPurchase(quantity);
+		int total = customermap[userId].getTotalPurchase();
 
-			if (total >= 5000000 && it->second.getGroup() != Customer::Group::platinum)
-				it->second.updateGroup(3);
-			else if (total >= 1000000 && it->second.getGroup() != Customer::Group::gold)
-				it->second.updateGroup(2);
-			else if (total >= 100000 && it->second.getGroup() != Customer::Group::silver)
-				it->second.updateGroup(1);
+		if (total >= 5000000 && customermap[userId].getGroup() != Customer::Group::platinum)
+			customermap[userId].updateGroup(3);
+		else if (total >= 1000000 && customermap[userId].getGroup() != Customer::Group::gold)
+			customermap[userId].updateGroup(2);
+		else if (total >= 100000 && customermap[userId].getGroup() != Customer::Group::silver)
+			customermap[userId].updateGroup(1);
 
-			updateChangedUserInfo(it->second);
-		}
+		updateChangedUserInfo(customermap[userId]);
 	}
 
 	void showManageSystem();

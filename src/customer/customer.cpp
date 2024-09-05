@@ -19,8 +19,6 @@ bool Customer::checkPassword(const string& password) {
     return hashPassword(password) == this->userPassword;
 };
 
-
-
 string Customer::getName() const {
     return userName;
 };

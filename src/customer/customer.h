@@ -9,8 +9,10 @@ public :
     enum Group { basic, silver, gold, platinum };
 
     Customer() {};
-    Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address)
-        : userId(id), userPassword(hashPassword(password)), userName(name), userGender(gender), totalPurchase(0), userGroup(Group::basic), userPhoneNumber(phonenum), userAddress(address) {
+    Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address, bool firstreg = 0)
+        : userId(id), userPassword(password), userName(name), userGender(gender), totalPurchase(0), userGroup(Group::basic), userPhoneNumber(phonenum), userAddress(address){
+        if (firstreg)
+            this->userPassword = hashPassword(password);
     };
     ~Customer() {};
 

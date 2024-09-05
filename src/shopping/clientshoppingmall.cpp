@@ -542,8 +542,9 @@ bool ClientShoppingMall::menuInputOrder()
         cin.ignore();
         getchar();
     
-    curCustomer->updateTotalPurchase(purchase);
+    
+    //curCustomer->updateTotalPurchase(purchase);
     prod->increasePurchase(quantity);
-    customerManager::getInstance()->updateChangedUserInfo(*curCustomer);
+    customerManager::getInstance()->update(curCustomer->getUserId(),"",purchase);
     return false;
 }
