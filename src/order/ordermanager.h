@@ -10,7 +10,6 @@ using namespace std;
 
 class Customer;
 class Product;
-////////////////////////
 
 class OrderManager
 {
@@ -22,7 +21,7 @@ public:
     void displayOrder(string filter1 = "", string filterValue1 = "", string filter2 = "", string filterValue2 = "");
     void displayOrder(string filter1 = "", string filterValue1 = "", string filter2 = "", int filterValue2 = -1);
     
-    void inputOrder(string status, const Customer&, const Product&, int quantity, string reqShipDate, string reqDeriveryDate);
+    void inputOrder(string status, Customer*, Product*, int quantity, string reqShipDate, string reqDeriveryDate);
     void deleteOrder(string filter, string filterValue);
     void modifyOrder(string filter, string filterValue, string newOrderStatus);
     Order* search(int key);

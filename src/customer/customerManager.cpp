@@ -4,7 +4,9 @@
 #include <sstream>
 #include <algorithm>
 #include <vector> 
+#include <limits>
 #include "customer.h"
+#include "customerGroupManager.h"
 using namespace std;
 
 Customer parseCustomerFromLine(const std::string& line);
@@ -18,10 +20,10 @@ bool customerManager::Login(const string& id, const string& pwd) {
             return true;
         }
         else
-            cout << "Incorrect Password" << endl;
+            cout << endl << endl << "  Incorrect Password" << endl;
     }
     else
-        cout << "ID not exist." << endl;
+        cout << endl << endl << "  ID not exist." << endl;
     return false;
 }
 
@@ -33,7 +35,9 @@ void customerManager::showManageSystem() {
         int sel;
         cout << "\033[2J\033[1;1H";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "                 Manager Menu                " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << "                                             " << endl;
         cout << "  1. Show customers list                     " << endl;
@@ -54,12 +58,15 @@ void customerManager::showManageSystem() {
             showUserList();
             break;
         case 2: {
-            cout << "Enter Id: ";
+            cout << "\033[A\033[2K";
+            cout << "  Enter Id: ";
             string id;
             cin >> id;
             auto it = customermap.find(id);
             if (it != customermap.end()) {
                 showUserInfo(it->second);
+                cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+                cout << "  Type q to return prev page : ";
                 while (1) {
                     char c;
                     cin >> c;
@@ -72,6 +79,7 @@ void customerManager::showManageSystem() {
             break;
         }
         case 3: {
+            customerGroupManager::getInstance()->showGroupManageSystem();
             break;
         }
         case 4:
@@ -106,7 +114,7 @@ T getInputWithConfirmation(const string& prompt) {
         }
 
         std::ostringstream oss;
-        oss << input << " is fine?";
+        oss << "  " << input << " is fine?";
         if (confirmInput(oss.str())) {
             break;
         }
@@ -125,7 +133,7 @@ bool getInputWithConfirmation<bool>(const string& prompt) {
         if (strInput == "0" || strInput == "1") {
             bool result = strInput == "1";
             std::ostringstream oss;
-            oss << (result ? "Male" : "Female") << " is fine?";
+            oss << "  " << (result ? "Male" : "Female") << " is fine?";
             if (confirmInput(oss.str())) {
                 return result;
             }
@@ -139,13 +147,17 @@ bool getInputWithConfirmation<bool>(const string& prompt) {
 string getPasswordInput() {
     string pw, pw2;
     while (true) {
-        cout << "Enter password (at least 6 characters): ";
+        cout << "\033[A\033[2K";
+        cout << "\033[A\033[2K";
+        cout << "  Enter password(at least 7 characters)";
+        cout << endl << "  : ";
         cin >> pw;
         if (pw.length() <= 6) {
             cout << "Password should be longer than 6 characters.\n";
             continue;
         }
-        cout << "Enter again: ";
+        cout << endl << "  Enter again";
+        cout << endl << "  : ";
         cin >> pw2;
         if (pw != pw2) {
             cout << "Passwords do not match. Please try again.\n";
@@ -160,22 +172,44 @@ string getPasswordInput() {
 bool customerManager::registerUser() {
     string id;
     while (true) {
-        id = getInputWithConfirmation<string>("Enter Id : ");
+        id = getInputWithConfirmation<string>("  Enter Id : ");
         if (customermap.find(id) != customermap.end()) {
-            cout << "ID already exists. Please enter another ID.\n";
+            cout << endl;
+            cout << "\033[1;33m";
+            cout << "  ID already exists. Please enter another ID.\n";
+            cout << "\033[0m";
+            cout << endl;
         }
         else
             break;
     }
     string pw = getPasswordInput();
-    string name = getInputWithConfirmation<string>("Enter your name : ");
-    bool gender = getInputWithConfirmation<bool>("Check your gender [ 0 : Female / 1 : male ] : ");
-    string number = getInputWithConfirmation<string>("Enter your phone Number : ");
-    string addr = getInputWithConfirmation<string>("Enter your address : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    string name = getInputWithConfirmation<string>("  Enter your name : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    bool gender = getInputWithConfirmation<bool>("  Check your gender [0:Female / 1:Male] : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    string number = getInputWithConfirmation<string>("  Enter your phone Number : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    string addr = getInputWithConfirmation<string>("  Enter your address : ");
 
-    Customer customer(id, pw, name, gender, number, addr);
+    Customer customer(id, pw, name, gender, number, addr, 1);
     customermap.insert(make_pair(id, customer));
-    cout << "Register Complete! Welcome!";
+    cout << endl << endl;
+    cout << "\033[1;33m";
+    cout << "  Register Complete! Welcome!";
+    cout << "\033[0m";
+    cout << " Press ENTER to Prev Section" << endl;
+    cin.ignore();
+    getchar();
+
 
     ofstream fout;
     fout.open(filepath, ios::app);
@@ -225,30 +259,29 @@ void customerManager::showUserList() {
         return;
     }
     cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
+    cout << "                  User List                  " << endl;
+    cout << "\033[0m";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     for (auto it : customermap) {   
             showUserInfo(it.second);  
     }
-    while (1) {
-        char cm;
-        cin >> cm;
-        if (cm == 'q') return;
-    }
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  Type q to return prev page : ";
+    cin.get();
 }
 
 void customerManager::showUserInfo(Customer& customer) {
-    cout << endl;
-    cout << "==================================" << endl;
-    cout << endl;
-    cout << "ID: " << customer.getUserId() << endl;
-    cout << "Name: " << customer.getName() << endl;
-    cout << "Gender: " << (customer.getGender() ? "Male" : "Female") << endl;
-    cout << "Phone Number: " << customer.getPhoneNumber() << endl;
-    cout << "Address: " << customer.getAddress() << endl;
-    cout << "Total Purchase: " << customer.getTotalPurchase() << endl;
-    cout << "[" << Customer::Group(customer.getGroup()) << "]" << endl;
-    cout << endl;
-    cout << "==================================" << endl;
-    cout << endl;
+    cout << "=============================================" << endl;
+    cout << "  ID: " << customer.getUserId() << endl;
+    cout << "  Name: " << customer.getName() << endl;
+    cout << "  Gender: " << (customer.getGender() ? "Male" : "Female") << endl;
+    cout << "  Phone Number: " << customer.getPhoneNumber() << endl;
+    cout << "  Address: " << customer.getAddress() << endl;
+    cout << "  Total Purchase: " << customer.getTotalPurchase() << endl;
+    cout << "  [" << customer.groupToString(Customer::Group(customer.getGroup())) << "]" << endl;
 }
 
 void customerManager::updateUserInfo(Customer& customer) {
@@ -256,8 +289,11 @@ void customerManager::updateUserInfo(Customer& customer) {
 
 
     cout << "\033[2J\033[1;1H";
+    showUserInfo(customer);
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "         Modify Personal Information         " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
 
@@ -277,27 +313,40 @@ void customerManager::updateUserInfo(Customer& customer) {
         customer.setAddress(newAddr);
         customermap[id] = customer;
 
-        ifstream fin(filepath);
-        ofstream temp("temp.csv");
-        string line;
-        while (getline(fin, line)) {
-            if (line.find(id) == string::npos) {
-                temp << line << endl;
-            }
-            else {
-                temp << customer << endl;
-            }
-        }
-        fin.close();
-        temp.close();
-        remove(filepath.c_str());
-        rename("temp.csv", filepath.c_str());
-
-        cout << "User info updated successfully." << endl;
+        updateChangedUserInfo(customer);
     }
     else 
         cout << "User not found." << endl;
 }
+
+
+//file update
+void customerManager::updateChangedUserInfo(Customer& customer) {
+    ifstream fin(filepath);
+    ofstream temp("temp.csv");
+    string line;
+    while (getline(fin, line)) {
+        // 라인을 쉼표로 분할하여 ID를 추출
+        istringstream ss(line);
+        string token;
+        getline(ss, token, ',');  // 첫 번째 토큰은 ID입니다.
+
+        // ID가 일치하는지 확인
+        if (token == customer.getUserId()) {
+            temp << customer << endl;  // 일치하면 업데이트된 고객 정보 기록
+        }
+        else {
+            temp << line << endl;  // 그렇지 않으면 원래 라인 기록
+        }
+    }
+    fin.close();
+    temp.close();
+    remove(filepath.c_str());
+    rename("temp.csv", filepath.c_str());
+
+    // cout << "User info updated successfully." << endl;
+}
+
 
 customerManager* customerManager::instance = nullptr;
 customerManager* customerManager::getInstance() {
@@ -370,4 +419,16 @@ Customer parseCustomerFromLine(const std::string& line) {
 void customerManager::addUser(Customer& customer) {
     customermap.insert(make_pair(customer.getUserId(), customer));
     userCount++;
+}
+
+vector<Customer> customerManager::getGroupList(Customer::Group group) {
+    std::vector<Customer> groupList;
+
+    for (const auto& pair : customermap) {
+        const Customer& customer = pair.second;
+        if (customer.getGroup() == group) {
+            groupList.push_back(customer);
+        }
+    }
+    return groupList;
 }

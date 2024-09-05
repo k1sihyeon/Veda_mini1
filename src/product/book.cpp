@@ -26,6 +26,9 @@ class Book : public Product {
             
             case 2:
                 return "Auther: " + auther + " | Pages: " + to_string(pages) + "\nYear: " + to_string(year) + " | ISBN: " + isbn; 
+
+            case 3:
+                return "  4. Auther\n\n  5. Pages\n\n  6. Year\n\n  7. ISBN\n\n";
         }
         
         return "";
@@ -35,7 +38,7 @@ class Book : public Product {
         return auther;
     }
 
-    int gePages() {
+    int getPages() {
         return pages;
     }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 class Customer {
@@ -8,8 +9,10 @@ public :
     enum Group { basic, silver, gold, platinum };
 
     Customer() {};
-    Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address)
-        : userId(id), userPassword(hashPassword(password)), userName(name), userGender(gender), totalPurchase(0), userGroup(Group::basic), userPhoneNumber(phonenum), userAddress(address) {
+    Customer(const string& id, const string& password, const string& name, bool gender, string phonenum, string address, bool firstreg = 0)
+        : userId(id), userPassword(password), userName(name), userGender(gender), totalPurchase(0), userGroup(Group::basic), userPhoneNumber(phonenum), userAddress(address){
+        if (firstreg)
+            this->userPassword = hashPassword(password);
     };
     ~Customer() {};
 
@@ -18,7 +21,6 @@ public :
 
     // prohibit get password
     string hashPassword(const string& password);
-    void setPassword(const string& password);
     bool checkPassword(const string& password);
 
 
@@ -39,6 +41,8 @@ public :
 
     int getGroup() const;
     void updateGroup(int group);
+
+    string groupToString(Group group);
 
     friend std::ostream& operator<<(std::ostream& os, const Customer& customer) {
         os << customer.userId << ',' << customer.userPassword << ',' << customer.userName << ','

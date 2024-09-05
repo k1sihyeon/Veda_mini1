@@ -1,7 +1,7 @@
 DEPEND_FILE = depend_file
 
 CC = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra \
+CXXFLAGS = -std=c++17 \
            -Isrc/customer \
            -Isrc/order \
            -Isrc/product \

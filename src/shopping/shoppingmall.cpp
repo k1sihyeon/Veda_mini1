@@ -24,7 +24,9 @@ bool ShoppingMall::startShoppingMall()
     char ch;
     cout << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                        Choose Your Login Type                         " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                                                       " << endl;
     cout << "  1. Buyer                                                             " << endl;

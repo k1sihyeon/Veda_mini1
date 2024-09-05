@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include "Observer.h"
 #include "customer.h"
+#include <vector> 
 using namespace std;
 
 
@@ -29,9 +30,19 @@ public :
 		return &customermap[id];
 	}
 
-	void update(const string& userId, const string& productName, int quantity) override {
+	void update(const string& userId, const string& productname, int quantity) override {
+		
 		customermap[userId].updateTotalPurchase(quantity);
-		updateUserInfo(customermap[userId]);
+		int total = customermap[userId].getTotalPurchase();
+
+		if (total >= 5000000 && customermap[userId].getGroup() != Customer::Group::platinum)
+			customermap[userId].updateGroup(3);
+		else if (total >= 1000000 && customermap[userId].getGroup() != Customer::Group::gold)
+			customermap[userId].updateGroup(2);
+		else if (total >= 100000 && customermap[userId].getGroup() != Customer::Group::silver)
+			customermap[userId].updateGroup(1);
+
+		updateChangedUserInfo(customermap[userId]);
 	}
 
 	void showManageSystem();
@@ -43,10 +54,11 @@ public :
 
 	void showUserList(); // customermap 전부 출력 (sorting 기준 (totalpurchase 순, 이름순.. ?) 세울지)
 	void showUserInfo(Customer& customer); // user 한명 정보 보기 (id / pw / 이름 / 성별 / 전화번호 / 주소 / 총구매금액 ) 
-	void updateUserInfo(Customer& customer); // user 정보 변경 후 txt 파일에 업데이트
+	void updateUserInfo(Customer& customer); // change ui + user 정보 변경 후 txt 파일에 업데이트 
+	void updateChangedUserInfo(Customer& customer); // user 정보 변경후 txt 파일에 업데이트 
 
-	void addUserToGroup(const string& userId, const string& groupName); 
-	void removeUserFromGroup(const string& userId, const string& groupName);
+	vector<Customer> getGroupList(Customer::Group group);
+
 };
 
 /* 

@@ -12,17 +12,23 @@
 #include "ordermanager.h"
 #include "customerManager.h"
 #include "productManager.h"
+#include "product.h"
 
 
 using namespace std;
 
 ClientShoppingMall::ClientShoppingMall()
 {
-    OM = new OrderManager();
+    OM = OrderManager::getInstance();
     PM = ProductManager::getInstance();
-    PM->loadCSVfile();
 }
 
+ClientShoppingMall::~ClientShoppingMall()
+{
+    //delete OM;
+    //delete PM;
+    ProductManager::getInstance()->saveCSVfile();
+}
 
 bool ClientShoppingMall::startClientShoppingMall()
 {
@@ -31,7 +37,9 @@ bool ClientShoppingMall::startClientShoppingMall()
     int ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               W E L C O M E  !              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Login                                   " << endl;
@@ -53,6 +61,7 @@ bool ClientShoppingMall::startClientShoppingMall()
         }
         break;
     case 2:
+        cout << "\033[A\033[2K";
         while (customerManager::getInstance()->registerUser());
         break;
     case 3:
@@ -75,7 +84,9 @@ bool ClientShoppingMall::customerLogin()
     string inputPassword;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                Customer Login                " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "  Input ID : ";
 
@@ -90,12 +101,14 @@ bool ClientShoppingMall::customerLogin()
     if (customerManager::getInstance()->Login(inputID, inputPassword)) {
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
         cout << "            Login Successfully!!             " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << endl;
 
         curCustomer = customerManager::getInstance()->getCustomer(inputID);
-        customerManager::getInstance()->showUserInfo(*curCustomer);
+        // customerManager::getInstance()->showUserInfo(*curCustomer);
         this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
@@ -103,7 +116,9 @@ bool ClientShoppingMall::customerLogin()
         getchar();
         cout << endl << endl << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
-        cout << "               Wrong Input!!              " << endl;
+        cout << "\033[1;33m";
+        cout << "               Wrong Input!!                 " << endl;
+        cout << "\033[0m";
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(1000));
@@ -142,7 +157,9 @@ bool ClientShoppingMall::displayMenu()
     char ch;                                                         
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "                Customer Menu                " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Searching Product                       " << endl;
@@ -160,7 +177,6 @@ bool ClientShoppingMall::displayMenu()
 
     switch(ch) {
     case '1':
-        // TODO for 김시현
         while (menuSearchProduct()){}
         break;
     case '2':
@@ -187,7 +203,9 @@ bool ClientShoppingMall::menuViewOrder()
     int ch;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               Choose Filter                 " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Show All Order                          " << endl;
@@ -234,7 +252,9 @@ bool ClientShoppingMall::menuSearchProduct()
     int ch;                                                         
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               Search  Product               " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. View All Products                       " << endl;
@@ -288,7 +308,9 @@ bool ClientShoppingMall::menuSearchAllProduct()
 {
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               View All Product              " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     PM->printList();
@@ -299,10 +321,12 @@ bool ClientShoppingMall::menuSearchAllProduct()
 
 bool ClientShoppingMall::menuSearchProductByCategory()
 {
-    int category, productID;
+    int category;
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "               Select Category               " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Computer                                " << endl;
@@ -327,21 +351,27 @@ bool ClientShoppingMall::menuSearchProductByCategory()
             v = PM->searchProductByCategory("Computer");
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "             Category : Computer             " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 2:
             v = PM->searchProductByCategory("Clothes");
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "             Category : Clothes             " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 3:
             v = PM->searchProductByCategory("Book");
             cout << "\033[2J\033[1;1H";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+            cout << "\033[1;33m";
             cout << "              Category : Book                " << endl;
+            cout << "\033[0m";
             cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             break;
         case 5:
@@ -351,7 +381,8 @@ bool ClientShoppingMall::menuSearchProductByCategory()
     }
 
     if (v.empty()) {
-        cout << "   List is EMPTY   " << endl;
+        cout << "              List is EMPTY!!                " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
 
@@ -368,20 +399,24 @@ bool ClientShoppingMall::menuSearchProductByName()
 {
     vector<Product*> v;
     string name;
-    cout << "검색할 이름 입력 >> ";
+    cout << "\033[A\033[2K";
+    cout << "  Type Searching Product's name >> ";
     cin.clear();
     cin.ignore();  // 입력 버퍼 남은거 지우기
     getline(cin, name);
 
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     printf ("                 Name : %s\n", name.c_str());
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     v = PM->searchProductByName(name);
 
     if (v.empty()) {
-        cout << "   List is EMPTY   " << endl;
+        printf(" Can NOT Search Product Named in : %s !! \n", name.c_str());
+        this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
 
@@ -396,18 +431,22 @@ bool ClientShoppingMall::menuSearchProductByName()
 bool ClientShoppingMall::menuSearchProductById()
 {
     int id;
-    cout << "검색할 id 입력 >> ";
+    cout << "\033[A\033[2K";
+    cout << "  Type Searching Product Id >> ";
     cin >> id;
 
     Product* p = PM->searchProductByID(id);
     if (p == nullptr) {
-        cout << " ID is not valid " << endl;
+        cout << "           ID is NOT Valid!!             " << endl;
+        this_thread::sleep_for(chrono::milliseconds(1000));
         return true;
     }
 
     cout << "\033[2J\033[1;1H";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     printf("                 ID : %d\n", id);
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
     PM->printProduct(p);
@@ -420,9 +459,92 @@ bool ClientShoppingMall::menuSearchProductById()
 bool ClientShoppingMall::menuInputOrder()
 {
     int productId;
-    cout << "주문할 Product ID 입력 >> ";
+    cout << "  To Return Prev Page, Type 0" << endl;
+    cout << "  Type Product ID that you want to order >> ";
     cin >> productId;
+
+    if(productId == 0) return false;
 
     Product* prod =  PM->searchProductByID(productId);
     //ordermanager 호출..
+    cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
+    cout << "                 Make Order                  " << endl;
+    cout << "\033[0m";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "                                             " << endl;
+    cout << "  Type ""CANCEL"" If you Cancel Order        " << endl;
+    cout << "                                             " << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    int quantity;
+    string tmpQuantity;
+    cout << "  Type Product's Quantity : ";
+    cin >> tmpQuantity;
+    if (tmpQuantity == "CANCEL") {
+        cout << "\033[A\033[2K";
+        cout << "                                             " << endl;
+        cout << "               Order Canceled!!              " << endl;
+        cout << "                                             " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                                             " << endl;
+        cout << " Press ENTER to Prev Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
+    }
+    quantity = stoi(tmpQuantity);
+    
+    string deliverDate;
+    cout << "\033[A\033[2K";
+    //cout << "\033[A\033[2K";
+    //cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  If you don't care about Delivery Date,     " << endl;
+    cout << "  Type NULL                                  " << endl;
+    cout << endl;
+    cout << "  Type Requesting Delivery Date Like Below   " << endl;
+    cout << "\033[1;33m";
+    cout << "  YYYY-MM-DD" << endl;
+    cout << "\033[0m";
+    cout << "  ";
+    cin >> deliverDate;
+    if (deliverDate == "CANCEL") {
+        cout << "\033[A\033[2K";
+        cout << "                                             " << endl;
+        cout << "               Order Canceled!!              " << endl;
+        cout << "                                             " << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "                                             " << endl;
+        cout << " Press ENTER to Prev Section" << endl;
+        cin.ignore();
+        getchar();
+        return false;
+    }
+
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    int purchase = quantity * (prod->getPrice());
+    int tear = curCustomer->getGroup();
+    int discount = tear *1000;
+    cout << "  (+)      Total Purchase : " << purchase << endl;
+    cout << "  (-) Membership Discount : " << discount << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  (=)             Payment : " << purchase - discount << endl;
+
+    OM->inputOrder("Processing", curCustomer, prod, quantity, "NULL", deliverDate);
+
+    cout << endl << " Press ENTER to Prev Section" << endl;
+        cin.ignore();
+        getchar();
+    
+    
+    //curCustomer->updateTotalPurchase(purchase);
+    prod->increasePurchase(quantity);
+    customerManager::getInstance()->update(curCustomer->getUserId(),"",purchase);
+    return false;
 }
