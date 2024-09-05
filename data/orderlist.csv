@@ -1,6 +1,2 @@
-0,InTransit,shj,7,Scribner,1,15000,Veda Mall,north,2024-09-03,NULL,2024-09-21
-1,InTransit,shj,7,Scribner,1,15000,Veda Mall,north,2024-09-04,NULL,2025-02-29
-2,Delivered,valentis,3,Korea Publish,1,38000,Veda Mall,Hancom,2024-09-04,NULL,2024-09-07
-3,InTransit,shj,3,Korea Publish,1,35000,Veda Mall,north,2024-09-04,NULL,NULL
-4,Delivered,valentis,3,Korea Publish,1,35000,Veda Mall,Hancom,2024-09-04,NULL,2024-09-99
-5,Delivered,valentis,3,Korea Publish,1,35000,Veda Mall,Hancom,2024-09-04,NULL,NULL
+0,InTransit,shj1102,3,JPub,1,35000,Veda Mall,대방,2024-09-05,NULL,2024-09-12
+1,InTransit,valentis,3,JPub,100,3500000,Veda Mall,hancom,2024-09-05,NULL,NULL
