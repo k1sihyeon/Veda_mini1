@@ -30,4 +30,4 @@ clientshoppingmall.o: src/shopping/clientshoppingmall.cpp \
  src/order/order.h src/customer/customerManager.h src/customer/Observer.h \
  src/customer/customer.h src/product/productManager.h \
  src/product/product.h
-main.o: src/main.cpp src/shopping/shoppingmall.h
+main.o: src/main.cpp src/shopping/shoppingmall.h header/qna.h

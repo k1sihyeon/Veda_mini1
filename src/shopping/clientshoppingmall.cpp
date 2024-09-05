@@ -61,6 +61,7 @@ bool ClientShoppingMall::startClientShoppingMall()
         }
         break;
     case 2:
+        cout << "\033[A\033[2K";
         while (customerManager::getInstance()->registerUser());
         break;
     case 3:
@@ -398,7 +399,8 @@ bool ClientShoppingMall::menuSearchProductByName()
 {
     vector<Product*> v;
     string name;
-    cout << "검색할 이름 입력 >> ";
+    cout << "\033[A\033[2K";
+    cout << "  Type Searching Product's name >> ";
     cin.clear();
     cin.ignore();  // 입력 버퍼 남은거 지우기
     getline(cin, name);
@@ -429,7 +431,8 @@ bool ClientShoppingMall::menuSearchProductByName()
 bool ClientShoppingMall::menuSearchProductById()
 {
     int id;
-    cout << "검색할 id 입력 >> ";
+    cout << "\033[A\033[2K";
+    cout << "  Type Searching Product Id >> ";
     cin >> id;
 
     Product* p = PM->searchProductByID(id);
@@ -456,8 +459,11 @@ bool ClientShoppingMall::menuSearchProductById()
 bool ClientShoppingMall::menuInputOrder()
 {
     int productId;
-    cout << "주문할 Product ID 입력 >> ";
+    cout << "  To Return Prev Page, Type 0" << endl;
+    cout << "  Type Product ID that you want to order >> ";
     cin >> productId;
+
+    if(productId == 0) return false;
 
     Product* prod =  PM->searchProductByID(productId);
     //ordermanager 호출..

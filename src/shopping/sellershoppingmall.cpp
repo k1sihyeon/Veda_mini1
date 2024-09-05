@@ -211,12 +211,9 @@ bool SellerShoppingMall::menuManagementOrder()
         while(subMenuCreateDateFilter()){};
         break;
     case 3:
-        while(subMenuShipFromFilter()){};
-        break;
-    case 4:
         while(subMenuShipToFilter()){};
         break;
-    case 5:
+    case 4:
         OM->displayOrder("","","","");
         cout << " Press ENTER to return View Order Section" << endl;
         cin.ignore();
@@ -239,14 +236,12 @@ bool SellerShoppingMall::subMenuDisplayFilters(int& v)
     cout << "  1. Order Status                            " << endl;
     cout << "                                             " << endl;
     cout << "  2. Created Date                            " << endl;
+    cout << "                                             " << endl;  
+    cout << "  3. Ship To <   >                           " << endl;
     cout << "                                             " << endl;
-    cout << "  3. Ship From  <   >                        " << endl;
-    cout << "                                             " << endl;   
-    cout << "  4. Ship To <   >                           " << endl;
+    cout << "  4. Display ALL                             " << endl;
     cout << "                                             " << endl;
-    cout << "  5. Display ALL                             " << endl;
-    cout << "                                             " << endl;
-    cout << "  6. Return Customer Menu                    " << endl;
+    cout << "  5. Return Customer Menu                    " << endl;
     cout << "                                             " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
@@ -268,8 +263,6 @@ bool SellerShoppingMall::subMenuDisplayFilters(int& v)
         return false;
     case '5':
         v = 5;
-        return false;
-    case '6':
         return false;
     default:
         cin.ignore();

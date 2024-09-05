@@ -20,10 +20,10 @@ bool customerManager::Login(const string& id, const string& pwd) {
             return true;
         }
         else
-            cout << "Incorrect Password" << endl;
+            cout << endl << endl << "  Incorrect Password" << endl;
     }
     else
-        cout << "ID not exist." << endl;
+        cout << endl << endl << "  ID not exist." << endl;
     return false;
 }
 
@@ -58,12 +58,15 @@ void customerManager::showManageSystem() {
             showUserList();
             break;
         case 2: {
-            cout << "Enter Id: ";
+            cout << "\033[A\033[2K";
+            cout << "  Enter Id: ";
             string id;
             cin >> id;
             auto it = customermap.find(id);
             if (it != customermap.end()) {
                 showUserInfo(it->second);
+                cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+                cout << "  Type q to return prev page : ";
                 while (1) {
                     char c;
                     cin >> c;
@@ -111,7 +114,7 @@ T getInputWithConfirmation(const string& prompt) {
         }
 
         std::ostringstream oss;
-        oss << input << " is fine?";
+        oss << "  " << input << " is fine?";
         if (confirmInput(oss.str())) {
             break;
         }
@@ -130,7 +133,7 @@ bool getInputWithConfirmation<bool>(const string& prompt) {
         if (strInput == "0" || strInput == "1") {
             bool result = strInput == "1";
             std::ostringstream oss;
-            oss << (result ? "Male" : "Female") << " is fine?";
+            oss << "  " << (result ? "Male" : "Female") << " is fine?";
             if (confirmInput(oss.str())) {
                 return result;
             }
@@ -144,13 +147,17 @@ bool getInputWithConfirmation<bool>(const string& prompt) {
 string getPasswordInput() {
     string pw, pw2;
     while (true) {
-        cout << "Enter password (at least 6 characters): ";
+        cout << "\033[A\033[2K";
+        cout << "\033[A\033[2K";
+        cout << "  Enter password(at least 7 characters)";
+        cout << endl << "  : ";
         cin >> pw;
         if (pw.length() <= 6) {
             cout << "Password should be longer than 6 characters.\n";
             continue;
         }
-        cout << "Enter again: ";
+        cout << endl << "  Enter again";
+        cout << endl << "  : ";
         cin >> pw2;
         if (pw != pw2) {
             cout << "Passwords do not match. Please try again.\n";
@@ -165,22 +172,44 @@ string getPasswordInput() {
 bool customerManager::registerUser() {
     string id;
     while (true) {
-        id = getInputWithConfirmation<string>("Enter Id : ");
+        id = getInputWithConfirmation<string>("  Enter Id : ");
         if (customermap.find(id) != customermap.end()) {
-            cout << "ID already exists. Please enter another ID.\n";
+            cout << endl;
+            cout << "\033[1;33m";
+            cout << "  ID already exists. Please enter another ID.\n";
+            cout << "\033[0m";
+            cout << endl;
         }
         else
             break;
     }
     string pw = getPasswordInput();
-    string name = getInputWithConfirmation<string>("Enter your name : ");
-    bool gender = getInputWithConfirmation<bool>("Check your gender [ 0 : Female / 1 : male ] : ");
-    string number = getInputWithConfirmation<string>("Enter your phone Number : ");
-    string addr = getInputWithConfirmation<string>("Enter your address : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    string name = getInputWithConfirmation<string>("  Enter your name : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    bool gender = getInputWithConfirmation<bool>("  Check your gender [0:Female / 1:Male] : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    string number = getInputWithConfirmation<string>("  Enter your phone Number : ");
+    cout << "\033[A\033[2K";
+    cout << "\033[A\033[2K";
+    string addr = getInputWithConfirmation<string>("  Enter your address : ");
 
     Customer customer(id, pw, name, gender, number, addr);
     customermap.insert(make_pair(id, customer));
-    cout << "Register Complete! Welcome!";
+    cout << endl << endl;
+    cout << "\033[1;33m";
+    cout << "  Register Complete! Welcome!";
+    cout << "\033[0m";
+    cout << " Press ENTER to Prev Section" << endl;
+    cin.ignore();
+    getchar();
+
 
     ofstream fout;
     fout.open(filepath, ios::app);
@@ -230,27 +259,29 @@ void customerManager::showUserList() {
         return;
     }
     cout << "\033[2J\033[1;1H";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
+    cout << "                  User List                  " << endl;
+    cout << "\033[0m";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     for (auto it : customermap) {   
             showUserInfo(it.second);  
     }
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "  Type q to return prev page : ";
     cin.get();
 }
 
 void customerManager::showUserInfo(Customer& customer) {
-    cout << endl;
-    cout << "==================================" << endl;
-    cout << endl;
-    cout << "ID: " << customer.getUserId() << endl;
-    cout << "Name: " << customer.getName() << endl;
-    cout << "Gender: " << (customer.getGender() ? "Male" : "Female") << endl;
-    cout << "Phone Number: " << customer.getPhoneNumber() << endl;
-    cout << "Address: " << customer.getAddress() << endl;
-    cout << "Total Purchase: " << customer.getTotalPurchase() << endl;
-    cout << "[" << customer.groupToString(Customer::Group(customer.getGroup())) << "]" << endl;
-    cout << endl;
-    cout << "==================================" << endl;
-    cout << endl;
+    cout << "=============================================" << endl;
+    cout << "  ID: " << customer.getUserId() << endl;
+    cout << "  Name: " << customer.getName() << endl;
+    cout << "  Gender: " << (customer.getGender() ? "Male" : "Female") << endl;
+    cout << "  Phone Number: " << customer.getPhoneNumber() << endl;
+    cout << "  Address: " << customer.getAddress() << endl;
+    cout << "  Total Purchase: " << customer.getTotalPurchase() << endl;
+    cout << "  [" << customer.groupToString(Customer::Group(customer.getGroup())) << "]" << endl;
 }
 
 void customerManager::updateUserInfo(Customer& customer) {
@@ -258,8 +289,11 @@ void customerManager::updateUserInfo(Customer& customer) {
 
 
     cout << "\033[2J\033[1;1H";
+    showUserInfo(customer);
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << "         Modify Personal Information         " << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
 

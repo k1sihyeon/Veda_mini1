@@ -28,9 +28,7 @@ void customerGroupManager::showGroupManageSystem() {
         cout << "                                             " << endl;
         cout << "  2. Change User's group                     " << endl;
         cout << "                                             " << endl;
-        cout << "  3. Make Notice                             " << endl;
-        cout << "                                             " << endl;
-        cout << "  4. Quit                                    " << endl;
+        cout << "  3. Quit                                    " << endl;
         cout << "                                             " << endl;
         cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         cout << "                                             " << endl;
@@ -47,10 +45,7 @@ void customerGroupManager::showGroupManageSystem() {
             break;
         }
 
-        case 3: {
-            break;
-        }
-        case 4:
+        case 3:
             cout << "Exiting system..." << endl;
             return;
         default:
@@ -113,19 +108,23 @@ bool customerGroupManager::viewGroup() {
     }
     else {
         cout << "\033[2J\033[1;1H";
-        cout << "Customers in the selected group:" << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "\033[1;33m";
+        cout << "  Customers in the selected Group:" << endl;
+        cout << "\033[0m";
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
         for (const Customer& customer : customers) {
-            cout << "ID: " << customer.getUserId() << endl;
-            cout << "Name: " << customer.getName() << endl;
-            cout << "Phone Number: " << customer.getPhoneNumber() << endl;
-            cout << "Address: " << customer.getAddress() << endl;
-            cout << "Total Purchase: " << customer.getTotalPurchase() << endl;
-            cout << "-------------------------------------" << endl;
+            cout << "  ID: " << customer.getUserId() << endl;
+            cout << "  Name: " << customer.getName() << endl;
+            cout << "  Phone Number: " << customer.getPhoneNumber() << endl;
+            cout << "  Address: " << customer.getAddress() << endl;
+            cout << "  Total Purchase: " << customer.getTotalPurchase() << endl;
+            cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
             cout << endl;
         }
     }
 
-    cout << "Press Enter to continue...";
+    cout << "  Press Enter to continue...";
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     cin.get();  
 
@@ -152,9 +151,10 @@ void customerGroupManager::changeUserGroup() {
     }
 
     cout << "\033[2J\033[1;1H";
-    cout << endl;
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "\033[1;33m";
     cout << " " << customer->getUserId() << "'s Current Group : [ " << customer->groupToString(Customer::Group(customer->getGroup())) << " ]" << endl;
-    cout << endl;
+    cout << "\033[0m";
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
     cout << "  1. Basic" << endl;
@@ -167,7 +167,7 @@ void customerGroupManager::changeUserGroup() {
     cout << "                                             " << endl;
     cout << "+++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "                                             " << endl;
-    cout << "  Select new group:";
+    cout << "  Select new group : ";
     int groupSel;
     cin >> groupSel;
 
@@ -194,7 +194,7 @@ void customerGroupManager::changeUserGroup() {
     customer->updateGroup(newGroup);
     customerManager::getInstance()->updateChangedUserInfo(*customer);
     cout << endl;
-    cout << "User's group has been updated successfully." << endl;
+    cout << "  User's group has been updated successfully." << endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 
     
